@@ -1,0 +1,11 @@
+{
+  "name": "lily.shopping-list",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "angular": "^1.5.6",
+    "angular-route": "^1.5.6",
+    "angular-loader": "^1.5.6",
+    "angular-mocks": "^1.5.6"
+  }
+}
