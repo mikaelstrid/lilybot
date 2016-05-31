@@ -1,8 +1,8 @@
 'use strict';
 
-describe('myApp.viewLogin module', function () {
+describe('myApp.login module', function () {
 
-    beforeEach(module('myApp.viewLogin'));
+    beforeEach(module('myApp.login'));
 
     describe('login controller', function () {
 

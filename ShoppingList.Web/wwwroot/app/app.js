@@ -7,8 +7,8 @@ var app = angular.module('myApp',
     'ngMaterial',
     'ngRoute',
     'LocalStorageModule',
-    'myApp.viewHome',
-    'myApp.viewLogin'
+    'myApp.home',
+    'myApp.login'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
