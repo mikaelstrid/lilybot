@@ -99,7 +99,7 @@ namespace Lily.Authentication.API.Controllers
                                             redirectUri,
                                             externalLogin.ExternalAccessToken,
                                             externalLogin.LoginProvider,
-                                            hasRegistered.ToString(),
+                                            hasRegistered,
                                             externalLogin.UserName);
 
             return Redirect(redirectUri);
@@ -131,7 +131,14 @@ namespace Lily.Authentication.API.Controllers
                 return BadRequest("External user is already registered");
             }
 
-            user = new IdentityUser() { UserName = model.UserName };
+            user = new IdentityUser
+            {
+                UserName = verifiedAccessToken.user_id,
+                //FirstName = ???
+                //LastName = ???
+                //DisplayName = ???
+                //Email = ???
+            };
 
             IdentityResult result = await _repo.CreateAsync(user);
             if (!result.Succeeded)
@@ -298,7 +305,7 @@ namespace Lily.Authentication.API.Controllers
             {
                 //You can get it from here: https://developers.facebook.com/tools/accesstoken/
                 //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
-                var appToken = "xxxxxx";
+                var appToken = "292014751134538|UcyEPND-SwvLsZiruhzxTDk0QhY";
                 verifyTokenEndPoint = string.Format("https://graph.facebook.com/debug_token?input_token={0}&access_token={1}", accessToken, appToken);
             }
             else if (provider == "Google")
