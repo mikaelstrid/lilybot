@@ -144,6 +144,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\lily-authentication-01.mdf" />
+    <Content Include="App_Data\lily-authentication-01_log.ldf">
+      <DependentUpon>lily-authentication-01.mdf</DependentUpon>
+    </Content>
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -164,6 +168,10 @@
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\RefreshToken.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Migrations\201605310438009_InitialCreate.cs" />
+    <Compile Include="Migrations\201605310438009_InitialCreate.Designer.cs">
+      <DependentUpon>201605310438009_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\ExternalLoginModels.cs" />
@@ -175,6 +183,11 @@
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605310438009_InitialCreate.resx">
+      <DependentUpon>201605310438009_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
