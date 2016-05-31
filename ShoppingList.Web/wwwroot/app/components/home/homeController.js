@@ -7,6 +7,6 @@ angular.module('myApp.home').controller('HomeCtrl', ['$scope', '$http', function
     $http.get('http://localhost:54299/api/protected').then(function (results) {
         $scope.orders = results.data;
     }, function (error) {
-        alert(error.data.message);
+        //alert(error.data.message);
     });
 }]);

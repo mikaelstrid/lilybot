@@ -175,7 +175,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\ExternalLoginModels.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\FacebookAuthProvider.cs" />
     <Compile Include="Providers\GoogleAuthProvider.cs" />
@@ -189,7 +188,6 @@
       <DependentUpon>201605310438009_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -17,11 +17,11 @@ namespace Lily.Authentication.API
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
         //public static GoogleOAuth2AuthenticationOptions googleAuthOptions { get; private set; }
-        public static FacebookAuthenticationOptions facebookAuthOptions { get; private set; }
+        public static FacebookAuthenticationOptions FacebookAuthOptions { get; private set; }
 
         public void Configuration(IAppBuilder app)
         {
-            HttpConfiguration config = new HttpConfiguration();
+            var config = new HttpConfiguration();
 
             ConfigureOAuth(app);
 
@@ -37,14 +37,13 @@ namespace Lily.Authentication.API
             app.UseExternalSignInCookie(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie);
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
 
-            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
+            var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
-
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
                 Provider = new SimpleAuthorizationServerProvider(),
-                RefreshTokenProvider = new SimpleRefreshTokenProvider()
+                //RefreshTokenProvider = new SimpleRefreshTokenProvider()
             };
 
             // Token Generation
@@ -61,15 +60,13 @@ namespace Lily.Authentication.API
             //app.UseGoogleAuthentication(googleAuthOptions);
 
             //Configure Facebook External Login
-            facebookAuthOptions = new FacebookAuthenticationOptions()
+            FacebookAuthOptions = new FacebookAuthenticationOptions()
             {
                 AppId = "292014751134538",
                 AppSecret = "9392102a739acf97e1847d9fafc52425",
                 Provider = new FacebookAuthProvider()
             };
-            app.UseFacebookAuthentication(facebookAuthOptions);
-
+            app.UseFacebookAuthentication(FacebookAuthOptions);
         }
     }
-
 }

@@ -30,28 +30,6 @@ namespace Lily.Authentication.API.Controllers
             _repo = new AuthRepository();
         }
 
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
-        {
-             if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-             IdentityResult result = await _repo.RegisterUser(userModel);
-
-             IHttpActionResult errorResult = GetErrorResult(result);
-
-             if (errorResult != null)
-             {
-                 return errorResult;
-             }
-
-             return Ok();
-        }
-
         // GET api/Account/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
@@ -59,7 +37,7 @@ namespace Lily.Authentication.API.Controllers
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
-            string redirectUri = string.Empty;
+            var redirectUri = string.Empty;
 
             if (error != null)
             {
@@ -72,38 +50,27 @@ namespace Lily.Authentication.API.Controllers
             }
 
             var redirectUriValidationResult = ValidateClientAndRedirectUri(this.Request, ref redirectUri);
+            if (!string.IsNullOrWhiteSpace(redirectUriValidationResult)) return BadRequest(redirectUriValidationResult);
 
-            if (!string.IsNullOrWhiteSpace(redirectUriValidationResult))
-            {
-                return BadRequest(redirectUriValidationResult);
-            }
+            var externalLoginData = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            if (externalLoginData == null) return InternalServerError();
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-            if (externalLogin == null)
-            {
-                return InternalServerError();
-            }
-
-            if (externalLogin.LoginProvider != provider)
+            if (externalLoginData.LoginProvider != provider)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 return new ChallengeResult(provider, this);
             }
 
-            IdentityUser user = await _repo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
-
-            bool hasRegistered = user != null;
-
+            var identityUser = await _repo.FindAsync(new UserLoginInfo(externalLoginData.LoginProvider, externalLoginData.ProviderKey));
+            var hasRegistered = identityUser != null;
             redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}",
                                             redirectUri,
-                                            externalLogin.ExternalAccessToken,
-                                            externalLogin.LoginProvider,
+                                            externalLoginData.ExternalAccessToken,
+                                            externalLoginData.LoginProvider,
                                             hasRegistered,
-                                            externalLogin.UserName);
+                                            externalLoginData.UserName);
 
             return Redirect(redirectUri);
-
         }
 
         // POST api/Account/RegisterExternal
@@ -111,27 +78,17 @@ namespace Lily.Authentication.API.Controllers
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var verifiedAccessToken = await VerifyExternalAccessToken(model.Provider, model.ExternalAccessToken);
-            if (verifiedAccessToken == null)
-            {
-                return BadRequest("Invalid Provider or External Access Token");
-            }
+            if (verifiedAccessToken == null) return BadRequest("Invalid Provider or External Access Token");
 
-            IdentityUser user = await _repo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
+            var identityUser = await _repo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
+            var hasRegistered = identityUser != null;
 
-            bool hasRegistered = user != null;
+            if (hasRegistered) return BadRequest("External user is already registered");
 
-            if (hasRegistered)
-            {
-                return BadRequest("External user is already registered");
-            }
-
-            user = new IdentityUser
+            identityUser = new IdentityUser
             {
                 UserName = verifiedAccessToken.user_id,
                 //FirstName = ???
@@ -140,28 +97,19 @@ namespace Lily.Authentication.API.Controllers
                 //Email = ???
             };
 
-            IdentityResult result = await _repo.CreateAsync(user);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            var identityResult = await _repo.CreateAsync(identityUser);
+            if (!identityResult.Succeeded) return GetErrorResult(identityResult);
 
-            var info = new ExternalLoginInfo()
+            var externalLoginInfo = new ExternalLoginInfo
             {
                 DefaultUserName = model.UserName,
                 Login = new UserLoginInfo(model.Provider, verifiedAccessToken.user_id)
             };
 
-            result = await _repo.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            identityResult = await _repo.AddLoginAsync(identityUser.Id, externalLoginInfo.Login);
+            if (!identityResult.Succeeded) return GetErrorResult(identityResult);
 
-            //generate access token response
-            var accessTokenResponse = GenerateLocalAccessTokenResponse(model.UserName);
-
-            return Ok(accessTokenResponse);
+            return Ok(GenerateLocalAccessTokenResponse(model.UserName));
         }
 
         [AllowAnonymous]
@@ -176,142 +124,97 @@ namespace Lily.Authentication.API.Controllers
             }
 
             var verifiedAccessToken = await VerifyExternalAccessToken(provider, externalAccessToken);
-            if (verifiedAccessToken == null)
-            {
-                return BadRequest("Invalid Provider or External Access Token");
-            }
+            if (verifiedAccessToken == null) return BadRequest("Invalid Provider or External Access Token");
 
-            IdentityUser user = await _repo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
+            var identityUser = await _repo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
+            var hasRegistered = identityUser != null;
+            if (!hasRegistered) return BadRequest("External user is not registered");
 
-            bool hasRegistered = user != null;
-
-            if (!hasRegistered)
-            {
-                return BadRequest("External user is not registered");
-            }
-
-            //generate access token response
-            var accessTokenResponse = GenerateLocalAccessTokenResponse(user.UserName);
-
-            return Ok(accessTokenResponse);
-
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _repo.Dispose();
-            }
-
-            base.Dispose(disposing);
+            return Ok(GenerateLocalAccessTokenResponse(identityUser.UserName));
         }
 
         #region Helpers
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) _repo.Dispose();
+            base.Dispose(disposing);
+        }
+
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
-            if (result == null)
+            if (result == null) return InternalServerError();
+
+            if (result.Succeeded) return null;
+
+            if (result.Errors != null)
             {
-                return InternalServerError();
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
             }
 
-            if (!result.Succeeded)
+            if (ModelState.IsValid)
             {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
+                // No ModelState errors are available to send, so just return an empty BadRequest.
+                return BadRequest();
             }
 
-            return null;
+            return BadRequest(ModelState);
         }
 
         private string ValidateClientAndRedirectUri(HttpRequestMessage request, ref string redirectUriOutput)
         {
-
             Uri redirectUri;
 
             var redirectUriString = GetQueryString(Request, "redirect_uri");
 
-            if (string.IsNullOrWhiteSpace(redirectUriString))
-            {
-                return "redirect_uri is required";
-            }
-
-            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out redirectUri);
-
-            if (!validUri)
-            {
-                return "redirect_uri is invalid";
-            }
+            if (string.IsNullOrWhiteSpace(redirectUriString)) return "redirect_uri is required";
+            var isValidUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out redirectUri);
+            if (!isValidUri) return "redirect_uri is invalid";
 
             var clientId = GetQueryString(Request, "client_id");
-
-            if (string.IsNullOrWhiteSpace(clientId))
-            {
-                return "client_Id is required";
-            }
+            if (string.IsNullOrWhiteSpace(clientId)) return "client_Id is required";
 
             var client = _repo.FindClient(clientId);
-
-            if (client == null)
-            {
-                return string.Format("Client_id '{0}' is not registered in the system.", clientId);
-            }
+            if (client == null) return $"Client_id '{clientId}' is not registered in the system.";
 
             if (!string.Equals(client.AllowedOrigin, redirectUri.GetLeftPart(UriPartial.Authority), StringComparison.OrdinalIgnoreCase))
             {
-                return string.Format("The given URL is not allowed by Client_id '{0}' configuration.", clientId);
+                return $"The given URL is not allowed by Client_id '{clientId}' configuration.";
             }
 
             redirectUriOutput = redirectUri.AbsoluteUri;
 
             return string.Empty;
-
         }
 
-        private string GetQueryString(HttpRequestMessage request, string key)
+        private static string GetQueryString(HttpRequestMessage request, string key)
         {
             var queryStrings = request.GetQueryNameValuePairs();
-
             if (queryStrings == null) return null;
 
             var match = queryStrings.FirstOrDefault(keyValue => string.Compare(keyValue.Key, key, true) == 0);
-
-            if (string.IsNullOrEmpty(match.Value)) return null;
-
-            return match.Value;
+            return !string.IsNullOrEmpty(match.Value) ? match.Value : null;
         }
 
         private async Task<ParsedExternalAccessToken> VerifyExternalAccessToken(string provider, string accessToken)
         {
             ParsedExternalAccessToken parsedToken = null;
 
-            var verifyTokenEndPoint = "";
-
+            string verifyTokenEndPoint;
             if (provider == "Facebook")
             {
                 //You can get it from here: https://developers.facebook.com/tools/accesstoken/
                 //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
-                var appToken = "292014751134538|UcyEPND-SwvLsZiruhzxTDk0QhY";
-                verifyTokenEndPoint = string.Format("https://graph.facebook.com/debug_token?input_token={0}&access_token={1}", accessToken, appToken);
+                const string appToken = "292014751134538|UcyEPND-SwvLsZiruhzxTDk0QhY";
+                verifyTokenEndPoint = $"https://graph.facebook.com/debug_token?input_token={accessToken}&access_token={appToken}";
             }
-            else if (provider == "Google")
-            {
-                verifyTokenEndPoint = string.Format("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={0}", accessToken);
-            }
+            //else if (provider == "Google")
+            //{
+            //    verifyTokenEndPoint = string.Format("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={0}", accessToken);
+            //}
             else
             {
                 return null;
@@ -334,7 +237,7 @@ namespace Lily.Authentication.API.Controllers
                     parsedToken.user_id = jObj["data"]["user_id"];
                     parsedToken.app_id = jObj["data"]["app_id"];
 
-                    if (!string.Equals(Startup.facebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.FacebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
@@ -350,21 +253,18 @@ namespace Lily.Authentication.API.Controllers
                 //    }
 
                 //}
-
             }
 
             return parsedToken;
         }
 
-        private JObject GenerateLocalAccessTokenResponse(string userName)
+        private static JObject GenerateLocalAccessTokenResponse(string userName)
         {
-
             var tokenExpiration = TimeSpan.FromDays(1);
 
-            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-
-            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-            identity.AddClaim(new Claim("role", "user"));
+            var claimsIdentity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, userName));
+            claimsIdentity.AddClaim(new Claim("role", "user"));
 
             var props = new AuthenticationProperties()
             {
@@ -372,18 +272,16 @@ namespace Lily.Authentication.API.Controllers
                 ExpiresUtc = DateTime.UtcNow.Add(tokenExpiration),
             };
 
-            var ticket = new AuthenticationTicket(identity, props);
-
+            var ticket = new AuthenticationTicket(claimsIdentity, props);
             var accessToken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
-
-            JObject tokenResponse = new JObject(
+            var tokenResponse = new JObject(
                                         new JProperty("userName", userName),
                                         new JProperty("access_token", accessToken),
                                         new JProperty("token_type", "bearer"),
                                         new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
                                         new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                                         new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
-        );
+            );
 
             return tokenResponse;
         }
@@ -402,9 +300,9 @@ namespace Lily.Authentication.API.Controllers
                     return null;
                 }
 
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+                var providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer) || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (providerKeyClaim == null || string.IsNullOrEmpty(providerKeyClaim.Issuer) || string.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }

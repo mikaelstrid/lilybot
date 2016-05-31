@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Lily.Authentication.API.Entities;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
@@ -13,10 +12,9 @@ namespace Lily.Authentication.API.Providers
     {
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-
-            string clientId = string.Empty;
-            string clientSecret = string.Empty;
-            Client client = null;
+            string clientId;
+            string clientSecret;
+            Client client;
 
             if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
             {
@@ -32,14 +30,14 @@ namespace Lily.Authentication.API.Providers
                 return Task.FromResult<object>(null);
             }
 
-            using (AuthRepository _repo = new AuthRepository())
+            using (var authRepository = new AuthRepository())
             {
-                client = _repo.FindClient(context.ClientId);
+                client = authRepository.FindClient(context.ClientId);
             }
 
             if (client == null)
             {
-                context.SetError("invalid_clientId", string.Format("Client '{0}' is not registered in the system.", context.ClientId));
+                context.SetError("invalid_clientId", $"Client '{context.ClientId}' is not registered in the system.");
                 return Task.FromResult<object>(null);
             }
 
@@ -50,13 +48,11 @@ namespace Lily.Authentication.API.Providers
                     context.SetError("invalid_clientId", "Client secret should be sent.");
                     return Task.FromResult<object>(null);
                 }
-                else
+
+                if (client.Secret != Helper.GetHash(clientSecret))
                 {
-                    if (client.Secret != Helper.GetHash(clientSecret))
-                    {
-                        context.SetError("invalid_clientId", "Client secret is invalid.");
-                        return Task.FromResult<object>(null);
-                    }
+                    context.SetError("invalid_clientId", "Client secret is invalid.");
+                    return Task.FromResult<object>(null);
                 }
             }
 
@@ -75,18 +71,15 @@ namespace Lily.Authentication.API.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-
-            var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
-
-            if (allowedOrigin == null) allowedOrigin = "*";
+            var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin") ?? "*";
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
-            using (AuthRepository _repo = new AuthRepository())
+            using (var authRepository = new AuthRepository())
             {
-                IdentityUser user = await _repo.FindUser(context.UserName, context.Password);
+                var identityUser = await authRepository.FindUser(context.UserName, context.Password);
 
-                if (user == null)
+                if (identityUser == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
@@ -101,7 +94,7 @@ namespace Lily.Authentication.API.Providers
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     { 
-                        "as:client_id", (context.ClientId == null) ? string.Empty : context.ClientId
+                        "as:client_id", context.ClientId ?? string.Empty
                     },
                     { 
                         "userName", context.UserName
@@ -127,7 +120,7 @@ namespace Lily.Authentication.API.Providers
             // Change auth ticket for refresh token requests
             var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
             
-            var newClaim = newIdentity.Claims.Where(c => c.Type == "newClaim").FirstOrDefault();
+            var newClaim = newIdentity.Claims.FirstOrDefault(c => c.Type == "newClaim");
             if (newClaim != null)
             {
                 newIdentity.RemoveClaim(newClaim);
@@ -142,7 +135,7 @@ namespace Lily.Authentication.API.Providers
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
-            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            foreach (var property in context.Properties.Dictionary)
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
