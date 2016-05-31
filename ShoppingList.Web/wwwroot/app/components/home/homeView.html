@@ -1,3 +1,16 @@
 <md-button class="" ng-click="acceptOffer();">Handla</md-button>
 <md-button class="" ng-click="acceptOffer();">Planera</md-button>
 <md-button class="" ng-click="acceptOffer();">Administrera</md-button>
+
+<table>
+    <tbody>
+        <tr data-ng-repeat="order in orders">
+            <td>
+                {{ order.type }}
+            </td>
+            <td>
+                {{ order.value }}
+            </td>
+        </tr>
+    </tbody>
+</table>
