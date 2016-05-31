@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('myApp.associate').controller('AssociateCtrl', ['$scope', '$location', 'authService', 'ngAuthSettings', function ($scope, $location, authService, ngAuthSettings) {
+angular.module('myApp.associate').controller('AssociateCtrl', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
 
     $scope.registerData = {
         userName: authService.externalAuthData.userName,
@@ -11,7 +11,7 @@ angular.module('myApp.associate').controller('AssociateCtrl', ['$scope', '$locat
     $scope.registerExternal = function () {
 
         authService.registerExternal($scope.registerData)
-            .then(function (response) {
+            .then(function () {
                 $location.path('/home');
             },
             function (response) {

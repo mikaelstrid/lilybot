@@ -38,18 +38,18 @@ angular.module('myApp.login')
                 }
                 else {
                     //Obtain access token and redirect to orders
-                    var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
+                    var externalData = {
+                        provider: fragment.provider,
+                        externalAccessToken: fragment.external_access_token
+                    };
                     authService.obtainAccessToken(externalData).then(function (response) {
-
                         $location.path('/orders');
-
                     },
                  function (err) {
                      $scope.message = err.error_description;
                  });
                 }
-
             });
         }
     }
-    ]);
+]);
