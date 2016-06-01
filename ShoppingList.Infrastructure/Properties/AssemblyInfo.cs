@@ -1,17 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Authentication.API")]
+[assembly: AssemblyTitle("ShoppingList.Infrastructure")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Authentication.API")]
+[assembly: AssemblyProduct("ShoppingList.Infrastructure")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-[assembly: Guid("8207eab4-cf3f-4bee-b942-13ec4daeb3b8")]
+[assembly: Guid("f31d30af-5e4c-43fe-8479-df931ab5c4aa")]
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
