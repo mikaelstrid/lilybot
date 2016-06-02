@@ -1,0 +1,20 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>Butiker</span>
+        </h2>
+        <span flex></span>
+        <md-button aria-label="Lägg till" ng-click="showAddNewDialog($event)">
+            Lägg till
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-progress-circular ng-if="isLoading" md-mode="indeterminate"></md-progress-circular>
+
+<md-list ng-if="!isLoading">
+    <md-subheader class="md-no-sticky">Välj butik...</md-subheader>
+    <md-list-item ng-repeat="store in stores" ng-click="null">
+        <p> {{ store.name }} </p>
+    </md-list-item>
+</md-list>

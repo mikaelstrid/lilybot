@@ -9,24 +9,24 @@ namespace Lily.ShoppingList.Api.Controllers
     [RoutePrefix("api/products")]
     public class ProductsController : ApiController
     {
-        private readonly IAggregateRepository<Product> _productsRepository;
+        private readonly IAggregateRepository<Product> _repository;
 
-        public ProductsController(IAggregateRepository<Product> productsRepository)
+        public ProductsController(IAggregateRepository<Product> repository)
         {
-            _productsRepository = productsRepository;
+            _repository = repository;
         }
 
         [HttpGet]
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await _productsRepository.GetAll());
+            return Ok(await _repository.GetAll());
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            return Ok(await _productsRepository.GetById(id));
+            return Ok(await _repository.GetById(id));
         }
 
         [HttpPost]
@@ -35,7 +35,7 @@ namespace Lily.ShoppingList.Api.Controllers
             try
             {
                 var newProduct = new Product { Name = model.Name };
-                await _productsRepository.AddOrUpdate(newProduct);
+                await _repository.AddOrUpdate(newProduct);
                 return Ok(newProduct);
             }
             catch (Exception e)
@@ -48,14 +48,14 @@ namespace Lily.ShoppingList.Api.Controllers
         public async Task<IHttpActionResult> Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
         {
             var updatedProduct = new Product(id) { Name = model.Name };
-            await _productsRepository.AddOrUpdate(updatedProduct);
+            await _repository.AddOrUpdate(updatedProduct);
             return Ok(updatedProduct);
         }
 
         [HttpDelete]
         public IHttpActionResult Delete(Guid id)
         {
-            _productsRepository.DeleteById(id);
+            _repository.DeleteById(id);
             return Ok();
         }
     }

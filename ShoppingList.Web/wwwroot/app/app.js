@@ -9,7 +9,8 @@ var app = angular.module('myApp',
     'LocalStorageModule',
     'myApp.home',
     'myApp.login',
-    'myApp.associate'
+    'myApp.associate',
+    'myApp.stores'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
@@ -17,10 +18,10 @@ app.config(['$locationProvider', '$routeProvider', function ($locationProvider, 
     $routeProvider.otherwise({ redirectTo: '/home' });
 }]);
 
-var serviceBase = 'http://localhost:51350/';
 //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
-app.constant('ngAuthSettings', {
-    apiServiceBaseUri: serviceBase,
+app.constant('appSettings', {
+    authApiServiceBaseUri: 'http://localhost:51350/',
+    resourceApiServiceBaseUri: 'http://localhost:54299/',
     clientId: 'ngAuthApp'
 });
 

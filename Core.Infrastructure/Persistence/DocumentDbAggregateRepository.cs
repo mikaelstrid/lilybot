@@ -22,14 +22,13 @@ namespace Lily.Core.Infrastructure.Persistence
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            _client = new DocumentClient(new Uri(ENDPOINT_URI), PRIMARY_KEY);
-            await CreateDatabaseIfNotExists(DATABASE_NAME);
-            await CreateDocumentCollectionIfNotExists(DATABASE_NAME, COLLECTION_NAME);
+            await Initialize();
             return await Get(t => true);
         }
 
         public async Task<IEnumerable<T>> Get(Func<T, bool> predicate)
         {
+            await Initialize();
             return await Task.FromResult(
                 _client.CreateDocumentQuery<T>(CreateCollectionUri(),
                     $"SELECT * FROM c WHERE c.type = '{typeof(T).Name}'")
@@ -38,6 +37,7 @@ namespace Lily.Core.Infrastructure.Persistence
 
         public async Task<T> GetById(Guid id)
         {
+            await Initialize();
             return await Task.FromResult(
                     (await Get(r => r.Id == id))
                         .SingleOrDefault());
@@ -45,6 +45,7 @@ namespace Lily.Core.Infrastructure.Persistence
 
         public async Task AddOrUpdate(T aggregate)
         {
+            await Initialize();
             var existingAggregate = await GetById(aggregate.Id);
 
             if (existingAggregate != null)
@@ -59,6 +60,7 @@ namespace Lily.Core.Infrastructure.Persistence
 
         public async Task Delete(T aggregate)
         {
+            await Initialize();
             await DeleteById(aggregate.Id);
         }
 
@@ -66,6 +68,7 @@ namespace Lily.Core.Infrastructure.Persistence
         {
             try
             {
+                await Initialize();
                 await _client.DeleteDocumentAsync(CreateDocumentUri(id));
             }
             catch (DocumentClientException de)
@@ -75,6 +78,17 @@ namespace Lily.Core.Infrastructure.Persistence
                     throw;
                 }
             }
+        }
+
+
+
+
+
+        private async Task Initialize()
+        {
+            _client = new DocumentClient(new Uri(ENDPOINT_URI), PRIMARY_KEY);
+            await CreateDatabaseIfNotExists(DATABASE_NAME);
+            await CreateDocumentCollectionIfNotExists(DATABASE_NAME, COLLECTION_NAME);
         }
 
 
