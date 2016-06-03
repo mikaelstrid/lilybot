@@ -14,14 +14,14 @@
         $scope.store = null;
 
         $scope.showRenameDialog = function (ev) {
-            var confirm = $mdDialog.prompt()
-                  .title('Vad ska den nya butiken heta?')
+            var prompt = $mdDialog.prompt()
+                  .title('Vad vill du att butiken ska heta istället?')
                   .placeholder($scope.store.name)
                   .ariaLabel('Ändra butiksnamn')
                   .targetEvent(ev)
                   .ok('OK')
                   .cancel('Avbryt');
-            $mdDialog.show(confirm).then(function (dialogResult) {
+            $mdDialog.show(prompt).then(function (dialogResult) {
                 $scope.isWorking = true;
                 storesService.rename($scope.store.id, dialogResult)
                     .then(function () {
@@ -112,7 +112,27 @@
         };
 
         $scope.showRenameSectionDialog = function(ev, section) {
-            
+            var confirm = $mdDialog.prompt()
+                .title('Vad vill du att avdelningen ska heta istället?')
+                .placeholder(section.name)
+                .ariaLabel('Ändra namn på avdelning')
+                .targetEvent(ev)
+                .ok('OK')
+                .cancel('Avbryt');
+            $mdDialog.show(confirm)
+                .then(function(dialogResult) {
+                    $scope.isWorking = true;
+                    storesService.renameSection($scope.store.id, section.id, dialogResult)
+                        .then(function() {
+                                section.name = dialogResult;
+                            },
+                            function(error) {
+                                showError('Lyckades inte ändra namnet på avdelningen. :(', 'renameSection', error);
+                            })
+                        .finally(function() {
+                            $scope.isWorking = false;
+                        });
+                });
         }
 
         $scope.moveSectionUp = function (section) {
