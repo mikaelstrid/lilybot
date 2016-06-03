@@ -14,7 +14,7 @@
 
 <md-list ng-if="!isLoading">
     <md-subheader class="md-no-sticky">Välj butik...</md-subheader>
-    <md-list-item ng-repeat="store in stores" ng-click="null">
+    <md-list-item ng-repeat="store in stores" ng-click="gotoDetails(store)">
         <p> {{ store.name }} </p>
     </md-list-item>
 </md-list>

@@ -1,0 +1,83 @@
+<md-progress-circular ng-if="isLoading" md-mode="indeterminate"></md-progress-circular>
+
+<section ng-if="!isLoading">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>
+                <span>{{store.name}}</span>
+            </h2>
+            <span flex></span>
+            <md-button aria-label="Ta bort" ng-click="showRenameDialog($event)">
+                Ändra namn
+            </md-button>
+            <md-button aria-label="Ta bort" ng-click="showDeleteDialog($event)">
+                Ta bort
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-content class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="section in store.sections.slice(0, storeCenterIndex)">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{section.name}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <p>
+                        The titles of Washed Out's breakthrough song and the first single from Paracosm share the
+                        two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+                    </p>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp()">
+                        <md-icon>arrow_upward</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown()">
+                        <md-icon>arrow_downward</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Ändra namn" ng-click="showRenameSectionDialog($event, section)">
+                        <md-icon>edit</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Ta bort" ng-click="showDeleteSectionDialog($event, section)">
+                        <md-icon>delete</md-icon>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="section in store.sections.slice(storeCenterIndex)">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{section.name}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <p>
+                        The titles of Washed Out's breakthrough song and the first single from Paracosm share the
+                        two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+                    </p>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp()">
+                        <md-icon>arrow_upward</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown()">
+                        <md-icon>arrow_downward</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Ändra namn" ng-click="showRenameSectionDialog($event, section)">
+                        <md-icon>edit</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Ta bort" ng-click="showDeleteSectionDialog($event, section)">
+                        <md-icon>delete</md-icon>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </md-content>
+
+    <md-button class="md-fab" ng-click="showAddNewSectionDialog($event)" style="position: fixed; bottom: 20px; right: 20px;" aria-label="Lägg till avdelning">
+        <md-icon>add</md-icon>
+    </md-button>
+</section>

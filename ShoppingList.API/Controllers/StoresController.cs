@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lily.Core.Application;
@@ -23,11 +24,15 @@ namespace Lily.ShoppingList.Api.Controllers
             return Ok(await _repository.GetAll());
         }
 
-        //[HttpGet]
-        //public async Task<IHttpActionResult> Get(Guid id)
-        //{
-        //    return Ok(await _repository.GetById(id));
-        //}
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> Get(Guid id)
+        {
+            //if (!id.HasValue) return BadRequest("No guid parameters specified.");
+
+            //return Ok(await _repository.GetById(id.Value));
+            return Ok(await _repository.GetById(id));
+        }
 
         [HttpPost]
         [Route("")]
@@ -38,23 +43,62 @@ namespace Lily.ShoppingList.Api.Controllers
             return Ok(newStore);
         }
 
-        //[HttpPut]
-        //public async Task<IHttpActionResult> Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
-        //{
-        //    var updatedProduct = new Product(id) { Name = model.Name };
-        //    await _repository.AddOrUpdate(updatedProduct);
-        //    return Ok(updatedProduct);
-        //}
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
+        {
+            var updatedStore = new Store(id) { Name = model.Name };
+            await _repository.AddOrUpdate(updatedStore);
+            return Ok(updatedStore);
+        }
 
-        //[HttpDelete]
-        //public IHttpActionResult Delete(Guid id)
-        //{
-        //    _repository.DeleteById(id);
-        //    return Ok();
-        //}
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult Delete(Guid id)
+        {
+            _repository.DeleteById(id);
+            return Ok();
+        }
+
+
+        // === SECTIONS ===
+
+        [HttpPost]
+        [Route("{id}/sections")]
+        public async Task<IHttpActionResult> PostSection(Guid id, [FromBody] CreateOrUpdateStoreSectionApiModel model)
+        {
+            var store = await _repository.GetById(id);
+            if (store == null) return BadRequest("No store found with the specified id.");
+
+            var newStoreSection = new StoreSection { Name = model.Name };
+            store.Sections.Add(newStoreSection);
+            
+            await _repository.AddOrUpdate(store);
+            return Ok(newStoreSection);
+        }
+
+        [HttpDelete]
+        [Route("{storeId}/sections/{sectionId}")]
+        public async Task<IHttpActionResult> DeleteSection(Guid storeId, Guid sectionId)
+        {
+            var store = await _repository.GetById(storeId);
+            if (store == null) return BadRequest("No store found with the specified id.");
+
+            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
+            if (section == null) return BadRequest("No section found with the specified id.");
+            store.Sections.Remove(section);
+
+            await _repository.AddOrUpdate(store);
+            return Ok();
+        }
     }
 
     public class CreateOrUpdateStoreApiModel
+    {
+        public string Name { get; set; }
+    }
+
+    public class CreateOrUpdateStoreSectionApiModel
     {
         public string Name { get; set; }
     }
