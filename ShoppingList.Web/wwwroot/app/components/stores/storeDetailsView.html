@@ -1,21 +1,21 @@
-<md-progress-circular ng-if="isLoading" md-mode="indeterminate"></md-progress-circular>
+<md-toolbar ng-if="!isLoading">
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>{{store.name}}</span>
+        </h2>
+        <span flex></span>
+        <md-button aria-label="Ta bort" ng-click="showRenameDialog($event)">
+            Ändra namn
+        </md-button>
+        <md-button aria-label="Ta bort" ng-click="showDeleteDialog($event)">
+            Ta bort
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
 
 <section ng-if="!isLoading">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>
-                <span>{{store.name}}</span>
-            </h2>
-            <span flex></span>
-            <md-button aria-label="Ta bort" ng-click="showRenameDialog($event)">
-                Ändra namn
-            </md-button>
-            <md-button aria-label="Ta bort" ng-click="showDeleteDialog($event)">
-                Ta bort
-            </md-button>
-        </div>
-    </md-toolbar>
-
     <md-content class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="50" layout="column">
             <md-card ng-repeat="section in store.sections.slice(0, storeCenterIndex)">
@@ -31,10 +31,10 @@
                     </p>
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp()">
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp(section)">
                         <md-icon>arrow_upward</md-icon>
                     </md-button>
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown()">
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown(section)">
                         <md-icon>arrow_downward</md-icon>
                     </md-button>
                     <md-button class="md-icon-button" aria-label="Ändra namn" ng-click="showRenameSectionDialog($event, section)">
@@ -60,10 +60,10 @@
                     </p>
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp()">
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp(section)">
                         <md-icon>arrow_upward</md-icon>
                     </md-button>
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown()">
+                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown(section)">
                         <md-icon>arrow_downward</md-icon>
                     </md-button>
                     <md-button class="md-icon-button" aria-label="Ändra namn" ng-click="showRenameSectionDialog($event, section)">

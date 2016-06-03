@@ -17,7 +17,9 @@
             rename: rename,
             remove: remove,
             addNewSection: addNewSection,
-            removeSection: removeSection
+            removeSection: removeSection,
+            moveSectionUp: moveSectionUp,
+            moveSectionDown: moveSectionDown
         };
 
         return service;
@@ -51,6 +53,14 @@
 
         function removeSection(storeId, sectionId) {
             return $http.delete(serviceBase + 'api/stores/' + storeId + '/sections/' + sectionId);
+        }
+
+        function moveSectionUp(storeId, sectionId) {
+            return $http.put(serviceBase + 'api/stores/' + storeId + '/movesectionup/' + sectionId);
+        }
+
+        function moveSectionDown(storeId, sectionId) {
+            return $http.put(serviceBase + 'api/stores/' + storeId + '/movesectiondown/' + sectionId);
         }
     }
 })();

@@ -10,6 +10,7 @@
     function controller($scope, $routeParams, $location, storesService, $mdDialog, $mdToast) {
 
         $scope.isLoading = true;
+        $scope.isWorking = false;
         $scope.store = null;
 
         $scope.showRenameDialog = function (ev) {
@@ -21,7 +22,7 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function (dialogResult) {
-                $scope.isLoading = true;
+                $scope.isWorking = true;
                 storesService.rename($scope.store.id, dialogResult)
                     .then(function () {
                         $scope.store.name = dialogResult;
@@ -30,7 +31,7 @@
                             showError('Lyckades inte ändra butiksnamnet. :(', 'rename', error);
                         })
                     .finally(function () {
-                        $scope.isLoading = false;
+                        $scope.isWorking = false;
                     });
             });
         };
@@ -44,7 +45,7 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function () {
-                $scope.isLoading = true;
+                $scope.isWorking = true;
                 storesService.remove($scope.store.id)
                     .then(function () {
                         $location.path('/stores');
@@ -53,7 +54,7 @@
                             showError('Lyckades inte ta bort butiken. :(', 'remove', error);
                         })
                     .finally(function () {
-                        $scope.isLoading = false;
+                        $scope.isWorking = false;
                     });
             });
         };
@@ -67,11 +68,18 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(prompt).then(function (dialogResult) {
-                storesService.addNewSection($scope.store.id, dialogResult).then(function (result) {
-                    $scope.store.sections.push(result.data);
-                }, function (error) {
-                    showError('Lyckades inte spara den nya avdelningen. :(', 'addNewSection', error);
-                });
+                $scope.isWorking = true;
+                storesService.addNewSection($scope.store.id, dialogResult)
+                    .then(function(result) {
+                            $scope.store.sections.push(result.data);
+                            updateCenterIndex();
+                        },
+                        function(error) {
+                            showError('Lyckades inte spara den nya avdelningen. :(', 'addNewSection', error);
+                        })
+                    .finally(function() {
+                        $scope.isWorking = false;
+                    });
             });
         };
 
@@ -84,15 +92,22 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function () {
+                $scope.isWorking = true;
                 storesService.removeSection($scope.store.id, section.id)
                     .then(function() {
                             // Remove the section from the scope
                             var index = $scope.store.sections.indexOf(section);
-                            if (index > -1) $scope.store.sections.splice(index, 1);
+                            if (index > -1) {
+                                $scope.store.sections.splice(index, 1);
+                                updateCenterIndex();
+                            }
                         },
                         function(error) {
                             showError('Lyckades inte ta bort avdelningen. :(', 'removeSection', error);
-                        });
+                        })
+                    .finally(function() {
+                        $scope.isWorking = false;
+                    });
             });
         };
 
@@ -100,13 +115,44 @@
             
         }
 
-        $scope.moveSectionUp = function (ev) {
-
+        $scope.moveSectionUp = function (section) {
+            $scope.isWorking = true;
+            storesService.moveSectionUp($scope.store.id, section.id)
+                .then(function () {
+                        var index = $scope.store.sections.indexOf(section);
+                        if (index !== 0) {
+                            $scope.store.sections.splice(index, 1);
+                            $scope.store.sections.splice(index-1, 0, section);
+                            updateCenterIndex();
+                        }
+                    },
+                    function(error) {
+                        showError('Lyckades inte flytta upp avdelningen. :(', 'moveSectionUp', error);
+                    })
+                .finally(function() {
+                    $scope.isWorking = false;
+                });
         }
 
-        $scope.moveSectionDown = function (ev) {
-
+        $scope.moveSectionDown = function (section) {
+            $scope.isWorking = true;
+            storesService.moveSectionDown($scope.store.id, section.id)
+                .then(function () {
+                        var index = $scope.store.sections.indexOf(section);
+                        if (index !== ($scope.store.sections.length-1)) {
+                            $scope.store.sections.splice(index, 1);
+                            $scope.store.sections.splice(index + 1, 0, section);
+                            updateCenterIndex();
+                        }
+                    },
+                    function(error) {
+                        showError('Lyckades inte flytta ner avdelningen. :(', 'moveSectionDown', error);
+                    })
+                .finally(function() {
+                    $scope.isWorking = false;
+                });
         }
+
 
 
         // === HELPERS ===
@@ -115,16 +161,21 @@
             console.log('Call to storesService.' + failedMethodName + ' failed: ' + error.statusText);
         }
 
+        function updateCenterIndex() {
+            $scope.storeCenterIndex = Math.ceil($scope.store.sections.length / 2);
+        }
+
+
         // === INIT ===
         activate();
 
         function activate() {
             storesService.get($routeParams.id)
-                .then(function (result) {
-                    $scope.storeCenterIndex = Math.ceil(result.data.sections.length / 2);
-                    $scope.store = result.data;
-                },
-                    function (result) {
+                .then(function(result) {
+                        $scope.store = result.data;
+                        updateCenterIndex();
+                    },
+                    function(result) {
                         $mdToast.show(
                             $mdToast.simple()
                             .textContent('Lyckades inte hämta butiken. :(')
@@ -132,7 +183,7 @@
                         );
                         console.log('Call to storesService.get failed: ' + result.statusText);
                     })
-                .finally(function () {
+                .finally(function() {
                     $scope.isLoading = false;
                 });
         }
