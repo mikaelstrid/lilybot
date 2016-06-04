@@ -5,13 +5,15 @@
         .module('myApp.products')
         .controller('ProductsCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'productsService', '$mdDialog', '$mdToast'];
+    controller.$inject = ['$scope', '$location', 'productsService', '$mdDialog', '$mdToast', '$mdSidenav'];
 
-    function controller($scope, $location, productsService, $mdDialog, $mdToast) {
+    function controller($scope, $location, productsService, $mdDialog, $mdToast, $mdSidenav) {
 
         $scope.isLoading = true;
         $scope.isWorking = false;
         $scope.products = [];
+        $scope.selectedProduct = null;
+        $scope.selectedProductEditModel = null;
 
         $scope.showAddNewDialog = function (ev) {
             var confirm = $mdDialog.prompt()
@@ -61,10 +63,58 @@
             });
         };
 
+        $scope.onProductClicked = function (product) {
+            $scope.selectedProduct = product;
+            $scope.selectedProductEditModel = { name: product.name };
+            openSidenav();
+        }
 
-        //$scope.gotoDetails = function (store) {
-        //    $location.path('/stores/' + store.id);
-        //}
+        $scope.onSaveProductClicked = function () {
+            closeSidenav();
+            $scope.isWorking = true;
+            productsService.rename($scope.selectedProduct.id, $scope.selectedProductEditModel.name)
+                .then(function (result) {
+                    $scope.selectedProduct.name = $scope.selectedProductEditModel.name;
+                },
+                    function (error) {
+                        showError('Lyckades inte spara produkten. :(', 'rename', error);
+                    })
+                .finally(function () {
+                    $scope.isWorking = false;
+                });
+        }
+
+        $scope.showDeleteDialog = function (ev) {
+            var confirm = $mdDialog.confirm()
+                  .title('Vill du verkligen ta bort ' + $scope.selectedProduct.name + '?')
+                  .textContent('Det går inte att ångra sig...')
+                  .ariaLabel('Ta bort produkt')
+                  .targetEvent(ev)
+                  .ok('OK')
+                  .cancel('Avbryt');
+            $mdDialog.show(confirm).then(function () {
+                $scope.isWorking = true;
+                closeSidenav();
+                productsService.remove($scope.selectedProduct.id)
+                    .then(function () {
+                        var index = $scope.products.indexOf($scope.selectedProduct);
+                        $scope.products.splice(index, 1);
+                        $scope.selectedProduct = null;
+                    },
+                        function (error) {
+                            showError('Lyckades inte ta bort produkten. :(', 'remove', error);
+                        })
+                    .finally(function () {
+                        $scope.isWorking = false;
+                    });
+            });
+        };
+
+        $scope.onCancelClicked = function () {
+            closeSidenav();
+        }
+
+
 
 
         // === HELPERS ===
@@ -73,6 +123,13 @@
             console.log('Call to productsService.' + failedMethodName + ' failed: ' + error.statusText);
         }
 
+        function openSidenav() {
+            $mdSidenav('right').open();
+        }
+
+        function closeSidenav() {
+            $mdSidenav('right').close();
+        }
 
         activate();
 

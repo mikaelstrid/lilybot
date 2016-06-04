@@ -4,16 +4,42 @@
             <span>Produkter</span>
         </h2>
         <span flex></span>
-        <md-button aria-label="Lägg till" ng-click="showAddNewDialog($event)">
-            Lägg till
-        </md-button>
     </div>
 </md-toolbar>
 
 <md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
 
-<md-list ng-if="!isLoading">
-    <md-chips ng-model="products" md-on-remove="onRemoveProduct($chip, $index)">
-        <md-chip-template>{{$chip.name}}</md-chip-template>
-    </md-chips>
-</md-list>
+<section layout="row" flex>
+    <md-content>
+        <md-list ng-if="!isLoading">
+            <md-list-item ng-repeat="product in products | orderBy:'name'" ng-click="onProductClicked(product)">
+                <p> {{ product.name }} </p>
+            </md-list-item>
+        </md-list>
+    </md-content>
+    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
+        <md-toolbar class="md-theme-light">
+            <div class="md-toolbar-tools">
+                <h2><span>{{ selectedProduct.name }}</span></h2>
+                <span flex></span>
+                <md-button class="md-icon-button" aria-label="Ta bort produkt" ng-click="showDeleteDialog($event)">
+                    <md-icon>delete</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content layout-padding>
+            <form>
+                <md-input-container>
+                    <label for="productName">Namn</label>
+                    <input type="text" id="productName" ng-model="selectedProductEditModel.name" md-autofocus>
+                </md-input-container>
+            </form>
+            <md-button ng-click="onSaveProductClicked()" class="md-raised md-primary">Spara</md-button>
+            <md-button ng-click="onCancelClicked()">Avbryt</md-button>
+        </md-content>
+    </md-sidenav>
+</section>
+
+<md-button class="md-fab bottom-right" ng-click="showAddNewDialog($event)" aria-label="Lägg till produkt">
+    <md-icon>add</md-icon>
+</md-button>

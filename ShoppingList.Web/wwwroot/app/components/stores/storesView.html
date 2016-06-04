@@ -4,9 +4,6 @@
             <span>Butiker</span>
         </h2>
         <span flex></span>
-        <md-button aria-label="Lägg till" ng-click="showAddNewDialog($event)">
-            Lägg till
-        </md-button>
     </div>
 </md-toolbar>
 
@@ -18,3 +15,8 @@
         <p> {{ store.name }} </p>
     </md-list-item>
 </md-list>
+
+<md-button class="md-fab bottom-right" ng-click="showAddNewDialog($event)" aria-label="Lägg till butik">
+    <md-icon>add</md-icon>
+</md-button>
+

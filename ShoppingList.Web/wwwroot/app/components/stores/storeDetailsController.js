@@ -97,10 +97,8 @@
                     .then(function() {
                             // Remove the section from the scope
                             var index = $scope.store.sections.indexOf(section);
-                            if (index > -1) {
-                                $scope.store.sections.splice(index, 1);
-                                updateCenterIndex();
-                            }
+                            $scope.store.sections.splice(index, 1);
+                            updateCenterIndex();
                         },
                         function(error) {
                             showError('Lyckades inte ta bort avdelningen. :(', 'removeSection', error);

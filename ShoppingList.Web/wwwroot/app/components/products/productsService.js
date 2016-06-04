@@ -15,7 +15,7 @@
             getAll: getAll,
             //get: get,
             add: add,
-            //rename: rename,
+            rename: rename,
             remove: remove,
             //addNewSection: addNewSection,
             //renameSection: renameSection,
@@ -40,9 +40,9 @@
             return $http.post(serviceBase + pathBase, { name: name });
         }
 
-        //function rename(id, newName) {
-        //    return $http.put(serviceBase + 'api/stores/' + id, { name: newName });
-        //}
+        function rename(id, newName) {
+            return $http.put(serviceBase + 'api/products/' + id, { name: newName });
+        }
 
         function remove(id) {
             return $http.delete(serviceBase + pathBase + '/' + id);
