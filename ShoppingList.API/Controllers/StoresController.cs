@@ -28,9 +28,6 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            //if (!id.HasValue) return BadRequest("No guid parameters specified.");
-
-            //return Ok(await _repository.GetById(id.Value));
             return Ok(await _repository.GetById(id));
         }
 

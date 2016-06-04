@@ -1,0 +1,19 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>Produkter</span>
+        </h2>
+        <span flex></span>
+        <md-button aria-label="Lägg till" ng-click="showAddNewDialog($event)">
+            Lägg till
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
+
+<md-list ng-if="!isLoading">
+    <md-chips ng-model="products" md-on-remove="onRemoveProduct($chip, $index)">
+        <md-chip-template>{{$chip.name}}</md-chip-template>
+    </md-chips>
+</md-list>
