@@ -1,15 +1,21 @@
-﻿'use strict';
+﻿(function () {
+    'use strict';
 
-angular.module('myApp.login')
-    .controller('LoginCtrl', ['$scope', '$location', 'authService', 'ngAuthSettings', function ($scope, $location, authService, ngAuthSettings) {
+    angular
+        .module('myApp.login')
+        .controller('LoginCtrl', controller);
+
+    controller.$inject = ['$scope', '$location', 'authService', 'appSettings'];
+
+    function controller($scope, $location, authService, appSettings) {
 
         $scope.authExternalProvider = function (provider) {
             var redirectUri = location.protocol + '//' + location.host + '/authcomplete.html';
-            var externalProviderUrl = ngAuthSettings.apiServiceBaseUri +
+            var externalProviderUrl = appSettings.authApiServiceBaseUri +
                 "api/Account/ExternalLogin?provider=" +
                 provider +
                 "&response_type=token&client_id=" +
-                ngAuthSettings.clientId +
+                appSettings.clientId +
                 "&redirect_uri=" +
                 redirectUri;
             window.$windowScope = $scope;
@@ -17,7 +23,6 @@ angular.module('myApp.login')
                 "Authenticate Account",
                 "location=0,status=0,width=600,height=750");
         };
-
 
         $scope.authCompletedCB = function (fragment) {
 
@@ -52,4 +57,4 @@ angular.module('myApp.login')
             });
         }
     }
-]);
+})();

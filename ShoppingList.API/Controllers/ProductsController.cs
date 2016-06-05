@@ -6,6 +6,7 @@ using Lily.ShoppingList.Domain;
 
 namespace Lily.ShoppingList.Api.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/products")]
     public class ProductsController : ApiController
     {

@@ -119,7 +119,9 @@
 
         // === HELPERS ===
         function showError(messageToUser, failedMethodName, error) {
-            $mdToast.show($mdToast.simple().textContent(messageToUser).hideDelay(3000));
+            if (error.status !== 401) {
+                $mdToast.show($mdToast.simple().textContent(messageToUser).hideDelay(3000));
+            }
             console.log('Call to productsService.' + failedMethodName + ' failed: ' + error.statusText);
         }
 

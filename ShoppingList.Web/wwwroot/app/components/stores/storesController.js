@@ -38,6 +38,14 @@
             $location.path('/stores/' + store.id);
         }
 
+        // === HELPERS ===
+        function showError(messageToUser, failedMethodName, error) {
+            if (error.status !== 401) {
+                $mdToast.show($mdToast.simple().textContent(messageToUser).hideDelay(3000));
+            }
+            console.log('Call to storesService.' + failedMethodName + ' failed: ' + error.statusText);
+        }
+
         activate();
 
         function activate() {
@@ -45,13 +53,8 @@
                 .then(function(result) {
                         $scope.stores = result.data;
                     },
-                    function(result) {
-                        $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Lyckades inte hämta några butiker. :(')
-                            .hideDelay(3000)
-                        );
-                        console.log('Call to storesService.getAll failed: ' + result.statusText);
+                    function (error) {
+                        showError('Lyckades inte hämta några butiker. :(', 'getAll', error);
                     })
                 .finally(function() {
                     $scope.isLoading = false;
