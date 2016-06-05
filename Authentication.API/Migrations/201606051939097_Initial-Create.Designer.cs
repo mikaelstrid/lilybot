@@ -13,7 +13,7 @@ namespace Lily.Authentication.API.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201605310438009_InitialCreate"; }
+            get { return "201606051939097_Initial-Create"; }
         }
         
         string IMigrationMetadata.Source

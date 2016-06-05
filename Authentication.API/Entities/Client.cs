@@ -19,8 +19,6 @@ namespace Lily.Authentication.API.Entities
 
         public bool Active { get; set; }
 
-        public int RefreshTokenLifeTime { get; set; }
-
         [MaxLength(100)]
         public string AllowedOrigin { get; set; }
     }

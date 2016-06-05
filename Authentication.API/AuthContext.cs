@@ -9,6 +9,5 @@ namespace Lily.Authentication.API
         public AuthContext() : base("DefaultConnection") { }
 
         public DbSet<Client> Clients { get; set; }
-        //public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

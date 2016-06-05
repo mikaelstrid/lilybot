@@ -23,7 +23,7 @@ app.config(['$locationProvider', '$routeProvider', function ($locationProvider, 
 app.constant('appSettings', {
     authApiServiceBaseUri: 'http://localhost:51350/',
     resourceApiServiceBaseUri: 'http://localhost:54299/',
-    clientId: 'ngAuthApp'
+    clientId: 'lily.shoppinglist'
 });
 
 app.config(function ($httpProvider) {

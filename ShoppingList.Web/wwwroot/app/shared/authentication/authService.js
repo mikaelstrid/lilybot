@@ -6,8 +6,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'appSettings',
 
     var _authentication = {
         isAuth: false,
-        userName: '',
-        //useRefreshTokens: false
+        userName: ''
     };
 
     var _externalAuthData = {
@@ -20,7 +19,6 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'appSettings',
         localStorageService.remove('authorizationData');
         _authentication.isAuth = false;
         _authentication.userName = '';
-        //_authentication.useRefreshTokens = false;
     };
 
     var _fillAuthData = function () {
@@ -29,38 +27,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'appSettings',
         if (authData) {
             _authentication.isAuth = true;
             _authentication.userName = authData.userName;
-            //_authentication.useRefreshTokens = authData.useRefreshTokens;
         }
     };
-
-    //var _refreshToken = function () {
-    //    var deferred = $q.defer();
-
-    //    var authData = localStorageService.get('authorizationData');
-
-    //    if (authData) {
-
-    //        if (authData.useRefreshTokens) {
-
-    //            var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + ngAuthSettings.clientId;
-
-    //            localStorageService.remove('authorizationData');
-
-    //            $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-
-    //                localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
-
-    //                deferred.resolve(response);
-
-    //            }).error(function (err, status) {
-    //                _logOut();
-    //                deferred.reject(err);
-    //            });
-    //        }
-    //    }
-
-    //    return deferred.promise;
-    //};
 
     var _obtainAccessToken = function (externalData) {
 
@@ -68,11 +36,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'appSettings',
 
         $http.get(serviceBase + 'api/account/ObtainLocalAccessToken', { params: { provider: externalData.provider, externalAccessToken: externalData.externalAccessToken } }).success(function (response) {
 
-            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: '', useRefreshTokens: false });
+            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName });
 
             _authentication.isAuth = true;
             _authentication.userName = response.userName;
-            //_authentication.useRefreshTokens = false;
 
             deferred.resolve(response);
 
@@ -90,11 +57,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'appSettings',
 
         $http.post(serviceBase + 'api/account/registerexternal', registerExternalData).success(function (response) {
 
-            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: '', useRefreshTokens: false });
+            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName });
 
             _authentication.isAuth = true;
             _authentication.userName = response.userName;
-            _authentication.useRefreshTokens = false;
 
             deferred.resolve(response);
 
@@ -110,7 +76,6 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'appSettings',
     authServiceFactory.logOut = _logOut;
     authServiceFactory.fillAuthData = _fillAuthData;
     authServiceFactory.authentication = _authentication;
-    //authServiceFactory.refreshToken = _refreshToken;
 
     authServiceFactory.obtainAccessToken = _obtainAccessToken;
     authServiceFactory.externalAuthData = _externalAuthData;

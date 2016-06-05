@@ -16,7 +16,6 @@ namespace Lily.Authentication.API
     public class Startup
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
-        //public static GoogleOAuth2AuthenticationOptions googleAuthOptions { get; private set; }
         public static FacebookAuthenticationOptions FacebookAuthOptions { get; private set; }
 
         public void Configuration(IAppBuilder app)
@@ -33,33 +32,21 @@ namespace Lily.Authentication.API
 
         public void ConfigureOAuth(IAppBuilder app)
         {
-            //use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseExternalSignInCookie(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie);
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
 
+            // ReSharper disable once InconsistentNaming
             var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                Provider = new SimpleAuthorizationServerProvider(),
-                //RefreshTokenProvider = new SimpleRefreshTokenProvider()
+                Provider = new SimpleAuthorizationServerProvider()
             };
 
-            // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
-            //Configure Google External Login
-            //googleAuthOptions = new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "xxxxxx",
-            //    ClientSecret = "xxxxxx",
-            //    Provider = new GoogleAuthProvider()
-            //};
-            //app.UseGoogleAuthentication(googleAuthOptions);
-
-            //Configure Facebook External Login
             FacebookAuthOptions = new FacebookAuthenticationOptions()
             {
                 AppId = "292014751134538",

@@ -16,21 +16,7 @@ namespace Lily.Authentication.API.Migrations
                         Name = c.String(nullable: false, maxLength: 100),
                         ApplicationType = c.Int(nullable: false),
                         Active = c.Boolean(nullable: false),
-                        RefreshTokenLifeTime = c.Int(nullable: false),
                         AllowedOrigin = c.String(maxLength: 100),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.RefreshTokens",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Subject = c.String(nullable: false, maxLength: 50),
-                        ClientId = c.String(nullable: false, maxLength: 50),
-                        IssuedUtc = c.DateTime(nullable: false),
-                        ExpiresUtc = c.DateTime(nullable: false),
-                        ProtectedTicket = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -121,7 +107,6 @@ namespace Lily.Authentication.API.Migrations
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.RefreshTokens");
             DropTable("dbo.Clients");
         }
     }
