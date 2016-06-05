@@ -20,7 +20,8 @@
             renameSection: renameSection,
             removeSection: removeSection,
             moveSectionUp: moveSectionUp,
-            moveSectionDown: moveSectionDown
+            moveSectionDown: moveSectionDown,
+            moveProductToSection: moveProductToSection
         };
 
         return service;
@@ -61,11 +62,16 @@
         }
 
         function moveSectionUp(storeId, sectionId) {
-            return $http.put(serviceBase + 'api/stores/' + storeId + '/sections/movesectionup/' + sectionId);
+            return $http.put(serviceBase + 'api/stores/' + storeId + '/sections/' + sectionId + '/movesectionup');
         }
 
         function moveSectionDown(storeId, sectionId) {
-            return $http.put(serviceBase + 'api/stores/' + storeId + '/sections/movesectiondown/' + sectionId);
+            return $http.put(serviceBase + 'api/stores/' + storeId + '/sections/' + sectionId + '/movesectiondown');
+        }
+
+
+        function moveProductToSection(storeId, productId, toSectionId) {
+            return $http.put(serviceBase + 'api/stores/' + storeId + '/sections/' + toSectionId + '/moveproducttosection/' + productId);
         }
     }
 })();

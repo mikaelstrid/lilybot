@@ -25,10 +25,16 @@
                     </md-card-title-text>
                 </md-card-title>
                 <md-card-content>
-                    <p>
-                        The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                        two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-                    </p>
+                    <md-menu ng-repeat="product in section.products | orderBy:'name'">
+                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-menu-content>
+                            <md-menu-item ng-repeat="toSection in store.sections">
+                                <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
+                            </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item><md-button ng-click="moveProductToSection(product, newProductsSection, store.ignoredProducts)">Ignorera</md-button></md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
                     <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp(section)">
@@ -54,10 +60,16 @@
                     </md-card-title-text>
                 </md-card-title>
                 <md-card-content>
-                    <p>
-                        The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                        two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-                    </p>
+                    <md-menu ng-repeat="product in section.products | orderBy:'name'">
+                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-menu-content>
+                            <md-menu-item ng-repeat="toSection in store.sections">
+                                <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
+                            </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item><md-button ng-click="moveProductToSection(product, section, store.ignoredProducts)">Ignorera</md-button></md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="end center">
                     <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp(section)">
@@ -77,7 +89,57 @@
         </div>
     </md-content>
 
+    <md-content ng-if="newProductsSection.products.length > 0" class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <md-card>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{newProductsSection.name}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <md-menu ng-repeat="product in newProductsSection.products | orderBy:'name'">
+                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-menu-content>
+                            <md-menu-item ng-repeat="section in store.sections"><md-button ng-click="moveProductToSection(product, newProductsSection, section)">{{section.name}}</md-button></md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item>
+                                <md-button ng-click="moveProductToSection(product, newProductsSection, store.ignoredProducts)">Ignorera</md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-content>
+
+    <md-content ng-if="store.ignoredProducts.products.length > 0" class="md-padding" layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="100" layout="column">
+            <md-card>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{store.ignoredProducts.name}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <md-menu ng-repeat="product in store.ignoredProducts.products | orderBy:'name'">
+                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-menu-content>
+                            <md-menu-item ng-repeat="section in store.sections"><md-button ng-click="moveProductToSection(product, store.ignoredProducts, section)">{{section.name}}</md-button></md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item>
+                                <md-button disabled="disabled" ng-click="moveProductToSection(product, store.ignoredProducts, store.ignoredProducts)">Ignorera</md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-content>
+
+
     <md-button class="md-fab bottom-right" ng-click="showAddNewSectionDialog($event)" aria-label="Lägg till avdelning">
         <md-icon>add</md-icon>
     </md-button>
 </section>
+

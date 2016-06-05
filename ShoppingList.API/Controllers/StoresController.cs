@@ -109,7 +109,7 @@ namespace Lily.ShoppingList.Api.Controllers
         }
 
         [HttpPut]
-        [Route("{storeId}/sections/movesectionup/{sectionId}")]
+        [Route("{storeId}/sections/{sectionId}/movesectionup")]
         public async Task<IHttpActionResult> MoveSectionUp(Guid storeId, Guid sectionId)
         {
             var store = await _repository.GetById(storeId);
@@ -129,7 +129,7 @@ namespace Lily.ShoppingList.Api.Controllers
         }
 
         [HttpPut]
-        [Route("{storeId}/sections/movesectiondown/{sectionId}")]
+        [Route("{storeId}/sections/{sectionId}/movesectiondown")]
         public async Task<IHttpActionResult> MoveSectionDown(Guid storeId, Guid sectionId)
         {
             var store = await _repository.GetById(storeId);
@@ -145,6 +145,33 @@ namespace Lily.ShoppingList.Api.Controllers
             store.Sections.Insert(oldIndex + 1, section);
 
             await _repository.AddOrUpdate(store);
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [Route("{storeId}/sections/{sectionId}/moveproducttosection/{productId}")]
+        public async Task<IHttpActionResult> MoveProductToSection(Guid storeId, Guid productId, Guid sectionId)
+        {
+            var store = await _repository.GetById(storeId);
+            if (store == null) return BadRequest("No store found with the specified id.");
+
+            // Try to find the section containing the product
+            var currentSection = store.Sections.FirstOrDefault(s => s.ProductIds.Contains(productId));
+
+            // If no section was found, check the ignore list
+            if (currentSection == null && store.IgnoredProducts.ProductIds.Contains(productId)) currentSection = store.IgnoredProducts;
+
+            // Get the section to move the product to
+            var newSection = store.Sections.FirstOrDefault(s => s.Id == sectionId);
+            if (newSection == null && store.IgnoredProducts.Id == sectionId) newSection = store.IgnoredProducts; 
+            if (newSection == null) return BadRequest("No section found to move the produt to.");
+
+            // Move the 
+            if (currentSection != null) currentSection.ProductIds.Remove(productId);
+            newSection.ProductIds.Add(productId);
+            await _repository.AddOrUpdate(store);
+
             return Ok();
         }
     }

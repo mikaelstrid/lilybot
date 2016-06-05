@@ -16,6 +16,9 @@ namespace Lily.ShoppingList.Domain
 
         [JsonProperty(PropertyName = "sections")]
         public List<StoreSection> Sections { get; set; } = new List<StoreSection>();
+
+        [JsonProperty(PropertyName = "ignoredProducts")]
+        public StoreSection IgnoredProducts { get; set; } = new StoreSection() { Name = "Ignorerade produkter" };
     }
 
     [Serializable]
@@ -26,5 +29,8 @@ namespace Lily.ShoppingList.Domain
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "productIds")]
+        public List<Guid> ProductIds { get; set; } = new List<Guid>();
     }
 }
