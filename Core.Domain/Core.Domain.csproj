@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AggregateRoot.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\IAggregate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,22 +21,22 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await _repository.GetAll());
+            return Ok(await _repository.GetAll(User.Identity.Name));
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            return Ok(await _repository.GetById(id));
+            return Ok(await _repository.GetById(User.Identity.Name, id));
         }
 
         [HttpPost]
         [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] CreateOrUpdateProductApiModel model)
         {
-            var newProduct = new Product { Name = model.Name };
-            await _repository.AddOrUpdate(newProduct);
+            var newProduct = new Product(User.Identity.Name) { Name = model.Name };
+            await _repository.AddOrUpdate(User.Identity.Name, newProduct);
             return Ok(newProduct);
         }
 
@@ -44,11 +44,11 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
         {
-            var product = await _repository.GetById(id);
+            var product = await _repository.GetById(User.Identity.Name, id);
             if (product == null) return BadRequest("No product found with the specified id.");
 
             product.Name = model.Name;
-            await _repository.AddOrUpdate(product);
+            await _repository.AddOrUpdate(User.Identity.Name, product);
             return Ok(product);
         }
 
@@ -56,7 +56,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            await _repository.DeleteById(id);
+            await _repository.DeleteById(User.Identity.Name, id);
             return Ok();
         }
     }

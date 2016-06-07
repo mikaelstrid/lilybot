@@ -6,5 +6,6 @@ namespace Lily.Core.Domain.Model
     {
         Guid Id { get; }
         string Type { get; }
+        string Username { get; }
     }
 }

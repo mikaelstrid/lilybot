@@ -22,22 +22,26 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await _repository.GetAll());
+            return Ok(await _repository.GetAll(User.Identity.Name));
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            return Ok(await _repository.GetById(id));
+            var store = await _repository.GetById(User.Identity.Name, id);
+            if (store != null)
+                return Ok(store);
+            else
+                return NotFound();
         }
 
         [HttpPost]
         [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] CreateOrUpdateStoreApiModel model)
         {
-            var newStore = new Store { Name = model.Name };
-            await _repository.AddOrUpdate(newStore);
+            var newStore = new Store(User.Identity.Name) { Name = model.Name };
+            await _repository.AddOrUpdate(User.Identity.Name, newStore);
             return Ok(newStore);
         }
 
@@ -45,19 +49,19 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
         {
-            var store = await _repository.GetById(id);
+            var store = await _repository.GetById(User.Identity.Name, id);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             store.Name = model.Name;
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
             return Ok(store);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IHttpActionResult Delete(Guid id)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
-            _repository.DeleteById(id);
+            await _repository.DeleteById(User.Identity.Name, id);
             return Ok();
         }
 
@@ -68,13 +72,13 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}/sections")]
         public async Task<IHttpActionResult> PostSection(Guid id, [FromBody] CreateOrUpdateStoreSectionApiModel model)
         {
-            var store = await _repository.GetById(id);
+            var store = await _repository.GetById(User.Identity.Name, id);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             var newStoreSection = new StoreSection { Name = model.Name };
             store.Sections.Add(newStoreSection);
             
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
             return Ok(newStoreSection);
         }
 
@@ -82,14 +86,14 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{storeId}/sections/{sectionId}")]
         public async Task<IHttpActionResult> PutSection(Guid storeId, Guid sectionId, [FromBody] CreateOrUpdateStoreSectionApiModel model)
         {
-            var store = await _repository.GetById(storeId);
+            var store = await _repository.GetById(User.Identity.Name, storeId);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
             if (section == null) return BadRequest("No section found with the specified id.");
 
             section.Name = model.Name;
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
 
             return Ok(section);
         }
@@ -98,14 +102,14 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{storeId}/sections/{sectionId}")]
         public async Task<IHttpActionResult> DeleteSection(Guid storeId, Guid sectionId)
         {
-            var store = await _repository.GetById(storeId);
+            var store = await _repository.GetById(User.Identity.Name, storeId);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
             if (section == null) return BadRequest("No section found with the specified id.");
             store.Sections.Remove(section);
 
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
             return Ok();
         }
 
@@ -113,7 +117,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{storeId}/sections/{sectionId}/movesectionup")]
         public async Task<IHttpActionResult> MoveSectionUp(Guid storeId, Guid sectionId)
         {
-            var store = await _repository.GetById(storeId);
+            var store = await _repository.GetById(User.Identity.Name, storeId);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
@@ -125,7 +129,7 @@ namespace Lily.ShoppingList.Api.Controllers
             store.Sections.Remove(section);
             store.Sections.Insert(oldIndex-1, section);
 
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
             return Ok();
         }
 
@@ -133,7 +137,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{storeId}/sections/{sectionId}/movesectiondown")]
         public async Task<IHttpActionResult> MoveSectionDown(Guid storeId, Guid sectionId)
         {
-            var store = await _repository.GetById(storeId);
+            var store = await _repository.GetById(User.Identity.Name, storeId);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
@@ -145,7 +149,7 @@ namespace Lily.ShoppingList.Api.Controllers
             store.Sections.Remove(section);
             store.Sections.Insert(oldIndex + 1, section);
 
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
             return Ok();
         }
 
@@ -154,7 +158,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{storeId}/sections/{sectionId}/moveproducttosection/{productId}")]
         public async Task<IHttpActionResult> MoveProductToSection(Guid storeId, Guid productId, Guid sectionId)
         {
-            var store = await _repository.GetById(storeId);
+            var store = await _repository.GetById(User.Identity.Name, storeId);
             if (store == null) return BadRequest("No store found with the specified id.");
 
             // Try to find the section containing the product
@@ -171,7 +175,7 @@ namespace Lily.ShoppingList.Api.Controllers
             // Move the 
             if (currentSection != null) currentSection.ProductIds.Remove(productId);
             newSection.ProductIds.Add(productId);
-            await _repository.AddOrUpdate(store);
+            await _repository.AddOrUpdate(User.Identity.Name, store);
 
             return Ok();
         }

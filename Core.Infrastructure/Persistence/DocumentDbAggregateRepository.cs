@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security;
 using System.Threading.Tasks;
 using Lily.Core.Application;
 using Lily.Core.Domain.Model;
@@ -20,36 +21,49 @@ namespace Lily.Core.Infrastructure.Persistence
         private DocumentClient _client;
 
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(string username)
         {
             await Initialize();
-            return await Get(t => true);
+            return await Get(username, t => true);
         }
 
-        public async Task<IEnumerable<T>> Get(Func<T, bool> predicate)
+        public async Task<IEnumerable<T>> Get(string username, Func<T, bool> predicate)
         {
             await Initialize();
-            return await Task.FromResult(
-                _client.CreateDocumentQuery<T>(CreateCollectionUri(),
-                    $"SELECT * FROM c WHERE c.type = '{typeof(T).Name}'")
-                    .Where(predicate));
+            return _client.CreateDocumentQuery<T>(CreateCollectionUri(),
+                $"SELECT * FROM c WHERE c.username = '{username}' AND c.type = '{typeof(T).Name}'")
+                .Where(predicate);
         }
 
-        public async Task<T> GetById(Guid id)
+        private async Task<IEnumerable<T>> Get(Func<T, bool> predicate)
         {
             await Initialize();
-            return await Task.FromResult(
-                    (await Get(r => r.Id == id))
-                        .SingleOrDefault());
+            return _client.CreateDocumentQuery<T>(CreateCollectionUri(),
+                $"SELECT * FROM c WHERE c.type = '{typeof(T).Name}'")
+                .Where(predicate);
         }
 
-        public async Task AddOrUpdate(T aggregate)
+        public async Task<T> GetById(string username, Guid id)
         {
             await Initialize();
-            var existingAggregate = await GetById(aggregate.Id);
+            var existingAggregate = (await Get(r => r.Id == id)).SingleOrDefault();
 
             if (existingAggregate != null)
             {
+                if (existingAggregate.Username != username) throw new SecurityException("User not authorized to get entity");
+                return existingAggregate;
+            }
+            return await Task.FromResult<T>(null);
+        }
+
+        public async Task AddOrUpdate(string username, T aggregate)
+        {
+            await Initialize();
+            var existingAggregate = (await Get(r => r.Id == aggregate.Id)).SingleOrDefault();
+
+            if (existingAggregate != null)
+            {
+                if (existingAggregate.Username != username) throw new SecurityException("User not authorized to update entity");
                 await _client.ReplaceDocumentAsync(CreateDocumentUri(aggregate.Id), aggregate);
             }
             else
@@ -58,18 +72,20 @@ namespace Lily.Core.Infrastructure.Persistence
             }
         }
 
-        public async Task Delete(T aggregate)
+        public async Task Delete(string username, T aggregate)
         {
             await Initialize();
-            await DeleteById(aggregate.Id);
+            await DeleteById(username, aggregate.Id);
         }
 
-        public async Task DeleteById(Guid id)
+        public async Task DeleteById(string username, Guid id)
         {
             try
             {
                 await Initialize();
-                await _client.DeleteDocumentAsync(CreateDocumentUri(id));
+                var document = await GetById(username, id);
+                if (document == null) throw new SecurityException("User not authorized to remove entity.");
+                await _client.DeleteDocumentAsync(CreateDocumentUri(document.Id));
             }
             catch (DocumentClientException de)
             {
@@ -121,12 +137,6 @@ namespace Lily.Core.Infrastructure.Persistence
             {
                 if (de.StatusCode == HttpStatusCode.NotFound)
                 {
-                    var collectionInfo = new DocumentCollection
-                    {
-                        Id = collectionName,
-                        IndexingPolicy = new IndexingPolicy(new RangeIndex(DataType.String) { Precision = -1 })
-                    };
-
                     await _client.CreateDocumentCollectionAsync(
                         UriFactory.CreateDatabaseUri(databaseName),
                         new DocumentCollection { Id = collectionName },
@@ -139,12 +149,12 @@ namespace Lily.Core.Infrastructure.Persistence
             }
         }
 
-        private Uri CreateCollectionUri()
+        private static Uri CreateCollectionUri()
         {
             return UriFactory.CreateDocumentCollectionUri(DATABASE_NAME, COLLECTION_NAME);
         }
 
-        private Uri CreateDocumentUri(Guid guid)
+        private static Uri CreateDocumentUri(Guid guid)
         {
             return UriFactory.CreateDocumentUri(DATABASE_NAME, COLLECTION_NAME, guid.ToString());
         }

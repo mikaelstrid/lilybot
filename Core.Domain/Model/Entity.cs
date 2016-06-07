@@ -6,6 +6,7 @@ namespace Lily.Core.Domain.Model
     [Serializable]
     public abstract class Entity<TId>
     {
+        protected Entity() {}
         protected Entity(TId id) { Id = id; }
 
         [JsonProperty(PropertyName = "id")]

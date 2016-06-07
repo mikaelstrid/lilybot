@@ -5,10 +5,11 @@ using Newtonsoft.Json;
 namespace Lily.ShoppingList.Domain
 {
     [Serializable]
-    public class Product : Entity<Guid>, IAggregate
+    public class Product : AggregateRoot
     {
-        public Product() : this(Guid.NewGuid()) { }
-        public Product(Guid guid) : base(guid) { }
+        internal Product() { }
+        public Product(string username) : this(username, Guid.NewGuid()) { }
+        public Product(string username, Guid guid) : base(username, guid) { }
         
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

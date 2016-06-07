@@ -7,11 +7,11 @@ namespace Lily.Core.Application
 {
     public interface IAggregateRepository<T> where T: class, IAggregate
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> Get(Func<T, bool> predicate);
-        Task<T> GetById(Guid id);
-        Task AddOrUpdate(T aggregate);
-        Task Delete(T aggregate);
-        Task DeleteById(Guid id);
+        Task<IEnumerable<T>> GetAll(string username);
+        Task<IEnumerable<T>> Get(string username, Func<T, bool> predicate);
+        Task<T> GetById(string usernamem, Guid id);
+        Task AddOrUpdate(string username, T aggregate);
+        Task Delete(string username, T aggregate);
+        Task DeleteById(string username, Guid id);
     }
 }
