@@ -154,12 +154,12 @@ namespace Lily.Core.Infrastructure.Persistence
             }
         }
 
-        private static Uri CreateCollectionUri()
+        private Uri CreateCollectionUri()
         {
             return UriFactory.CreateDocumentCollectionUri(DATABASE_NAME, _collectionName);
         }
 
-        private static Uri CreateDocumentUri(Guid guid)
+        private Uri CreateDocumentUri(Guid guid)
         {
             return UriFactory.CreateDocumentUri(DATABASE_NAME, _collectionName, guid.ToString());
         }
