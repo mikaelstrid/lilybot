@@ -46,7 +46,9 @@
   <ItemGroup>
     <Compile Include="Model\AggregateRoot.cs" />
     <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\Event.cs" />
     <Compile Include="Model\IAggregate.cs" />
+    <Compile Include="Model\IImuttable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,10 +16,15 @@ namespace Lily.Core.Infrastructure.Persistence
         private const string ENDPOINT_URI = "https://pixeldigitalbyra.documents.azure.com:443/";
         private const string PRIMARY_KEY = "Ji3YErhuh7joDb0t0xro4VD5AIpQKoLpSWrw04bBEhUcorpBKSgI4MvMb6CiC7GPdcA1kUPwiIlD23KBNRk5EQ==";
         private const string DATABASE_NAME = "LilyDB";
-        private const string COLLECTION_NAME = "ShoppingListCollection";
+
+        private readonly string _collectionName;
 
         private DocumentClient _client;
 
+        public DocumentDbAggregateRepository(string collectionName)
+        {
+            _collectionName = collectionName;
+        }
 
         public async Task<IEnumerable<T>> GetAll(string username)
         {
@@ -104,7 +109,7 @@ namespace Lily.Core.Infrastructure.Persistence
         {
             _client = new DocumentClient(new Uri(ENDPOINT_URI), PRIMARY_KEY);
             await CreateDatabaseIfNotExists(DATABASE_NAME);
-            await CreateDocumentCollectionIfNotExists(DATABASE_NAME, COLLECTION_NAME);
+            await CreateDocumentCollectionIfNotExists(DATABASE_NAME, _collectionName);
         }
 
 
@@ -151,12 +156,12 @@ namespace Lily.Core.Infrastructure.Persistence
 
         private static Uri CreateCollectionUri()
         {
-            return UriFactory.CreateDocumentCollectionUri(DATABASE_NAME, COLLECTION_NAME);
+            return UriFactory.CreateDocumentCollectionUri(DATABASE_NAME, _collectionName);
         }
 
         private static Uri CreateDocumentUri(Guid guid)
         {
-            return UriFactory.CreateDocumentUri(DATABASE_NAME, COLLECTION_NAME, guid.ToString());
+            return UriFactory.CreateDocumentUri(DATABASE_NAME, _collectionName, guid.ToString());
         }
     }
 }

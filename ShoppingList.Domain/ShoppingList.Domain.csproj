@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MarkItemAsDoneEvent.cs" />
+    <Compile Include="RemoveItemFromListEvent.cs" />
+    <Compile Include="AddItemToListEvent.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

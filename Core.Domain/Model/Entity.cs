@@ -13,7 +13,7 @@ namespace Lily.Core.Domain.Model
         public TId Id { get; internal set; } // internal set is required for deserializing
 
         [JsonProperty(PropertyName = "type")]
-        public string Type => GetType().Name;
+        public virtual string Type => GetType().Name;
 
 
         public override bool Equals(object obj)
