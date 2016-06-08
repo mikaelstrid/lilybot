@@ -140,13 +140,8 @@
                 .then(function (result) {
                     $scope.products = result.data;
                 },
-                    function (result) {
-                        $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Lyckades inte hämta några produkter. :(')
-                            .hideDelay(3000)
-                        );
-                        console.log('Call to productsService.getAll failed: ' + result.statusText);
+                    function (error) {
+                        showError('Lyckades inte hämta några produkter. :(', 'getAll', error);
                     })
                 .finally(function () {
                     $scope.isLoading = false;

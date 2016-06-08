@@ -26,7 +26,7 @@
                 </md-card-title>
                 <md-card-content>
                     <md-menu ng-repeat="product in section.products | orderBy:'name'">
-                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
                         <md-menu-content>
                             <md-menu-item ng-repeat="toSection in store.sections">
                                 <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
@@ -61,7 +61,7 @@
                 </md-card-title>
                 <md-card-content>
                     <md-menu ng-repeat="product in section.products | orderBy:'name'">
-                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
                         <md-menu-content>
                             <md-menu-item ng-repeat="toSection in store.sections">
                                 <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
@@ -99,7 +99,7 @@
                 </md-card-title>
                 <md-card-content>
                     <md-menu ng-repeat="product in newProductsSection.products | orderBy:'name'">
-                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
                         <md-menu-content>
                             <md-menu-item ng-repeat="section in store.sections"><md-button ng-click="moveProductToSection(product, newProductsSection, section)">{{section.name}}</md-button></md-menu-item>
                             <md-menu-divider></md-menu-divider>
@@ -123,7 +123,7 @@
                 </md-card-title>
                 <md-card-content>
                     <md-menu ng-repeat="product in store.ignoredProducts.products | orderBy:'name'">
-                        <md-button ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+                        <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
                         <md-menu-content>
                             <md-menu-item ng-repeat="section in store.sections"><md-button ng-click="moveProductToSection(product, store.ignoredProducts, section)">{{section.name}}</md-button></md-menu-item>
                             <md-menu-divider></md-menu-divider>

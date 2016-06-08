@@ -1,0 +1,38 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>Planera</span>
+        </h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
+
+<md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
+
+<section ng-if="!isLoading">
+    <md-content layout-padding layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="50">
+            <h2 class="md-title">Produkter</h2>
+            <md-button class="md-raised" ng-repeat="product in products" ng-show="!product.hidden" ng-click="addItemToList(product)">{{product.name}}</md-button>
+        </div>
+        <div flex-xs flex-gt-xs="50">
+            <h2 class="md-title">Inköpslistan</h2>
+            <md-menu ng-repeat="item in items | orderBy:'productName'">
+                <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{item.productName + (item.comment ? '*' : '')}}</md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="showCommentDialog($event, item)">Kommentar</md-button>
+                    </md-menu-item>
+                    <md-menu-divider></md-menu-divider>
+                    <md-menu-item>
+                        <md-button ng-click="removeFromList(item)">Ta bort</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+    </md-content>
+</section>
+
+<md-button class="md-fab bottom-right" ng-click="showAddNewProductDialog($event)" aria-label="Lägg till produkt">
+    <md-icon>add</md-icon>
+</md-button>

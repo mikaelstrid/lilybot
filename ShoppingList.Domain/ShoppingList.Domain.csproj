@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetCommentEvent.cs" />
     <Compile Include="MarkItemAsDoneEvent.cs" />
     <Compile Include="RemoveItemFromListEvent.cs" />
     <Compile Include="AddItemToListEvent.cs" />

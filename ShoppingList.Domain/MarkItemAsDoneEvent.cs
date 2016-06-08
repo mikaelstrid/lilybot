@@ -1,4 +1,6 @@
-﻿using Lily.Core.Domain.Model;
+﻿using System;
+using Lily.Core.Domain.Model;
+using Newtonsoft.Json;
 
 namespace Lily.ShoppingList.Domain
 {
@@ -7,5 +9,8 @@ namespace Lily.ShoppingList.Domain
         public MarkItemAsDoneEvent(string username) : base(username)
         {
         }
+
+        [JsonProperty(PropertyName = "itemId")]
+        public Guid ItemId { get; set; }
     }
 }

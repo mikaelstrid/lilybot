@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace Lily.Core.Domain.Model
 {
+    [Serializable]
     public class Event : AggregateRoot
     {
         internal Event() { }
@@ -12,6 +13,7 @@ namespace Lily.Core.Domain.Model
             TimestampUtc = DateTime.UtcNow;
         }
 
-        public DateTime TimestampUtc { get; set; }
+        [JsonProperty(PropertyName = "timestampUtc")]
+        public DateTime TimestampUtc { get; internal set; }
     }
 }

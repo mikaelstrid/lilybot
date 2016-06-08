@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace Lily.Core.Domain.Model
 {
+    [Serializable]
     public abstract class AggregateRoot : Entity<Guid>, IAggregate
     {
         protected AggregateRoot() { }

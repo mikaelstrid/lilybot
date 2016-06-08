@@ -11,7 +11,8 @@ var app = angular.module('myApp',
     'myApp.login',
     'myApp.associate',
     'myApp.stores',
-    'myApp.products'
+    'myApp.products',
+    'myApp.plan'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {

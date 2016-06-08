@@ -4,13 +4,16 @@ using Newtonsoft.Json;
 
 namespace Lily.ShoppingList.Domain
 {
-    public class RemoveItemFromListEvent : Event, IImuttable
+    public class SetCommentEvent : Event, IImuttable
     {
-        public RemoveItemFromListEvent(string username) : base(username)
+        public SetCommentEvent(string username) : base(username)
         {
         }
 
         [JsonProperty(PropertyName = "itemId")]
         public Guid ItemId { get; set; }
+
+        [JsonProperty(PropertyName = "comment")]
+        public string Comment { get; set; }
     }
 }
