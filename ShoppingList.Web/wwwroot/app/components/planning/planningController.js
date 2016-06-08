@@ -105,7 +105,6 @@
                 var existingItem = _.find(items, function (i) { return i.productId === product.id; });
                 product.hidden = !!existingItem;
                 if (existingItem) {
-                    existingItem.productName = product.name;
                     $scope.items.push(existingItem);
                     $scope.products.push(product);
                 } else {

@@ -1,0 +1,16 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>Handla</span>
+        </h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
+
+<md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
+
+<md-list ng-if="!isLoading">
+    <md-list-item ng-repeat="item in items" ng-click="markItemAsDone(item)">
+        <p> {{ item.productName }} </p>
+    </md-list-item>
+</md-list>

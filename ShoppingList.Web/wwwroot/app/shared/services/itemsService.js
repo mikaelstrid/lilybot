@@ -8,6 +8,7 @@ app.factory('itemsService', ['$http', 'appSettings', function($http, appSettings
             getActive: getActive,
             add: add,
             remove: remove,
+            markItemAsDone: markItemAsDone,
             setComment: setComment
         };
 
@@ -24,6 +25,10 @@ app.factory('itemsService', ['$http', 'appSettings', function($http, appSettings
 
         function remove(id) {
             return $http.delete(serviceBase + pathBase + '/' + id);
+        }
+
+        function markItemAsDone(id) {
+            return $http.put(serviceBase + pathBase + '/markasdone/' + id);
         }
 
         function setComment(id, comment) {
