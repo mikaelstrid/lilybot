@@ -12,7 +12,7 @@ var app = angular.module('myApp',
     'myApp.associate',
     'myApp.stores',
     'myApp.products',
-    'myApp.plan'
+    'myApp.planning'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {

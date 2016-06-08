@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-        .module('myApp.plan')
-        .controller('PlanCtrl', controller);
+        .module('myApp.planning')
+        .controller('PlanningCtrl', controller);
 
     controller.$inject = ['$scope', '$location', 'productsService', 'itemsService', '$mdDialog', '$mdToast', '$q'];
 
