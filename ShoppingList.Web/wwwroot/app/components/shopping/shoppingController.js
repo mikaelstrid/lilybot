@@ -5,21 +5,44 @@
         .module('myApp.shopping')
         .controller('ShoppingCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'itemsService', '$mdToast'];
+    controller.$inject = ['$scope', '$location', 'storesService', 'itemsService', '$mdToast', '$q'];
 
-    function controller($scope, $location, itemsService, $mdToast) {
+    function controller($scope, $location, storesService, itemsService, $mdToast, $q) {
 
         $scope.isLoading = true;
         $scope.isWorking = false;
+        $scope.stores = [];
+        $scope.selectedStore = null;
         $scope.items = [];
+
+        $scope.selectStore = function (store) {
+            $scope.isWorking = true;
+            if (!store.isInitialized) {
+                _.forEach($scope.items, function(item) { addItemToStoreSection(store, item); });
+                store.isInitialized = true;
+            }
+            $scope.selectedStore = store;
+            $scope.isWorking = false;
+        }
+
+        $scope.clearSelectedStore = function() {
+            $scope.selectedStore = null;
+        }
 
         $scope.markItemAsDone = function(item) {
             $scope.isWorking = true;
             itemsService.markItemAsDone(item.id)
                 .then(
-                    function() {
-                        _.remove($scope.items, function (i) { return i.id === item.id; });
-                        showUndoToast(item);
+                    function () {
+                        _.forEach($scope.selectedStore.sections,
+                            function (section) {
+                                if (_.some(section.items, ['id', item.id])) {
+                                    _.remove(section.items, ['id', item.id]);
+                                    showUndoToast(item);
+                                    return false;
+                                }
+                            });
+                        _.remove($scope.items, ['id', item.id]);
                     },
                     function(error) {
                         showError('Lyckades inte markera varan som klar. :(', 'itemsService.markItemAsDone', error);
@@ -47,6 +70,7 @@
             $mdToast.show(toast)
                 .then(function(response) {
                     if (response === 'ok') {
+                        //:TODO: Detta verkar inte fungera
                         addItemToList(item.productId, item.productName);
                     }
                 });
@@ -57,7 +81,9 @@
             itemsService.add(productId)
                 .then(
                     function (result) {
-                        $scope.items.push({ id: result.data.id, productId: productId, productName: productName });
+                        var newItem = { id: result.data.id, productId: productId, productName: productName };
+                        $scope.items.push(newItem);
+                        addItemToStoreSection($scope.selectedStore, newItem);
                     },
                     function (error) {
                         showError('Lyckades inte lägga till produkten i inköpslistan. :(', 'itemsService.add', error);
@@ -67,20 +93,39 @@
                 });
         }
 
+        function addItemToStoreSection(store, item) {
+            _.forEach(store.sections,
+                function(section) {
+                    section.items = section.items || [];
+                    if (_.some(section.productIds, function(i) { return i === item.productId; })) {
+                        section.items.push(item);
+                        return false;
+                    }
+                });
+        }
+
         
         // === INIT ===
         function activate() {
-            itemsService.getActive()
+            var getStoresPromise = storesService.getAll()
+                .then(
+                    function(result) {
+                        $scope.stores = result.data;
+                    },
+                    function(error) {
+                        showError('Lyckades inte hämta några butiker. :(', 'storesService.getAll', error);
+                    });
+
+            var getItemsPromise = itemsService.getActive()
                 .then(
                     function(result) {
                         $scope.items = result.data;
                     },
                     function(error) {
                         showError('Lyckades inte hämta några varor. :(', 'itemsService.getActive', error);
-                    })
-                .finally(function() {
-                    $scope.isLoading = false;
-                });
+                    });
+
+            $q.all([getStoresPromise, getItemsPromise]).finally(function () { $scope.isLoading = false; });
         }
 
         activate();
