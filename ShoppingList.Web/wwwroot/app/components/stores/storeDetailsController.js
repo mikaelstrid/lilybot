@@ -72,7 +72,9 @@
                 $scope.isWorking = true;
                 storesService.addNewSection($scope.store.id, dialogResult)
                     .then(function (result) {
-                        $scope.store.sections.push(result.data);
+                        var newSection = result.data;
+                        newSection.products = [];
+                        $scope.store.sections.push(newSection);
                         updateCenterIndex();
                     },
                         function (error) {
