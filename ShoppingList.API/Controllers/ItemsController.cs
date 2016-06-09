@@ -15,6 +15,7 @@ namespace Lily.ShoppingList.Api.Controllers
     {
         private readonly IAggregateRepository<Product> _productsRepository;
         private readonly IAggregateRepository<AddItemToListEvent> _addItemToListEventRepository;
+        private readonly IAggregateRepository<ReAddItemToListEvent> _reAddItemToListEventRepository;
         private readonly IAggregateRepository<RemoveItemFromListEvent> _removeItemToListEventRepository;
         private readonly IAggregateRepository<MarkItemAsDoneEvent> _markItemAsDoneEventRepository;
         private readonly IAggregateRepository<SetCommentEvent> _setCommentEventRepository;
@@ -22,12 +23,14 @@ namespace Lily.ShoppingList.Api.Controllers
         public ItemsController(
             IAggregateRepository<Product> productsRepository,
             IAggregateRepository<AddItemToListEvent> addItemToListEventRepository,
+            IAggregateRepository<ReAddItemToListEvent> reAddItemToListEventRepository,
             IAggregateRepository<RemoveItemFromListEvent> removeItemToListEventRepository,
             IAggregateRepository<MarkItemAsDoneEvent> markItemAsDoneEventRepository,
             IAggregateRepository<SetCommentEvent> setCommentEventRepository)
         {
             _productsRepository = productsRepository;
             _addItemToListEventRepository = addItemToListEventRepository;
+            _reAddItemToListEventRepository = reAddItemToListEventRepository;
             _removeItemToListEventRepository = removeItemToListEventRepository;
             _markItemAsDoneEventRepository = markItemAsDoneEventRepository;
             _setCommentEventRepository = setCommentEventRepository;
@@ -56,18 +59,21 @@ namespace Lily.ShoppingList.Api.Controllers
                     {
                         Id = addEvent.Id,
                         ProductId = addEvent.ProductId,
-                        ProductName = allProducts[addEvent.ProductId].FirstOrDefault()?.Name
+                        ProductName = allProducts[addEvent.ProductId].FirstOrDefault()?.Name,
+                        Active = true
                     });
                 }
                 else if (@event is RemoveItemFromListEvent)
                 {
                     var removeEvent = @event as RemoveItemFromListEvent;
-                    items.RemoveAll(i => i.Id == removeEvent.ItemId);
+                    var item = items.FirstOrDefault(i => i.Id == removeEvent.ItemId);
+                    if (item != null) item.Active = false;
                 }
                 else if (@event is MarkItemAsDoneEvent)
                 {
                     var markAsDoneEvent = @event as MarkItemAsDoneEvent;
-                    items.RemoveAll(i => i.Id == markAsDoneEvent.ItemId);
+                    var item = items.FirstOrDefault(i => i.Id == markAsDoneEvent.ItemId);
+                    if (item != null) item.Active = false;
                 }
                 else if (@event is SetCommentEvent)
                 {
@@ -75,9 +81,15 @@ namespace Lily.ShoppingList.Api.Controllers
                     var existingItem = items.FirstOrDefault(i => i.Id == setCommentEvent.ItemId);
                     if (existingItem != null) existingItem.Comment = setCommentEvent.Comment;
                 }
+                else if (@event is ReAddItemToListEvent)
+                {
+                    var reAddEvent = @event as ReAddItemToListEvent;
+                    var item = items.FirstOrDefault(i => i.Id == reAddEvent.OldItemId);
+                    if (item != null) item.Active = true;
+                }
             }
 
-            return Ok(items);
+            return Ok(items.Where(i => i.Active));
         }
 
         [HttpPost]
@@ -86,6 +98,15 @@ namespace Lily.ShoppingList.Api.Controllers
         {
             var newEvent = new AddItemToListEvent(User.Identity.Name) { ProductId = model.ProductId };
             await _addItemToListEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
+            return Ok(newEvent);
+        }
+
+        [HttpPost]
+        [Route("readd/{id}")]
+        public async Task<IHttpActionResult> PostReAdd(Guid id)
+        {
+            var newEvent = new ReAddItemToListEvent(User.Identity.Name) { OldItemId = id };
+            await _reAddItemToListEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
             return Ok(newEvent);
         }
 
@@ -123,6 +144,7 @@ namespace Lily.ShoppingList.Api.Controllers
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
         public string Comment { get; set; }
+        public bool Active { get; set; }
     }
 
     public class AddItemApiModel

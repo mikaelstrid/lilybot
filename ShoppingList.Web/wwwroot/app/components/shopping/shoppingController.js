@@ -70,23 +70,21 @@
             $mdToast.show(toast)
                 .then(function(response) {
                     if (response === 'ok') {
-                        //:TODO: Detta verkar inte fungera
-                        addItemToList(item.productId, item.productName);
+                        reAddItemToList(item);
                     }
                 });
         }
 
-        function addItemToList(productId, productName) {
+        function reAddItemToList(item) {
             $scope.isWorking = true;
-            itemsService.add(productId)
+            itemsService.reAdd(item.id)
                 .then(
-                    function (result) {
-                        var newItem = { id: result.data.id, productId: productId, productName: productName };
-                        $scope.items.push(newItem);
-                        addItemToStoreSection($scope.selectedStore, newItem);
+                    function () {
+                        $scope.items.push(item);
+                        addItemToStoreSection($scope.selectedStore, item);
                     },
                     function (error) {
-                        showError('Lyckades inte lägga till produkten i inköpslistan. :(', 'itemsService.add', error);
+                        showError('Lyckades inte lägga tillbaka varan i inköpslistan. :(', 'itemsService.reAdd', error);
                     })
                 .finally(function () {
                     $scope.isWorking = false;

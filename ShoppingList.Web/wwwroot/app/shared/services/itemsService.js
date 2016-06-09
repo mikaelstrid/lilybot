@@ -7,6 +7,7 @@ app.factory('itemsService', ['$http', 'appSettings', function($http, appSettings
         var service = {
             getActive: getActive,
             add: add,
+            reAdd: reAdd,
             remove: remove,
             markItemAsDone: markItemAsDone,
             setComment: setComment
@@ -21,6 +22,10 @@ app.factory('itemsService', ['$http', 'appSettings', function($http, appSettings
 
         function add(productId) {
             return $http.post(serviceBase + pathBase, { productId: productId });
+        }
+
+        function reAdd(itemId) {
+            return $http.post(serviceBase + pathBase + '/readd/' + itemId);
         }
 
         function remove(id) {

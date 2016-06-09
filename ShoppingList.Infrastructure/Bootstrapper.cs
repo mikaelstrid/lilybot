@@ -12,6 +12,7 @@ namespace Lily.ShoppingList.Infrastructure
             builder.RegisterInstance(new DocumentDbAggregateRepository<Product>("ShoppingListProductCollection")).As<IAggregateRepository<Product>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<Store>("ShoppingListStoreCollection")).As<IAggregateRepository<Store>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<AddItemToListEvent>("ShoppingListEventCollection")).As<IAggregateRepository<AddItemToListEvent>>();
+            builder.RegisterInstance(new DocumentDbAggregateRepository<ReAddItemToListEvent>("ShoppingListEventCollection")).As<IAggregateRepository<ReAddItemToListEvent>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<RemoveItemFromListEvent>("ShoppingListEventCollection")).As<IAggregateRepository<RemoveItemFromListEvent>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<MarkItemAsDoneEvent>("ShoppingListEventCollection")).As<IAggregateRepository<MarkItemAsDoneEvent>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<SetCommentEvent>("ShoppingListEventCollection")).As<IAggregateRepository<SetCommentEvent>>();
