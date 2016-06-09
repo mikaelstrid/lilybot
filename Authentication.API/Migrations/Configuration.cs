@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Web.Configuration;
 using Lily.Authentication.API.Entities;
 
 namespace Lily.Authentication.API.Migrations
@@ -35,7 +36,7 @@ namespace Lily.Authentication.API.Migrations
                     Name = "Shopping list front-end application",
                     ApplicationType = Models.ApplicationTypes.JavaScript,
                     Active = true,
-                    AllowedOrigin = "http://localhost:8000"
+                    AllowedOrigin = WebConfigurationManager.AppSettings["SeedAllowedOrigin"]
                 }
             };
 

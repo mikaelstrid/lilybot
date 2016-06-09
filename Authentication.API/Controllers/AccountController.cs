@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Web.Http;
 using Lily.Authentication.API.Models;
 using Lily.Authentication.API.Results;
@@ -205,7 +206,7 @@ namespace Lily.Authentication.API.Controllers
             {
                 //You can get it from here: https://developers.facebook.com/tools/accesstoken/
                 //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
-                const string appToken = "292014751134538|UcyEPND-SwvLsZiruhzxTDk0QhY";
+                var appToken = WebConfigurationManager.AppSettings["FacebookAppToken"];
                 verifyTokenEndPoint = $"https://graph.facebook.com/debug_token?input_token={accessToken}&access_token={appToken}";
             }
             //else if (provider == "Google")

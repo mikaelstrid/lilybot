@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Web.Configuration;
 using System.Web.Http;
 using Lily.Authentication.API;
 using Lily.Authentication.API.Migrations;
@@ -49,8 +50,8 @@ namespace Lily.Authentication.API
 
             FacebookAuthOptions = new FacebookAuthenticationOptions()
             {
-                AppId = "292014751134538",
-                AppSecret = "9392102a739acf97e1847d9fafc52425",
+                AppId = WebConfigurationManager.AppSettings["FacebookAppId"],
+                AppSecret = WebConfigurationManager.AppSettings["FacebookAppSecret"],
                 Provider = new FacebookAuthProvider()
             };
             app.UseFacebookAuthentication(FacebookAuthOptions);
