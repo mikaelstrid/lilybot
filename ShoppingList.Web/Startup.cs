@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ShoppingList.Web2
+namespace Lily.ShoppingList.Web
 {
     public class Startup
     {
@@ -11,6 +11,7 @@ namespace ShoppingList.Web2
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseDefaultFiles();
             app.UseStaticFiles();
         }
     }
