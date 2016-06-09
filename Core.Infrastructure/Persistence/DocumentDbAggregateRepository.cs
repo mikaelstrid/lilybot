@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Security;
@@ -13,9 +14,10 @@ namespace Lily.Core.Infrastructure.Persistence
 {
     public class DocumentDbAggregateRepository<T> : IAggregateRepository<T> where T : class, IAggregate
     {
-        private const string ENDPOINT_URI = "https://pixeldigitalbyra.documents.azure.com:443/";
-        private const string PRIMARY_KEY = "Ji3YErhuh7joDb0t0xro4VD5AIpQKoLpSWrw04bBEhUcorpBKSgI4MvMb6CiC7GPdcA1kUPwiIlD23KBNRk5EQ==";
-        private const string DATABASE_NAME = "LilyDB";
+        // ReSharper disable InconsistentNaming
+        private readonly string ENDPOINT_URI = ConfigurationManager.AppSettings["DocumentDbEndpointUri"];
+        private readonly string PRIMARY_KEY = ConfigurationManager.AppSettings["DocumentDbPrimaryKey"];
+        private readonly string DATABASE_NAME = ConfigurationManager.AppSettings["DocumentDbDatabaseName"];
 
         private readonly string _collectionName;
 
