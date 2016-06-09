@@ -24,6 +24,7 @@
         <md-subheader class="md-primary">{{ section.name }}</md-subheader>
         <md-list-item ng-repeat="item in section.items | orderBy:'productName'" ng-click="markItemAsDone(item)">
             <p> {{ item.productName }} </p>
+            <span>{{ item.comment }}</span>
         </md-list-item>
     </div>
 </md-list>
