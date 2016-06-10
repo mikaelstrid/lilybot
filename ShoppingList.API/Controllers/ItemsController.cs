@@ -41,6 +41,7 @@ namespace Lily.ShoppingList.Api.Controllers
         public async Task<IHttpActionResult> GetActive()
         {
             var allEvents = (await _addItemToListEventRepository.GetAll(User.Identity.Name) as IEnumerable<Event>)
+                .Concat(await _reAddItemToListEventRepository.GetAll(User.Identity.Name))
                 .Concat(await _removeItemToListEventRepository.GetAll(User.Identity.Name))
                 .Concat(await _markItemAsDoneEventRepository.GetAll(User.Identity.Name))
                 .Concat(await _setCommentEventRepository.GetAll(User.Identity.Name))
