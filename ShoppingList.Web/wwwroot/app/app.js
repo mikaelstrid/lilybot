@@ -22,10 +22,10 @@ app.config(['$locationProvider', '$routeProvider', function ($locationProvider, 
 }]);
 
 app.constant('appSettings', {
-    //authApiServiceBaseUri: 'http://localhost:51350/',
-    authApiServiceBaseUri: 'http://lilyauthenticationapi.azurewebsites.net/',
-    //resourceApiServiceBaseUri: 'http://localhost:54299/',
-    resourceApiServiceBaseUri: 'http://lilyshoppinglistapi.azurewebsites.net/',
+    authApiServiceBaseUri: 'http://localhost:51350/',
+    resourceApiServiceBaseUri: 'http://localhost:54299/',
+    //authApiServiceBaseUri: 'http://lilyauthenticationapi.azurewebsites.net/',
+    //resourceApiServiceBaseUri: 'http://lilyshoppinglistapi.azurewebsites.net/',
     clientId: 'lily.shoppinglist'
 });
 

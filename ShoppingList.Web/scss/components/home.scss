@@ -1,0 +1,47 @@
+﻿@import '../variables.scss';
+
+.page.home {
+    position: relative;
+
+    md-toolbar {
+        position: absolute;
+    }
+
+    .hero {
+        height: 80vh;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.6)), url('../img/market-815244.jpg');
+        background-size: cover;
+        background-position: left center;
+
+        h1 {
+            color: $white;
+            font-weight: 700;
+            font-size: 4rem;
+            line-height: 1em;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 0;
+
+            @media (min-width: 400px) {
+                font-size: 5rem;
+            }
+        }
+
+        p {
+            color: $white;
+            font-size: 2rem;
+            text-align: center;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .md-button.cta {
+            padding: 0.5rem 1.25rem;
+        }
+    }
+
+    .how-it-works {
+        max-width: $main-column-width;
+        margin: 0 auto;
+    }
+}
