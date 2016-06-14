@@ -11,6 +11,10 @@
 
         $scope.isAuthorized = false;
 
+        $scope.goto = function (page) {
+            $location.path('/' + page);
+        }
+
         $scope.logout = function() {
             authService.logOut();
             $scope.isAuthorized = authService.authentication.isAuth;

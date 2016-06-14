@@ -11,16 +11,16 @@
             <div ng-show="isAuthorized">
                 <!-- DESKTOP MENU -->
                 <div hide-xs>
-                    <md-button aria-label="Handla" href="#!/shopping">Handla</md-button>
-                    <md-button aria-label="Planera" href="#!/planning">Planera</md-button>
+                    <md-button aria-label="Handla" ng-click="goto('shopping')">Handla</md-button>
+                    <md-button aria-label="Planera" ng-click="goto('planning')">Planera</md-button>
                     <md-menu md-position-mode="target-right target" md-offset="-10 55">
                         <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
                             <md-icon>account_circle</md-icon>
                         </md-button>
                         <md-menu-content width="3">
                             <md-menu-item><md-button ng-disabled="true">Administrera</md-button></md-menu-item>
-                            <md-menu-item><md-button href="#!/stores">Butiker</md-button></md-menu-item>
-                            <md-menu-item><md-button href="#!/products">Produkter</md-button></md-menu-item>
+                            <md-menu-item><md-button ng-click="goto('stores')">Butiker</md-button></md-menu-item>
+                            <md-menu-item><md-button ng-click="goto('products')">Produkter</md-button></md-menu-item>
                             <md-divider></md-divider>
                             <md-menu-item><md-button ng-click="logout()">Logga ut</md-button></md-menu-item>
                         </md-menu-content>
@@ -33,12 +33,12 @@
                         <md-icon>menu</md-icon>
                     </md-button>
                     <md-menu-content width="3">
-                        <md-menu-item><md-button href="#!/shopping">Handla</md-button></md-menu-item>
-                        <md-menu-item><md-button href="#!/planning">Planera</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('shopping')">Handla</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('planning')">Planera</md-button></md-menu-item>
                         <md-divider></md-divider>
                         <md-menu-item><md-button ng-disabled="true">Administrera</md-button></md-menu-item>
-                        <md-menu-item><md-button href="#!/stores">Butiker</md-button></md-menu-item>
-                        <md-menu-item><md-button href="#!/products">Produkter</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('stores')">Butiker</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('products')">Produkter</md-button></md-menu-item>
                         <md-divider></md-divider>
                         <md-menu-item><md-button ng-click="logout()">Logga ut</md-button></md-menu-item>
                     </md-menu-content>
