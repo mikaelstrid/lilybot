@@ -1,9 +1,36 @@
-﻿@import 'components/home.scss';
+﻿@import 'variables.scss';
+@import 'components/home.scss';
 
 md-toolbar.toolbar-transparent {
     background-color: transparent;
 }
 
+.md-button.facebook {
+    color: $white;
+    background-color: $facebook-blue-medium;
+
+    &:not([disabled]) {
+        &:hover, &:active, &:focus {
+            color: $white;
+            background-color: $facebook-blue;
+        }
+    }
+
+    &.md-raised {
+        color: $white;
+        background-color: $facebook-blue-medium;
+
+        &:not([disabled]) {
+            &:hover, &:active, &:focus {
+                color: $white;
+                background-color: $facebook-blue;
+            }
+        }
+    }
+}
+
 .bottom-right {
-    position: fixed; bottom: 20px; right: 20px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }

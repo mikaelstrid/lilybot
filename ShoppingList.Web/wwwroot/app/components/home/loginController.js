@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('myApp.login')
+        .module('myApp.home')
         .controller('LoginCtrl', controller);
 
     controller.$inject = ['$scope', '$location', 'authService', 'appSettings'];
@@ -10,6 +10,7 @@
     function controller($scope, $location, authService, appSettings) {
 
         $scope.authExternalProvider = function (provider) {
+			// Open the provider login form as a new window
             var redirectUri = location.protocol + '//' + location.host + '/authcomplete.html';
             var externalProviderUrl = appSettings.authApiServiceBaseUri +
                 "api/Account/ExternalLogin?provider=" +
@@ -20,8 +21,8 @@
                 redirectUri;
             window.$windowScope = $scope;
             var oauthWindow = window.open(externalProviderUrl,
-                "Authenticate Account",
-                "location=0,status=0,width=600,height=750");
+                "Logga in med " + provider,
+                "location=0,status=0,centerscreen,width=600,height=750");
         };
 
         $scope.authCompletedCB = function (fragment) {

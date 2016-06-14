@@ -8,7 +8,6 @@ var app = angular.module('myApp',
     'ngRoute',
     'LocalStorageModule',
     'myApp.home',
-    'myApp.login',
     'myApp.associate',
     'myApp.stores',
     'myApp.products',
@@ -18,7 +17,7 @@ var app = angular.module('myApp',
 
 app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
-    $routeProvider.otherwise({ redirectTo: '/home' });
+    $routeProvider.otherwise({ redirectTo: '/' });
 }]);
 
 app.constant('appSettings', {
@@ -33,8 +32,8 @@ app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });
 
-//app.run(['authService', function (authService) {
-//    authService.fillAuthData();
-//}]);
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
 
 

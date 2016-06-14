@@ -8,7 +8,7 @@
     background-size: cover;
     background-position: left center; }
     .page.home .hero h1 {
-      color: #fff;
+      color: #fafafa;
       font-weight: 700;
       font-size: 4rem;
       line-height: 1em;
@@ -19,7 +19,7 @@
         .page.home .hero h1 {
           font-size: 5rem; } }
     .page.home .hero p {
-      color: #fff;
+      color: #fafafa;
       font-size: 2rem;
       text-align: center;
       text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
@@ -32,6 +32,19 @@
 
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
+
+.md-button.facebook {
+  color: #fafafa;
+  background-color: #4267b2; }
+  .md-button.facebook:not([disabled]):hover, .md-button.facebook:not([disabled]):active, .md-button.facebook:not([disabled]):focus {
+    color: #fafafa;
+    background-color: #3b5899; }
+  .md-button.facebook.md-raised {
+    color: #fafafa;
+    background-color: #4267b2; }
+    .md-button.facebook.md-raised:not([disabled]):hover, .md-button.facebook.md-raised:not([disabled]):active, .md-button.facebook.md-raised:not([disabled]):focus {
+      color: #fafafa;
+      background-color: #3b5899; }
 
 .bottom-right {
   position: fixed;
