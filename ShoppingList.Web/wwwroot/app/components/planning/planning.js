@@ -3,7 +3,7 @@
 angular.module('myApp.planning', ['ngRoute'])
 
 .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/planning', {
+    $routeProvider.when('/planera', {
         templateUrl: 'app/components/planning/planningView.html',
         controller: 'PlanningCtrl'
     });

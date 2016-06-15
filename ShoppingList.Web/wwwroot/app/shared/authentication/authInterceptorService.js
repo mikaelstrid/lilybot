@@ -19,7 +19,7 @@ app.factory('authInterceptorService', ['$q', '$injector','$location', 'localStor
         if (rejection.status === 401) {
             var authService = $injector.get('authService');
             authService.logOut();
-            $location.path('/home');
+            $location.path('/');
         }
         return $q.reject(rejection);
     }

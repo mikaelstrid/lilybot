@@ -1,9 +1,4 @@
-﻿<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-    <md-content layout-padding>
-        <h2>TEST</h2>
-    </md-content>
-</md-sidenav>
-<div class="page home">
+﻿<div class="page home">
     <md-toolbar class="toolbar-transparent">
         <div class="md-toolbar-tools">
             <h2 hide-xs>Mjölk & bröd</h2>
@@ -11,16 +6,16 @@
             <div ng-show="authData.isAuthorized">
                 <!-- DESKTOP MENU -->
                 <div hide-xs>
-                    <md-button aria-label="Handla" ng-click="goto('shopping')">Handla</md-button>
-                    <md-button aria-label="Planera" ng-click="goto('planning')">Planera</md-button>
+                    <md-button aria-label="Handla" ng-click="goto('handla')">Handla</md-button>
+                    <md-button aria-label="Planera" ng-click="goto('planera')">Planera</md-button>
                     <md-menu md-position-mode="target-right target" md-offset="-10 55">
                         <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
                             <md-icon>account_circle</md-icon>
                         </md-button>
                         <md-menu-content width="3">
                             <md-menu-item><md-button ng-disabled="true">Administrera</md-button></md-menu-item>
-                            <md-menu-item><md-button ng-click="goto('stores')">Butiker</md-button></md-menu-item>
-                            <md-menu-item><md-button ng-click="goto('products')">Produkter</md-button></md-menu-item>
+                            <md-menu-item><md-button ng-click="goto('butiker')">Butiker</md-button></md-menu-item>
+                            <md-menu-item><md-button ng-click="goto('produkter')">Produkter</md-button></md-menu-item>
                             <md-divider></md-divider>
                             <md-menu-item><md-button ng-click="logout()">Logga ut</md-button></md-menu-item>
                         </md-menu-content>
@@ -33,12 +28,12 @@
                         <md-icon>menu</md-icon>
                     </md-button>
                     <md-menu-content width="3">
-                        <md-menu-item><md-button ng-click="goto('shopping')">Handla</md-button></md-menu-item>
-                        <md-menu-item><md-button ng-click="goto('planning')">Planera</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('handla')">Handla</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('planera')">Planera</md-button></md-menu-item>
                         <md-divider></md-divider>
                         <md-menu-item><md-button ng-disabled="true">Administrera</md-button></md-menu-item>
-                        <md-menu-item><md-button ng-click="goto('stores')">Butiker</md-button></md-menu-item>
-                        <md-menu-item><md-button ng-click="goto('products')">Produkter</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('butiker')">Butiker</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('produkter')">Produkter</md-button></md-menu-item>
                         <md-divider></md-divider>
                         <md-menu-item><md-button ng-click="logout()">Logga ut</md-button></md-menu-item>
                     </md-menu-content>

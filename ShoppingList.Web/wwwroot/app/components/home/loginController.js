@@ -39,7 +39,7 @@
                         externalAccessToken: fragment.external_access_token
                     };
 
-                    $location.path('/associate');
+                    $location.path('/skapa-konto');
                 }
                 else {
                     //Obtain access token and redirect to orders

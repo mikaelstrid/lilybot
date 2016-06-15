@@ -3,7 +3,7 @@
 angular.module('myApp.shopping', ['ngRoute'])
 
 .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/shopping', {
+    $routeProvider.when('/handla', {
         templateUrl: 'app/components/shopping/shoppingView.html',
         controller: 'ShoppingCtrl'
     });

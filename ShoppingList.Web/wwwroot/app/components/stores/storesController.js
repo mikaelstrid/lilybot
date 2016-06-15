@@ -35,7 +35,7 @@
         };
 
         $scope.gotoDetails = function (store) {
-            $location.path('/stores/' + store.id);
+            $location.path('/butiker/' + store.id);
         }
 
         // === HELPERS ===
