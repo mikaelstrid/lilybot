@@ -9,7 +9,6 @@ using Lily.Authentication.API.Models;
 using Lily.Authentication.API.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Linq;
@@ -86,28 +85,15 @@ namespace Lily.Authentication.API.Controllers
 
             if (hasRegistered) return BadRequest("External user is already registered");
 
-            identityUser = new IdentityUser
-            {
-                UserName = verifiedAccessToken.user_id,
-                //FirstName = ???
-                //LastName = ???
-                //DisplayName = ???
-                //Email = ???
-            };
+            identityUser = new IdentityUser { UserName = verifiedAccessToken.user_id };
 
             var identityResult = await _repo.CreateAsync(identityUser);
             if (!identityResult.Succeeded) return GetErrorResult(identityResult);
 
-            var externalLoginInfo = new ExternalLoginInfo
-            {
-                DefaultUserName = model.UserName,
-                Login = new UserLoginInfo(model.Provider, verifiedAccessToken.user_id)
-            };
-
-            identityResult = await _repo.AddLoginAsync(identityUser.Id, externalLoginInfo.Login);
+            identityResult = await _repo.AddLoginAsync(identityUser.Id, new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
             if (!identityResult.Succeeded) return GetErrorResult(identityResult);
 
-            return Ok(GenerateLocalAccessTokenResponse(model.UserName));
+            return Ok(GenerateLocalAccessTokenResponse(verifiedAccessToken.user_id));
         }
 
         [AllowAnonymous]
@@ -115,7 +101,6 @@ namespace Lily.Authentication.API.Controllers
         [Route("ObtainLocalAccessToken")]
         public async Task<IHttpActionResult> ObtainLocalAccessToken(string provider, string externalAccessToken)
         {
-
             if (string.IsNullOrWhiteSpace(provider) || string.IsNullOrWhiteSpace(externalAccessToken))
             {
                 return BadRequest("Provider or external access token is not sent");
@@ -209,10 +194,6 @@ namespace Lily.Authentication.API.Controllers
                 var appToken = WebConfigurationManager.AppSettings["FacebookAppToken"];
                 verifyTokenEndPoint = $"https://graph.facebook.com/debug_token?input_token={accessToken}&access_token={appToken}";
             }
-            //else if (provider == "Google")
-            //{
-            //    verifyTokenEndPoint = string.Format("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={0}", accessToken);
-            //}
             else
             {
                 return null;
@@ -240,17 +221,6 @@ namespace Lily.Authentication.API.Controllers
                         return null;
                     }
                 }
-                //else if (provider == "Google")
-                //{
-                //    parsedToken.user_id = jObj["user_id"];
-                //    parsedToken.app_id = jObj["audience"];
-
-                //    if (!string.Equals(Startup.googleAuthOptions.ClientId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
-                //    {
-                //        return null;
-                //    }
-
-                //}
             }
 
             return parsedToken;
@@ -293,10 +263,7 @@ namespace Lily.Authentication.API.Controllers
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                if (identity == null)
-                {
-                    return null;
-                }
+                if (identity == null) return null; 
 
                 var providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 

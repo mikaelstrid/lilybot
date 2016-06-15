@@ -9,7 +9,9 @@
 
     function controller($scope, $location, $mdSidenav, authService) {
 
-        $scope.isAuthorized = false;
+        $scope.authData = {
+            isAuthorized: false
+        };
 
         $scope.goto = function (page) {
             $location.path('/' + page);
@@ -17,7 +19,7 @@
 
         $scope.logout = function() {
             authService.logOut();
-            $scope.isAuthorized = authService.authentication.isAuth;
+            $scope.authData.isAuthorized = authService.authentication.isAuth;
         }
 
         // === HELPERS ===

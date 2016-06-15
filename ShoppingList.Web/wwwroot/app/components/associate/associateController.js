@@ -1,26 +1,50 @@
-﻿'use strict';
+﻿(function () {
+    'use strict';
 
-angular.module('myApp.associate').controller('AssociateCtrl', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+    angular
+        .module('myApp.associate')
+        .controller('AssociateCtrl', controller);
 
-    $scope.registerData = {
-        userName: authService.externalAuthData.userName,
-        provider: authService.externalAuthData.provider,
-        externalAccessToken: authService.externalAuthData.externalAccessToken
-    };
+    controller.$inject = ['$scope', '$location', 'authService', 'profilesService'];
 
-    $scope.registerExternal = function () {
+    function controller($scope, $location, authService, profilesService) {
 
-        authService.registerExternal($scope.registerData)
-            .then(function () {
-                $location.path('/home');
-            },
-            function (response) {
-                var errors = [];
-                for (var key in response.modelState) {
-                    errors.push(response.modelState[key]);
-                }
-                $scope.message = "Failed to register user due to:" + errors.join(' ');
-            });
-    };
+        $scope.userDisplayName = authService.externalAuthData.userDisplayName;
 
-}]);
+        $scope.registerData = {
+            provider: authService.externalAuthData.provider,
+            externalAccessToken: authService.externalAuthData.externalAccessToken
+        };
+
+        $scope.registerExternal = function () {
+
+            authService.registerExternal($scope.registerData)
+                .then(
+                    function () {
+                        profilesService.create()
+                            .then(
+                                function() {
+                                    $location.path('/home');
+                                },
+                                function(response) {
+                                    var errors = [];
+                                    for (var key in response.modelState) {
+                                        errors.push(response.modelState[key]);
+                                    }
+                                    $scope.message = "Failed to create profile due to:" + errors.join(' ');
+                                    console.log($scope.message);
+                                }
+                            );
+                    },
+                    function (response) {
+                        var errors = [];
+                        for (var key in response.modelState) {
+                            errors.push(response.modelState[key]);
+                        }
+                        $scope.message = "Failed to register user due to:" + errors.join(' ');
+                        console.log($scope.message);
+                    });
+        };
+
+    }
+})();

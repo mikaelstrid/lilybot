@@ -9,6 +9,7 @@ namespace Lily.ShoppingList.Infrastructure
     {
         public static void Bootstrap(ContainerBuilder builder)
         {
+            builder.RegisterInstance(new DocumentDbAggregateRepository<Profile>("ShoppingListProfileCollection")).As<IAggregateRepository<Profile>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<Product>("ShoppingListProductCollection")).As<IAggregateRepository<Product>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<Store>("ShoppingListStoreCollection")).As<IAggregateRepository<Store>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<AddItemToListEvent>("ShoppingListEventCollection")).As<IAggregateRepository<AddItemToListEvent>>();

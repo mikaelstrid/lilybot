@@ -8,7 +8,7 @@
         <div class="md-toolbar-tools">
             <h2 hide-xs>Mjölk & bröd</h2>
             <span flex></span>
-            <div ng-show="isAuthorized">
+            <div ng-show="authData.isAuthorized">
                 <!-- DESKTOP MENU -->
                 <div hide-xs>
                     <md-button aria-label="Handla" ng-click="goto('shopping')">Handla</md-button>
@@ -45,7 +45,7 @@
                 </md-menu>
             </div>
 
-            <div ng-controller="LoginCtrl" ng-show="!isAuthorized">
+            <div ng-controller="LoginCtrl" ng-show="!authData.isAuthorized">
                 <md-button class="md-raised facebook" aria-label="Logga in med Facebook" ng-click="authExternalProvider('Facebook');">
                     Logga in med Facebook
                 </md-button>

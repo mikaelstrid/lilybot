@@ -35,12 +35,11 @@
 
                     authService.externalAuthData = {
                         provider: fragment.provider,
-                        userName: fragment.external_user_name,
+                        userDisplayName: fragment.external_user_name,
                         externalAccessToken: fragment.external_access_token
                     };
 
                     $location.path('/associate');
-
                 }
                 else {
                     //Obtain access token and redirect to orders
@@ -49,7 +48,7 @@
                         externalAccessToken: fragment.external_access_token
                     };
                     authService.obtainAccessToken(externalData).then(function (response) {
-                        $location.path('/orders');
+                        $scope.authData.isAuthorized = authService.authentication.isAuth;
                     },
                  function (err) {
                      $scope.message = err.error_description;
