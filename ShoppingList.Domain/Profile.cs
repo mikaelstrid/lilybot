@@ -12,7 +12,7 @@ namespace Lily.ShoppingList.Domain
         public Profile(string username) : this(username, Guid.NewGuid()) { }
         public Profile(string username, Guid guid) : base(username, guid) { }
 
-        [JsonProperty(PropertyName = "children")]
-        public List<string> Children { get; set; }
+        [JsonProperty(PropertyName = "friends")]
+        public List<string> Friends { get; set; } = new List<string>();
     }
 }

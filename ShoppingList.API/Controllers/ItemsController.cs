@@ -10,8 +10,9 @@ using Lily.ShoppingList.Domain;
 namespace Lily.ShoppingList.Api.Controllers
 {
     [Authorize]
+    //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration
     [RoutePrefix("api/items")]
-    public class ItemsController : ApiController
+    public class ItemsController : FriendsApiControllerBase
     {
         private readonly IAggregateRepository<Product> _productsRepository;
         private readonly IAggregateRepository<AddItemToListEvent> _addItemToListEventRepository;
@@ -40,14 +41,14 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("active")]
         public async Task<IHttpActionResult> GetActive()
         {
-            var allEvents = (await _addItemToListEventRepository.GetAll(User.Identity.Name) as IEnumerable<Event>)
-                .Concat(await _reAddItemToListEventRepository.GetAll(User.Identity.Name))
-                .Concat(await _removeItemToListEventRepository.GetAll(User.Identity.Name))
-                .Concat(await _markItemAsDoneEventRepository.GetAll(User.Identity.Name))
-                .Concat(await _setCommentEventRepository.GetAll(User.Identity.Name))
+            var allEvents = (await _addItemToListEventRepository.GetAll(Username) as IEnumerable<Event>)
+                .Concat(await _reAddItemToListEventRepository.GetAll(Username))
+                .Concat(await _removeItemToListEventRepository.GetAll(Username))
+                .Concat(await _markItemAsDoneEventRepository.GetAll(Username))
+                .Concat(await _setCommentEventRepository.GetAll(Username))
                 .OrderBy(e => e.TimestampUtc);
 
-            var allProducts = (await _productsRepository.GetAll(User.Identity.Name)).ToLookup(p => p.Id);
+            var allProducts = (await _productsRepository.GetAll(Username)).ToLookup(p => p.Id);
 
             var items = new List<GetItemApiModel>();
 
@@ -97,8 +98,8 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] AddItemApiModel model)
         {
-            var newEvent = new AddItemToListEvent(User.Identity.Name) { ProductId = model.ProductId };
-            await _addItemToListEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
+            var newEvent = new AddItemToListEvent(Username) { ProductId = model.ProductId };
+            await _addItemToListEventRepository.AddOrUpdate(Username, newEvent);
             return Ok(newEvent);
         }
 
@@ -106,8 +107,8 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("readd/{id}")]
         public async Task<IHttpActionResult> PostReAdd(Guid id)
         {
-            var newEvent = new ReAddItemToListEvent(User.Identity.Name) { OldItemId = id };
-            await _reAddItemToListEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
+            var newEvent = new ReAddItemToListEvent(Username) { OldItemId = id };
+            await _reAddItemToListEventRepository.AddOrUpdate(Username, newEvent);
             return Ok(newEvent);
         }
 
@@ -115,8 +116,8 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            var newEvent = new RemoveItemFromListEvent(User.Identity.Name) { ItemId = id };
-            await _removeItemToListEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
+            var newEvent = new RemoveItemFromListEvent(Username) { ItemId = id };
+            await _removeItemToListEventRepository.AddOrUpdate(Username, newEvent);
             return Ok(newEvent);
         }
 
@@ -124,8 +125,8 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("markasdone/{id}")]
         public async Task<IHttpActionResult> PutMarkAsDone(Guid id)
         {
-            var newEvent = new MarkItemAsDoneEvent(User.Identity.Name) { ItemId = id };
-            await _markItemAsDoneEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
+            var newEvent = new MarkItemAsDoneEvent(Username) { ItemId = id };
+            await _markItemAsDoneEventRepository.AddOrUpdate(Username, newEvent);
             return Ok(newEvent);
         }
 
@@ -133,8 +134,8 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("comment/{id}")]
         public async Task<IHttpActionResult> PutComment(Guid id, [FromBody] SetCommentModel model)
         {
-            var newEvent = new SetCommentEvent(User.Identity.Name) { ItemId = id, Comment = model.Comment };
-            await _setCommentEventRepository.AddOrUpdate(User.Identity.Name, newEvent);
+            var newEvent = new SetCommentEvent(Username) { ItemId = id, Comment = model.Comment };
+            await _setCommentEventRepository.AddOrUpdate(Username, newEvent);
             return Ok();
         }
     }

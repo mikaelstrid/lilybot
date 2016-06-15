@@ -42,7 +42,7 @@ namespace Lily.Core.Infrastructure.Persistence
                 .Where(predicate);
         }
 
-        private async Task<IEnumerable<T>> Get(Func<T, bool> predicate)
+        protected async Task<IEnumerable<T>> Get(Func<T, bool> predicate)
         {
             await Initialize();
             return _client.CreateDocumentQuery<T>(CreateCollectionUri(),

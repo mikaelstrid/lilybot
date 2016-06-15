@@ -2,7 +2,10 @@
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Lily.ShoppingList.Api.Controllers;
+using Lily.ShoppingList.Application;
 using Lily.ShoppingList.API;
+using Lily.ShoppingList.API.Filters;
 using Lily.ShoppingList.Infrastructure;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
@@ -25,9 +28,13 @@ namespace Lily.ShoppingList.API
             Bootstrapper.Bootstrap(builder);
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterWebApiFilterProvider(config);
+
+            RegisterControllerActionFilters(builder);
 
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
             app.UseAutofacMiddleware(container);
             app.UseAutofacWebApi(config);
 
@@ -35,9 +42,16 @@ namespace Lily.ShoppingList.API
             app.UseWebApi(config);
         }
 
-        private void ConfigureOAuth(IAppBuilder app)
+        private static void ConfigureOAuth(IAppBuilder app)
         {
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+        }
+
+        private static void RegisterControllerActionFilters(ContainerBuilder builder)
+        {
+            builder.Register(c => new CheckIfFriendActionFilter(c.Resolve<IProfileRepository>()))
+                .AsWebApiActionFilterFor<FriendsApiControllerBase>()
+                .InstancePerRequest();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Lily.Core.Application;
 using Lily.Core.Infrastructure.Persistence;
+using Lily.ShoppingList.Application;
 using Lily.ShoppingList.Domain;
 
 namespace Lily.ShoppingList.Infrastructure
@@ -9,7 +10,7 @@ namespace Lily.ShoppingList.Infrastructure
     {
         public static void Bootstrap(ContainerBuilder builder)
         {
-            builder.RegisterInstance(new DocumentDbAggregateRepository<Profile>("ShoppingListProfileCollection")).As<IAggregateRepository<Profile>>();
+            builder.RegisterInstance(new DocumentDbProfileRepository("ShoppingListProfileCollection")).As<IProfileRepository>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<Product>("ShoppingListProductCollection")).As<IAggregateRepository<Product>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<Store>("ShoppingListStoreCollection")).As<IAggregateRepository<Store>>();
             builder.RegisterInstance(new DocumentDbAggregateRepository<AddItemToListEvent>("ShoppingListEventCollection")).As<IAggregateRepository<AddItemToListEvent>>();

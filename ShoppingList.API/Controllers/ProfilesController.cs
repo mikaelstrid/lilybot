@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lily.Core.Application;
+using Lily.ShoppingList.Application;
 using Lily.ShoppingList.Domain;
 
 namespace Lily.ShoppingList.Api.Controllers
@@ -10,9 +10,9 @@ namespace Lily.ShoppingList.Api.Controllers
     [RoutePrefix("api/profiles")]
     public class ProfilesController : ApiController
     {
-        private readonly IAggregateRepository<Profile> _repository;
+        private readonly IProfileRepository _repository;
 
-        public ProfilesController(IAggregateRepository<Profile> repository)
+        public ProfilesController(IProfileRepository repository)
         {
             _repository = repository;
         }
@@ -29,34 +29,34 @@ namespace Lily.ShoppingList.Api.Controllers
         }
 
         [HttpPost]
-        [Route("children")]
-        public async Task<IHttpActionResult> PostChild([FromBody] AddChildApiModel model)
+        [Route("friends")]
+        public async Task<IHttpActionResult> PostFriend([FromBody] AddFriendApiModel model)
         {
             var parentProfile = (await _repository.Get(User.Identity.Name, p => true)).SingleOrDefault();
             if (parentProfile == null) return BadRequest($"There is no profile for parent user {User.Identity.Name}.");
 
-            parentProfile.Children.Add(model.ChildUsername);
+            parentProfile.Friends.Add(model.FriendUsername);
             await _repository.AddOrUpdate(User.Identity.Name, parentProfile);
             return Ok();
         }
 
         [HttpDelete]
-        [Route("children/{username}")]
-        public async Task<IHttpActionResult> DeleteChild(string username)
+        [Route("friends/{username}")]
+        public async Task<IHttpActionResult> DeleteFriend(string username)
         {
             var parentProfile = (await _repository.Get(User.Identity.Name, p => true)).SingleOrDefault();
             if (parentProfile == null) return BadRequest($"There is no profile for parent user {User.Identity.Name}.");
 
-            if (parentProfile.Children.All(p => p != username)) return BadRequest($"No child profile {username} found.");
+            if (parentProfile.Friends.All(p => p != username)) return BadRequest($"No friend profile {username} found.");
             
-            parentProfile.Children.RemoveAll(p => p == username);
+            parentProfile.Friends.RemoveAll(p => p == username);
             await _repository.AddOrUpdate(User.Identity.Name, parentProfile);
             return Ok();
         }
     }
 
-    public class AddChildApiModel
+    public class AddFriendApiModel
     {
-        public string ChildUsername { get; set; }
+        public string FriendUsername { get; set; }
     }
 }

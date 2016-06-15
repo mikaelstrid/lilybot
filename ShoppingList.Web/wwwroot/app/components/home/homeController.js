@@ -41,7 +41,7 @@
         activate();
 
         function activate() {
-            $scope.isAuthorized = authService.authentication.isAuth;
+            $scope.authData.isAuthorized = authService.authentication.isAuth;
         }
     }
 })();
