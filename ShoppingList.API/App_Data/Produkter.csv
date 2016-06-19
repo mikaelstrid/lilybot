@@ -1,0 +1,435 @@
+5;Mjölk;189
+4;Yoghurt;168
+10;Skinka;115
+45;Juice;108
+57;Yoghurt, vanilj;101
+14;Tunnbröd;101
+7;Ägg;100
+88;Salami;95
+20;Start;91
+18;Ost;90
+235;Runda polarbröd;80
+16;Bregott;75
+2;Kaffe;74
+12;Grädde;64
+50;Lösgodis;62
+60;Gurka;58
+101;Potatis;49
+104;Tomater;45
+281;Ryggbiff;44
+61;Nötfärs;42
+19;Hushållspapper;42
+25;Lime;42
+77;Te;41
+29;Koriander;40
+30;Gul lök;38
+195;Oliver;38
+117;Hamburgare;37
+122;Crème fraîche;51
+141;Vitlök;37
+66;Tortillabröd;36
+126;Blöjor;35
+85;Bacon;34
+72;Bearnaisesås;34
+11;Toalettpapper;34
+190;Chili;34
+92;Coca Cola;33
+27;Smör;31
+63;Banan;29
+71;Körsbärstomater;28
+47;Helgbröd;28
+48;Glass;28
+138;Hamburgerbröd;28
+216;Mozzarella;28
+316;Kycklingfilé;28
+137;Jäst;27
+123;Avokado;27
+70;Sallad;27
+65;Vetemjöl;24
+69;Halloumi;24
+22;Grovt bröd;23
+73;Oxfilé;22
+145;Morot;22
+54;Citron;21
+93;Parmesan;21
+140;Silverlök;20
+91;Fläskkarré;19
+58;Choklad;19
+21;Toastbröd;19
+28;Mango;19
+3;Tvättmedel;19
+165;Köttbullar, frysta;19
+286;Högrev;19
+223;Brieost;19
+261;Potatiskors, frysta;18
+32;Ruccola;18
+67;Sparris;18
+40;Isbergssallad;17
+1;Blåbär, frysta;17
+136;Diskmaskinstabletter;17
+239;Äpple;17
+146;Fetaost;16
+194;Getost;16
+5384;Risgrynsgröt;16
+343;Kaffefilter;15
+171;Saft;15
+36;Paprika, röd;15
+46;Ananas;14
+62;Passerade tomater;14
+142;Anchochili;14
+103;Rödlök;14
+227;Majs;14
+292;Melon;14
+269;Ost, riven;13
+270;Hamburgerost;13
+108;Apelsiner;13
+94;Spaghetti;13
+15;Leverpastej;13
+31;Krossade tomater;12
+68;Parmaskinka;12
+44;Havregryn;12
+53;Hallon;12
+35;Salladslök;12
+110;Cocktailtomater;12
+271;Briketter;12
+231;Paprika, gul;12
+170;Fikabröd;12
+181;Handtvål;12
+8443;Kvarg;12
+333;Äppeljuice;11
+353;Russin;11
+2368;Cashewnötter;11
+191;Habanerochili;11
+279;Jalapeño;11
+107;Ketchup;11
+38;Ingefära;11
+51;Honung;11
+6;Läsk;10
+116;Dadlar;10
+289;Flingor;10
+260;Lammkorv;10
+247;Spetspaprika;10
+199;Mango, fryst;10
+182;Glasstrutar;10
+217;Basilika;10
+151;Färskost;10
+4377;Kokosmjölk;10
+7400;Kyckling, hel;10
+7423;Havrefras ;10
+352;Pasta;9
+168;Räkor;9
+172;Dessertost;9
+164;Deo, Pim;9
+254;Red Bull;9
+236;Socker;9
+112;Scharlottenlök;9
+113;Godispåsar;9
+133;Tvättlappar;9
+84;Savoykål;9
+78;Äppelmos;8
+111;Timjan, färsk;8
+124;Falukorv;8
+9;Drömyoggi;8
+41;Kokos, riven;8
+222;Vaniljsocker;8
+161;Salt;8
+207;Jordgubbar;8
+317;Rökt skinka;8
+321;Bladpersilja;7
+300;Oregano;7
+1356;Tacomix;7
+345;Ris;7
+7401;Blomkål;7
+6385;Kyckling, lårfilé;7
+2371;Päron;7
+3371;Tomatpuré;7
+193;Baguetter, bake-up;7
+152;Soltorkade tomater;7
+148;Purjolök;7
+160;Grillkol;7
+176;Blandfärs;7
+213;Bladspenat;7
+225;Honungsmelon;7
+248;Padrones;7
+252;Vattenmelon;7
+64;Chilipulver;7
+131;Lypsyl;7
+90;Tandkräm, vuxen;7
+79;Fluortabletter;6
+102;Olja;6
+143;Chipotlechili;6
+49;Coco;6
+33;Lammfärs;6
+242;Makaroner;6
+178;Nachos;6
+166;Fiskpinnar;6
+173;Basmatiris;6
+162;Öl;6
+158;Spiskummin;6
+150;Paprika;6
+2364;Färdig dessert, fryst;6
+7411;Korvbröd;6
+7414;Cheerios;9
+7412;Färskpotatis;5
+6388;Panerad fisk;5
+2362;Baguetter, vitlök;5
+5379;Hönökaka;5
+320;Broccoli;5
+309;Glödlampor;5
+8435;Rödbetor;5
+180;Vanish;5
+187;Farinsocker;5
+189;Batterier;5
+273;Sötpotatis;5
+280;Vitvinsvinäger;5
+52;Linfrö;5
+43;Kanel;5
+128;Bakplåtspapper;5
+114;Kakor;5
+98;Princesstårta;5
+106;Majonnäs;5
+105;Senap;4
+99;Tapas;4
+82;Youghurt;4
+89;Babygröt;4
+87;Vaniljstång;4
+132;Hundpåsar;4
+55;Plackers;4
+26;Vitkål;4
+287;Pommes frites;4
+234;Hallonsaft;4
+228;Pannkakor;4
+201;Sill;4
+202;Lax, rökt;4
+212;Bovetemjöl;4
+177;Romansallad;4
+157;Ajvar relish;4
+7431;Kikärtor;4
+303;Torskfilé;4
+296;Svartpeppar;4
+319;Fläskkotlett;4
+307;Svarta bönor;4
+331;Jordnötssmör;4
+346;Rotselleri;4
+338;Haricot verts;4
+339;Nutella;4
+340;Chips;4
+357;Ärtor, frysta;4
+355;Vindruvor;4
+6379;Kyckling, innerfilé;4
+3377;Kalvfärs;4
+7406;Maränger;4
+7394;Röda linser, torkade;3
+7415;Grillkorv;3
+7421;Mineralvatten;3
+6389;Persilja;3
+6386;Solroskärnor;3
+7392;Drickyoghurt;3
+7402;Marmelad ;3
+7403;Strössel;3
+3374;Lasagneplattor, färska;3
+3375;Kalkonfärs;3
+2365;Fläskfilé;3
+5378;Kryddsmör;3
+4372;Ostsås, mild;3
+4374;Pizzasås;3
+354;Digistivekex;3
+349;Kidneybönor;3
+2360;Avorioris;3
+1357;Tacosalsa;3
+1358;Duschtvål;3
+344;Mjölkchoklad;3
+308;Pumpakärnor;3
+315;Lasagneplattor, torkade;3
+323;Plastpåsar;3
+326;Kesella;3
+293;Japansk soya;3
+305;Entrecôte;3
+306;Ananasjuice;3
+7433;Bönor, kokta, blandade;3
+7410;Majskolvar;3
+7427;Tekakor;3
+159;Olivolja;3
+153;Majskyckling;3
+211;Timjan, torkad;3
+218;Smarties;3
+219;Tandborste, barn;3
+203;Gräddfil;3
+198;Kalvfond;3
+206;Rädisor;3
+200;Tändstickor;3
+229;Franska örter;3
+224;Vitlöksbröd;3
+240;Rödkål, färsk;3
+250;Matyoghurt;3
+290;Oxbuljong;3
+285;Lakritspulver;3
+274;Paprikapulver;3
+272;Kycklingklubbor;3
+8;Deo, Elina;3
+56;Bindor;3
+42;Bikarbonat;3
+129;Kardemumma;3
+130;Disktrasor;3
+127;Hallonsylt;3
+120;Vetekli;3
+121;Lingonsylt;3
+75;Diskmedel;3
+76;Tandkräm, barn;3
+100;Potatismospulver;3
+95;Mannagryn;3
+109;Pilgrimsmusslor;3
+96;Kondenserad mjölk;2
+97;Hallon, färska;2
+125;Välling;2
+118;Rågsikt;2
+119;Rågkross;2
+144;Honung, flytande;2
+135;Sirap, ljus;2
+39;Risnudlar;2
+34;Fläskfärs;2
+275;Ingefärspulver;2
+253;Mynta;2
+258;Fyllda paprikor;2
+268;WC-duck;2
+277;Rosmarin, torkad;2
+255;Ginger ale;2
+214;Kyckling, grillad;2
+221;Kakao;2
+237;Träolja;2
+192;Grillad paprika;2
+186;Sirap, mörk;2
+183;Grapefrukt;2
+184;Schampo;2
+209;Mer;2
+156;Olivbröd;2
+179;Frallor;2
+174;Potatismjöl;2
+175;Worcestersås;2
+7429;Belugalinser;2
+8436;Gainomax;2
+8437;Kantareller;2
+7434;Coco Pops;2
+7432;Garam masala kryddblandning;2
+304;Palsternacka;2
+324;Bakpulver;2
+325;Saffran;2
+318;Bladspenat, fryst;2
+295;Balsamvinäger;2
+314;Ricotta;2
+341;Keso;2
+330;Pepparkakor;2
+336;Frukt, färsk;2
+337;Bacon, tärningar;2
+2361;Jordärtskockor;2
+350;Tortillachps;2
+351;Ströbröd;2
+5377;Lammfilé;2
+5375;Popcorn;2
+6380;Kyckling;2
+6381;Franskbröd;2
+5381;Granola;2
+2372;Riskakor;2
+2374;Ballonger;2
+7404;Hamburgerdressing;2
+7405;Ballerina;2
+7396;Grönsaksbuljong;2
+7397;Torskrygg;2
+7393;Rökt sidfläsk;2
+6387;Tranbär;2
+6390;Sambal oelek;2
+7422;Matlagningsyoghurt;2
+7417;Kamben;2
+7407;Kex;2
+5383;Såpa;2
+7409;Majsolja;2
+7413;Sesamfrön;1
+7408;Vallmofrön;1
+7395;Hönsbuljong;1
+7418;Kycklingfond;1
+7419;Paprika, grön;1
+7420;Gulbetor;1
+7416;Stjärnanis;1
+6391;Kycklingbuljong;1
+6392;Lammracks;1
+6393;Rosmarin, färsk;1
+6394;Oxfond;1
+7398;Persilja, färsk;1
+3373;Råsocker;1
+3376;Basilika, torkad;1
+4371;Rån;1
+2373;Chokladsås;1
+2370;Chilipulver, ancho;2
+2363;Cayennepeppar;1
+6382;Currypaste, röd;1
+6383;Äggnudlar;1
+6384;Muscovadosocker;1
+5376;Oboy;1
+4376;Lax;1
+334;Maizena;1
+335;Nappar;1
+342;Avfallspåsar;1
+347;Chilisås;1
+327;Florsocker;1
+328;Körsbärssås;1
+329;Julmust;1
+310;Sopsäckar;1
+294;Balsam;1
+297;Vitlökspulver;1
+298;Plastfolie;1
+299;Aluminiumfolie;1
+8434;Couscous;1
+8444;Aubergine;1
+8445;Zucchini;1
+8446;Ostpaj ;1
+8447;Kalkonbröst;1
+8448;Turkisk peppar;1
+8449;Lasagne, fryst;1
+8450;Surdegsbröd;1
+8451;Pesto;1
+8452;Pytt i panna;1
+8453;Tacobröd;1
+8454;Vita bönor i tomatsås;1
+8455;Chorizo;1
+8438;Pepparrot;1
+8439;Passionsfrukt;1
+8440;Gorgonzola;1
+8441;Jordnötter;1
+8442;Currypasta;1
+7428;Bomullspads;1
+7426;Svinto;1
+169;Tändvätska;1
+163;Äppelcidervinäger;1
+149;Majskrokar;1
+147;Babyspenat;1
+210;Superlim;1
+220;Bilar;1
+208;Knäckebröd;1
+204;Gräslök;1
+205;Tårta;1
+185;Tranbärsjuice;1
+188;Solrosolja;1
+196;Kronärtskockshjärtan;1
+197;Kelda;1
+238;Plastfickor;1
+230;Istärningspåsar;1
+215;Pinjenötter;1
+226;Soja;1
+249;Filodeg;1
+241;Citrusnäring;1
+232;Philadelphiaost;1
+233;Torrjäst;1
+244;Fiskfond;1
+246;Sockerärtor;1
+282;Värmeljus;1
+283;Blockljus;1
+284;Kronljus;1
+291;Grötris;1
+288;Farfarskakor;1
+262;Salta pinnar;1
+267;Fanta;1
+276;Lökpulver;1
+134;Sköljmedel;1
+115;Kexchoklad;1
+81;Majsmjöl;1
+86;Rabarber;1
