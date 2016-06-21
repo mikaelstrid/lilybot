@@ -1,19 +1,13 @@
-﻿using System;
-using Lily.Core.Domain.Model;
-using Newtonsoft.Json;
+﻿using Lily.Core.Domain.Model;
 
 namespace Lily.ShoppingList.Domain
 {
     public class SetCommentEvent : Event, IImuttable
     {
-        public SetCommentEvent(string username) : base(username)
-        {
-        }
+        public SetCommentEvent(string username) : base(username) { }
 
-        [JsonProperty(PropertyName = "itemId")]
-        public Guid ItemId { get; set; }
+        public int ItemId { get; set; }
 
-        [JsonProperty(PropertyName = "comment")]
         public string Comment { get; set; }
     }
 }

@@ -1,19 +1,17 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace Lily.Core.Domain.Model
 {
-    [Serializable]
-    public class Event : AggregateRoot
+    public class Event : Entity<int>
     {
-        internal Event() { }
-
-        public Event(string username) : base(username, Guid.NewGuid())
+        public Event(string username)
         {
+            Username = username;
             TimestampUtc = DateTime.UtcNow;
         }
 
-        [JsonProperty(PropertyName = "timestampUtc")]
-        public DateTime TimestampUtc { get; internal set; }
+        public string Username { get; set; }
+
+        public DateTime TimestampUtc { get; set; }
     }
 }

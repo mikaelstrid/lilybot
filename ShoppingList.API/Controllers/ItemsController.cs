@@ -1,161 +1,161 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Lily.Core.Application;
-using Lily.Core.Domain.Model;
-using Lily.ShoppingList.Domain;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using System.Web.Http;
+//using Lily.Core.Application;
+//using Lily.Core.Domain.Model;
+//using Lily.ShoppingList.Domain;
 
-namespace Lily.ShoppingList.Api.Controllers
-{
-    [Authorize]
-    //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration
-    [RoutePrefix("api/items")]
-    public class ItemsController : FriendsApiControllerBase
-    {
-        private readonly IAggregateRepository<Product> _productsRepository;
-        private readonly IAggregateRepository<AddItemToListEvent> _addItemToListEventRepository;
-        private readonly IAggregateRepository<ReAddItemToListEvent> _reAddItemToListEventRepository;
-        private readonly IAggregateRepository<RemoveItemFromListEvent> _removeItemToListEventRepository;
-        private readonly IAggregateRepository<MarkItemAsDoneEvent> _markItemAsDoneEventRepository;
-        private readonly IAggregateRepository<SetCommentEvent> _setCommentEventRepository;
+//namespace Lily.ShoppingList.Api.Controllers
+//{
+//    [Authorize]
+//    //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration
+//    [RoutePrefix("api/items")]
+//    public class ItemsController : FriendsApiControllerBase
+//    {
+//        private readonly IAggregateRepository<Product> _productsRepository;
+//        private readonly IAggregateRepository<AddItemToListEvent> _addItemToListEventRepository;
+//        private readonly IAggregateRepository<ReAddItemToListEvent> _reAddItemToListEventRepository;
+//        private readonly IAggregateRepository<RemoveItemFromListEvent> _removeItemToListEventRepository;
+//        private readonly IAggregateRepository<MarkItemAsDoneEvent> _markItemAsDoneEventRepository;
+//        private readonly IAggregateRepository<SetCommentEvent> _setCommentEventRepository;
 
-        public ItemsController(
-            IAggregateRepository<Product> productsRepository,
-            IAggregateRepository<AddItemToListEvent> addItemToListEventRepository,
-            IAggregateRepository<ReAddItemToListEvent> reAddItemToListEventRepository,
-            IAggregateRepository<RemoveItemFromListEvent> removeItemToListEventRepository,
-            IAggregateRepository<MarkItemAsDoneEvent> markItemAsDoneEventRepository,
-            IAggregateRepository<SetCommentEvent> setCommentEventRepository)
-        {
-            _productsRepository = productsRepository;
-            _addItemToListEventRepository = addItemToListEventRepository;
-            _reAddItemToListEventRepository = reAddItemToListEventRepository;
-            _removeItemToListEventRepository = removeItemToListEventRepository;
-            _markItemAsDoneEventRepository = markItemAsDoneEventRepository;
-            _setCommentEventRepository = setCommentEventRepository;
-        }
+//        public ItemsController(
+//            IAggregateRepository<Product> productsRepository,
+//            IAggregateRepository<AddItemToListEvent> addItemToListEventRepository,
+//            IAggregateRepository<ReAddItemToListEvent> reAddItemToListEventRepository,
+//            IAggregateRepository<RemoveItemFromListEvent> removeItemToListEventRepository,
+//            IAggregateRepository<MarkItemAsDoneEvent> markItemAsDoneEventRepository,
+//            IAggregateRepository<SetCommentEvent> setCommentEventRepository)
+//        {
+//            _productsRepository = productsRepository;
+//            _addItemToListEventRepository = addItemToListEventRepository;
+//            _reAddItemToListEventRepository = reAddItemToListEventRepository;
+//            _removeItemToListEventRepository = removeItemToListEventRepository;
+//            _markItemAsDoneEventRepository = markItemAsDoneEventRepository;
+//            _setCommentEventRepository = setCommentEventRepository;
+//        }
 
-        [HttpGet]
-        [Route("active")]
-        public async Task<IHttpActionResult> GetActive()
-        {
-            var allEvents = (await _addItemToListEventRepository.GetAll(Username) as IEnumerable<Event>)
-                .Concat(await _reAddItemToListEventRepository.GetAll(Username))
-                .Concat(await _removeItemToListEventRepository.GetAll(Username))
-                .Concat(await _markItemAsDoneEventRepository.GetAll(Username))
-                .Concat(await _setCommentEventRepository.GetAll(Username))
-                .OrderBy(e => e.TimestampUtc);
+//        [HttpGet]
+//        [Route("active")]
+//        public IHttpActionResult GetActive()
+//        {
+//            var allEvents = (_addItemToListEventRepository.GetAll(Username) as IEnumerable<Event>)
+//                .Concat(_reAddItemToListEventRepository.GetAll(Username))
+//                .Concat(_removeItemToListEventRepository.GetAll(Username))
+//                .Concat(_markItemAsDoneEventRepository.GetAll(Username))
+//                .Concat(_setCommentEventRepository.GetAll(Username))
+//                .OrderBy(e => e.TimestampUtc);
 
-            var allProducts = (await _productsRepository.GetAll(Username)).ToLookup(p => p.Id);
+//            var allProducts = (_productsRepository.GetAll(Username)).ToLookup(p => p.Id);
 
-            var items = new List<GetItemApiModel>();
+//            var items = new List<GetItemApiModel>();
 
-            foreach (var @event in allEvents)
-            {
-                if (@event is AddItemToListEvent)
-                {
-                    var addEvent = @event as AddItemToListEvent;
-                    items.Add(new GetItemApiModel
-                    {
-                        Id = addEvent.Id,
-                        ProductId = addEvent.ProductId,
-                        ProductName = allProducts[addEvent.ProductId].FirstOrDefault()?.Name,
-                        Active = true
-                    });
-                }
-                else if (@event is RemoveItemFromListEvent)
-                {
-                    var removeEvent = @event as RemoveItemFromListEvent;
-                    var item = items.FirstOrDefault(i => i.Id == removeEvent.ItemId);
-                    if (item != null) item.Active = false;
-                }
-                else if (@event is MarkItemAsDoneEvent)
-                {
-                    var markAsDoneEvent = @event as MarkItemAsDoneEvent;
-                    var item = items.FirstOrDefault(i => i.Id == markAsDoneEvent.ItemId);
-                    if (item != null) item.Active = false;
-                }
-                else if (@event is SetCommentEvent)
-                {
-                    var setCommentEvent = @event as SetCommentEvent;
-                    var existingItem = items.FirstOrDefault(i => i.Id == setCommentEvent.ItemId);
-                    if (existingItem != null) existingItem.Comment = setCommentEvent.Comment;
-                }
-                else if (@event is ReAddItemToListEvent)
-                {
-                    var reAddEvent = @event as ReAddItemToListEvent;
-                    var item = items.FirstOrDefault(i => i.Id == reAddEvent.OldItemId);
-                    if (item != null) item.Active = true;
-                }
-            }
+//            foreach (var @event in allEvents)
+//            {
+//                if (@event is AddItemToListEvent)
+//                {
+//                    var addEvent = @event as AddItemToListEvent;
+//                    items.Add(new GetItemApiModel
+//                    {
+//                        Id = addEvent.Id,
+//                        ProductId = addEvent.ProductId,
+//                        ProductName = allProducts[addEvent.ProductId].FirstOrDefault()?.Name,
+//                        Active = true
+//                    });
+//                }
+//                else if (@event is RemoveItemFromListEvent)
+//                {
+//                    var removeEvent = @event as RemoveItemFromListEvent;
+//                    var item = items.FirstOrDefault(i => i.Id == removeEvent.ItemId);
+//                    if (item != null) item.Active = false;
+//                }
+//                else if (@event is MarkItemAsDoneEvent)
+//                {
+//                    var markAsDoneEvent = @event as MarkItemAsDoneEvent;
+//                    var item = items.FirstOrDefault(i => i.Id == markAsDoneEvent.ItemId);
+//                    if (item != null) item.Active = false;
+//                }
+//                else if (@event is SetCommentEvent)
+//                {
+//                    var setCommentEvent = @event as SetCommentEvent;
+//                    var existingItem = items.FirstOrDefault(i => i.Id == setCommentEvent.ItemId);
+//                    if (existingItem != null) existingItem.Comment = setCommentEvent.Comment;
+//                }
+//                else if (@event is ReAddItemToListEvent)
+//                {
+//                    var reAddEvent = @event as ReAddItemToListEvent;
+//                    var item = items.FirstOrDefault(i => i.Id == reAddEvent.OldItemId);
+//                    if (item != null) item.Active = true;
+//                }
+//            }
 
-            return Ok(items.Where(i => i.Active));
-        }
+//            return Ok(items.Where(i => i.Active));
+//        }
 
-        [HttpPost]
-        [Route("")]
-        public async Task<IHttpActionResult> Post([FromBody] AddItemApiModel model)
-        {
-            var newEvent = new AddItemToListEvent(Username) { ProductId = model.ProductId };
-            await _addItemToListEventRepository.AddOrUpdate(Username, newEvent);
-            return Ok(newEvent);
-        }
+//        [HttpPost]
+//        [Route("")]
+//        public IHttpActionResult Post([FromBody] AddItemApiModel model)
+//        {
+//            var newEvent = new AddItemToListEvent(Username) { ProductId = model.ProductId };
+//            _addItemToListEventRepository.AddOrUpdate(Username, newEvent);
+//            return Ok(newEvent);
+//        }
 
-        [HttpPost]
-        [Route("readd/{id}")]
-        public async Task<IHttpActionResult> PostReAdd(Guid id)
-        {
-            var newEvent = new ReAddItemToListEvent(Username) { OldItemId = id };
-            await _reAddItemToListEventRepository.AddOrUpdate(Username, newEvent);
-            return Ok(newEvent);
-        }
+//        [HttpPost]
+//        [Route("readd/{id}")]
+//        public IHttpActionResult PostReAdd(Guid id)
+//        {
+//            var newEvent = new ReAddItemToListEvent(Username) { OldItemId = id };
+//            _reAddItemToListEventRepository.AddOrUpdate(Username, newEvent);
+//            return Ok(newEvent);
+//        }
 
-        [HttpDelete]
-        [Route("{id}")]
-        public async Task<IHttpActionResult> Delete(Guid id)
-        {
-            var newEvent = new RemoveItemFromListEvent(Username) { ItemId = id };
-            await _removeItemToListEventRepository.AddOrUpdate(Username, newEvent);
-            return Ok(newEvent);
-        }
+//        [HttpDelete]
+//        [Route("{id}")]
+//        public IHttpActionResult Delete(Guid id)
+//        {
+//            var newEvent = new RemoveItemFromListEvent(Username) { ItemId = id };
+//            _removeItemToListEventRepository.AddOrUpdate(Username, newEvent);
+//            return Ok(newEvent);
+//        }
 
-        [HttpPut]
-        [Route("markasdone/{id}")]
-        public async Task<IHttpActionResult> PutMarkAsDone(Guid id)
-        {
-            var newEvent = new MarkItemAsDoneEvent(Username) { ItemId = id };
-            await _markItemAsDoneEventRepository.AddOrUpdate(Username, newEvent);
-            return Ok(newEvent);
-        }
+//        [HttpPut]
+//        [Route("markasdone/{id}")]
+//        public IHttpActionResult PutMarkAsDone(Guid id)
+//        {
+//            var newEvent = new MarkItemAsDoneEvent(Username) { ItemId = id };
+//            _markItemAsDoneEventRepository.AddOrUpdate(Username, newEvent);
+//            return Ok(newEvent);
+//        }
 
-        [HttpPut]
-        [Route("comment/{id}")]
-        public async Task<IHttpActionResult> PutComment(Guid id, [FromBody] SetCommentModel model)
-        {
-            var newEvent = new SetCommentEvent(Username) { ItemId = id, Comment = model.Comment };
-            await _setCommentEventRepository.AddOrUpdate(Username, newEvent);
-            return Ok();
-        }
-    }
+//        [HttpPut]
+//        [Route("comment/{id}")]
+//        public IHttpActionResult PutComment(Guid id, [FromBody] SetCommentModel model)
+//        {
+//            var newEvent = new SetCommentEvent(Username) { ItemId = id, Comment = model.Comment };
+//            _setCommentEventRepository.AddOrUpdate(Username, newEvent);
+//            return Ok();
+//        }
+//    }
 
-    public class GetItemApiModel
-    {
-        public Guid Id { get; set; }
-        public Guid ProductId { get; set; }
-        public string ProductName { get; set; }
-        public string Comment { get; set; }
-        public bool Active { get; set; }
-    }
+//    public class GetItemApiModel
+//    {
+//        public Guid Id { get; set; }
+//        public Guid ProductId { get; set; }
+//        public string ProductName { get; set; }
+//        public string Comment { get; set; }
+//        public bool Active { get; set; }
+//    }
 
-    public class AddItemApiModel
-    {
-        public Guid ProductId { get; set; }
-    }
+//    public class AddItemApiModel
+//    {
+//        public Guid ProductId { get; set; }
+//    }
 
-    public class SetCommentModel
-    {
-        public string Comment { get; set; }
-    }
-}
+//    public class SetCommentModel
+//    {
+//        public string Comment { get; set; }
+//    }
+//}

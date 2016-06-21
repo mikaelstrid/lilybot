@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Lily.Core.Domain.Model;
-using Newtonsoft.Json;
+﻿using Lily.Core.Domain.Model;
 
 namespace Lily.ShoppingList.Domain
 {
-    [Serializable]
     public class Profile : AggregateRoot
     {
-        internal Profile() { }
-        public Profile(string username) : this(username, Guid.NewGuid()) { }
-        public Profile(string username, Guid guid) : base(username, guid) { }
+        internal Profile() : base() { }
 
-        [JsonProperty(PropertyName = "friends")]
-        public List<string> Friends { get; set; } = new List<string>();
+        public Profile(string username) : base(username) { }
+
+        public string Friends { get; set; }
     }
 }

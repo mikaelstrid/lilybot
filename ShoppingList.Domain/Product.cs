@@ -1,17 +1,13 @@
-﻿using System;
-using Lily.Core.Domain.Model;
-using Newtonsoft.Json;
+﻿using Lily.Core.Domain.Model;
 
 namespace Lily.ShoppingList.Domain
 {
-    [Serializable]
     public class Product : AggregateRoot
     {
         internal Product() { }
-        public Product(string username) : this(username, Guid.NewGuid()) { }
-        public Product(string username, Guid guid) : base(username, guid) { }
+
+        public Product(string username) : base(username) { }
         
-        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
     }
 }

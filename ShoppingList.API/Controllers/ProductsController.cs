@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Lily.Core.Application;
 using Lily.ShoppingList.Domain;
@@ -20,48 +19,46 @@ namespace Lily.ShoppingList.Api.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> Get()
+        public IHttpActionResult Get()
         {
-            return Ok(await _repository.GetAll(Username));
+            return Ok(_repository.GetAll(Username));
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IHttpActionResult> Get(Guid id)
+        public IHttpActionResult Get(int id)
         {
-            return Ok(await _repository.GetById(Username, id));
+            return Ok(_repository.GetById(Username, id));
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> Post([FromBody] CreateOrUpdateProductApiModel model)
+        public IHttpActionResult Post([FromBody] CreateOrUpdateProductApiModel model)
         {
             var newProduct = new Product(Username) { Name = model.Name };
-            await _repository.AddOrUpdate(Username, newProduct);
+            _repository.InsertOrUpdate(Username, newProduct);
             return Ok(newProduct);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IHttpActionResult> Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
+        public IHttpActionResult Put(int id, [FromBody] CreateOrUpdateProductApiModel model)
         {
-            var product = await _repository.GetById(Username, id);
+            var product = _repository.GetById(Username, id);
             if (product == null) return BadRequest("No product found with the specified id.");
 
             product.Name = model.Name;
-            await _repository.AddOrUpdate(Username, product);
+            _repository.InsertOrUpdate(Username, product);
             return Ok(product);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IHttpActionResult> Delete(Guid id)
+        public IHttpActionResult Delete(int id)
         {
-            await _repository.DeleteById(Username, id);
+            _repository.DeleteById(Username, id);
             return Ok();
         }
-
-
     }
 
     public class CreateOrUpdateProductApiModel
