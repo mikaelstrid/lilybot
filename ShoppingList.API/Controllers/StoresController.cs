@@ -1,191 +1,216 @@
-﻿//using System;
-//using System.Linq;
-//using System.Web.Http;
-//using Lily.Core.Application;
-//using Lily.ShoppingList.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
+using AutoMapper;
+using Lily.Core.Application;
+using Lily.ShoppingList.Application;
+using Lily.ShoppingList.Domain;
 
-//namespace Lily.ShoppingList.Api.Controllers
-//{
-//    [Authorize]
-//    //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration
-//    [RoutePrefix("api/stores")]
-//    public class StoresController : FriendsApiControllerBase
-//    {
-//        private readonly IAggregateRepository<Store> _repository;
+namespace Lily.ShoppingList.Api.Controllers
+{
+    [Authorize]
+    //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration
+    [RoutePrefix("api/stores")]
+    public class StoresController : FriendsApiControllerBase
+    {
+        private readonly IStoreRepository _storeRepository;
+        private readonly IAggregateRepository<Product> _productRepository;
 
-//        public StoresController(IAggregateRepository<Store> repository)
-//        {
-//            _repository = repository;
-//        }
-
-//        [HttpGet]
-//        [Route("")]
-//        public IHttpActionResult Get()
-//        {
-//            return Ok(_repository.GetAll(Username));
-//        }
-
-//        [HttpGet]
-//        [Route("{id}")]
-//        public IHttpActionResult Get(Guid id)
-//        {
-//            var store = _repository.GetById(Username, id);
-//            if (store == null) return NotFound();
-//            return Ok(store);
-//        }
-
-//        [HttpPost]
-//        [Route("")]
-//        public IHttpActionResult Post([FromBody] CreateOrUpdateStoreApiModel model)
-//        {
-//            var newStore = new Store(Username) { Name = model.Name };
-//            _repository.AddOrUpdate(Username, newStore);
-//            return Ok(newStore);
-//        }
-
-//        [HttpPut]
-//        [Route("{id}")]
-//        public IHttpActionResult Put(Guid id, [FromBody] CreateOrUpdateProductApiModel model)
-//        {
-//            var store = _repository.GetById(Username, id);
-//            if (store == null) return BadRequest("No store found with the specified id.");
-
-//            store.Name = model.Name;
-//            _repository.AddOrUpdate(Username, store);
-//            return Ok(store);
-//        }
-
-//        [HttpDelete]
-//        [Route("{id}")]
-//        public IHttpActionResult Delete(Guid id)
-//        {
-//            _repository.DeleteById(Username, id);
-//            return Ok();
-//        }
+        public StoresController(IStoreRepository storeRepository, IAggregateRepository<Product> productRepository )
+        {
+            _storeRepository = storeRepository;
+            _productRepository = productRepository;
+        }
 
 
-//        // === SECTIONS ===
 
-//        [HttpPost]
-//        [Route("{id}/sections")]
-//        public IHttpActionResult PostSection(Guid id, [FromBody] CreateOrUpdateStoreSectionApiModel model)
-//        {
-//            var store = _repository.GetById(Username, id);
-//            if (store == null) return BadRequest("No store found with the specified id.");
+        [HttpGet]
+        [Route("")]
+        public IHttpActionResult Get()
+        {
+            var allStores = _storeRepository.GetAll(Username);
+            var allStoreDtos = DefaultMapper.Map<IEnumerable<Store>, IEnumerable<StoreDto>>(allStores);
+            return Ok(allStoreDtos);
+        }
 
-//            var newStoreSection = new StoreSection { Name = model.Name };
-//            store.Sections.Add(newStoreSection);
-            
-//            _repository.AddOrUpdate(Username, store);
-//            return Ok(newStoreSection);
-//        }
+        [HttpGet]
+        [Route("{id}")]
+        public IHttpActionResult Get(int id)
+        {
+            var store = _storeRepository.GetById(Username, id, "Sections.Products");
+            if (store == null) return NotFound();
+            store.Sections = store.Sections.OrderBy(s => s.Order).ToList();
+            var storeDto = DefaultMapper.Map<StoreDto>(store);
+            return Ok(storeDto);
+        }
 
-//        [HttpPut]
-//        [Route("{storeId}/sections/{sectionId}")]
-//        public IHttpActionResult PutSection(Guid storeId, Guid sectionId, [FromBody] CreateOrUpdateStoreSectionApiModel model)
-//        {
-//            var store = _repository.GetById(Username, storeId);
-//            if (store == null) return BadRequest("No store found with the specified id.");
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult Post([FromBody] CreateOrUpdateStoreApiModel model)
+        {
+            var newStore = new Store(Username)
+            {
+                Name = model.Name
+            };
+            _storeRepository.InsertOrUpdate(Username, newStore);
+            return Ok(DefaultMapper.Map<StoreDto>(newStore));
+        }
+        
+        [HttpPut]
+        [Route("{id}")]
+        public IHttpActionResult Put(int id, [FromBody] CreateOrUpdateProductApiModel model)
+        {
+            var store = _storeRepository.GetById(Username, id);
+            if (store == null) return BadRequest("No store found with the specified id.");
 
-//            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
-//            if (section == null) return BadRequest("No section found with the specified id.");
+            store.Name = model.Name;
+            _storeRepository.InsertOrUpdate(Username, store);
+            return Ok(DefaultMapper.Map<StoreDto>(store));
+        }
 
-//            section.Name = model.Name;
-//            _repository.AddOrUpdate(Username, store);
-
-//            return Ok(section);
-//        }
-
-//        [HttpDelete]
-//        [Route("{storeId}/sections/{sectionId}")]
-//        public IHttpActionResult DeleteSection(Guid storeId, Guid sectionId)
-//        {
-//            var store = _repository.GetById(Username, storeId);
-//            if (store == null) return BadRequest("No store found with the specified id.");
-
-//            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
-//            if (section == null) return BadRequest("No section found with the specified id.");
-//            store.Sections.Remove(section);
-
-//            _repository.AddOrUpdate(Username, store);
-//            return Ok();
-//        }
-
-//        [HttpPut]
-//        [Route("{storeId}/sections/{sectionId}/movesectionup")]
-//        public IHttpActionResult MoveSectionUp(Guid storeId, Guid sectionId)
-//        {
-//            var store = _repository.GetById(Username, storeId);
-//            if (store == null) return BadRequest("No store found with the specified id.");
-
-//            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
-//            if (section == null) return BadRequest("No section found with the specified id.");
-
-//            var oldIndex = store.Sections.IndexOf(section);
-//            if (oldIndex == 0) return Ok();
-
-//            store.Sections.Remove(section);
-//            store.Sections.Insert(oldIndex-1, section);
-
-//            _repository.AddOrUpdate(Username, store);
-//            return Ok();
-//        }
-
-//        [HttpPut]
-//        [Route("{storeId}/sections/{sectionId}/movesectiondown")]
-//        public IHttpActionResult MoveSectionDown(Guid storeId, Guid sectionId)
-//        {
-//            var store = _repository.GetById(Username, storeId);
-//            if (store == null) return BadRequest("No store found with the specified id.");
-
-//            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
-//            if (section == null) return BadRequest("No section found with the specified id.");
-
-//            var oldIndex = store.Sections.IndexOf(section);
-//            if (oldIndex == store.Sections.Count - 1) return Ok();
-
-//            store.Sections.Remove(section);
-//            store.Sections.Insert(oldIndex + 1, section);
-
-//            _repository.AddOrUpdate(Username, store);
-//            return Ok();
-//        }
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult Delete(int id)
+        {
+            _storeRepository.DeleteById(Username, id);
+            return Ok();
+        }
 
 
-//        [HttpPut]
-//        [Route("{storeId}/sections/{sectionId}/moveproducttosection/{productId}")]
-//        public IHttpActionResult MoveProductToSection(Guid storeId, Guid productId, Guid sectionId)
-//        {
-//            var store = _repository.GetById(Username, storeId);
-//            if (store == null) return BadRequest("No store found with the specified id.");
+        // === SECTIONS ===
 
-//            // Try to find the section containing the product
-//            var currentSection = store.Sections.FirstOrDefault(s => s.ProductIds.Contains(productId));
+        [HttpPost]
+        [Route("{id}/sections")]
+        public IHttpActionResult PostSection(int id, [FromBody] CreateOrUpdateStoreSectionApiModel model)
+        {
+            var store = _storeRepository.GetById(Username, id);
+            if (store == null) return BadRequest("No store found with the specified id.");
 
-//            // If no section was found, check the ignore list
-//            if (currentSection == null && store.IgnoredProducts.ProductIds.Contains(productId)) currentSection = store.IgnoredProducts;
+            var newStoreSection = new StoreSection { Name = model.Name, Order = store.Sections.Any() ? store.Sections.Max(s => s.Order) + 1 : 1 };
+            store.Sections.Add(newStoreSection);
 
-//            // Get the section to move the product to
-//            var newSection = store.Sections.FirstOrDefault(s => s.Id == sectionId);
-//            if (newSection == null && store.IgnoredProducts.Id == sectionId) newSection = store.IgnoredProducts; 
-//            if (newSection == null) return BadRequest("No section found to move the produt to.");
+            _storeRepository.InsertOrUpdate(Username, store);
+            return Ok(DefaultMapper.Map<StoreSectionDto>(newStoreSection));
+        }
 
-//            // Move the 
-//            if (currentSection != null) currentSection.ProductIds.Remove(productId);
-//            newSection.ProductIds.Add(productId);
-//            _repository.AddOrUpdate(Username, store);
+        [HttpPut]
+        [Route("{storeId}/sections/{sectionId}")]
+        public IHttpActionResult PutSection(int storeId, int sectionId, [FromBody] CreateOrUpdateStoreSectionApiModel model)
+        {
+            var store = _storeRepository.GetById(Username, storeId);
+            if (store == null) return BadRequest("No store found with the specified id.");
 
-//            return Ok();
-//        }
-//    }
+            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
+            if (section == null) return BadRequest("No section found with the specified id.");
 
-//    public class CreateOrUpdateStoreApiModel
-//    {
-//        public string Name { get; set; }
-//    }
+            section.Name = model.Name;
+            _storeRepository.InsertOrUpdate(Username, store);
 
-//    public class CreateOrUpdateStoreSectionApiModel
-//    {
-//        public string Name { get; set; }
-//    }
-//}
+            return Ok(DefaultMapper.Map<StoreSectionDto>(section));
+        }
+
+        [HttpDelete]
+        [Route("{storeId}/sections/{sectionId}")]
+        public IHttpActionResult DeleteSection(int storeId, int sectionId)
+        {
+            _storeRepository.DeleteSectionById(Username, storeId, sectionId);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("{storeId}/sections/{sectionId}/movesectionup")]
+        public IHttpActionResult MoveSectionUp(int storeId, int sectionId)
+        {
+            var store = _storeRepository.GetById(Username, storeId);
+            if (store == null) return BadRequest("No store found with the specified id.");
+
+            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
+            if (section == null) return BadRequest("No section found with the specified id.");
+
+            var orderedSections = store.Sections.OrderBy(s => s.Order).ToList();
+
+            if (section == orderedSections.First()) return Ok();
+
+            var currentIndex = orderedSections.IndexOf(section);
+            var sectionBefore = orderedSections[currentIndex - 1];
+
+            var currentSectionOrder = section.Order;
+            var sectionBeforeOrder = sectionBefore.Order;
+
+            section.Order = sectionBeforeOrder;
+            sectionBefore.Order = currentSectionOrder;
+
+            _storeRepository.InsertOrUpdate(Username, store);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("{storeId}/sections/{sectionId}/movesectiondown")]
+        public IHttpActionResult MoveSectionDown(int storeId, int sectionId)
+        {
+            var store = _storeRepository.GetById(Username, storeId);
+            if (store == null) return BadRequest("No store found with the specified id.");
+
+            var section = store.Sections.FirstOrDefault(s => s.Id == sectionId);
+            if (section == null) return BadRequest("No section found with the specified id.");
+
+            var orderedSections = store.Sections.OrderBy(s => s.Order).ToList();
+
+            if (section == orderedSections.Last()) return Ok();
+
+            var currentIndex = orderedSections.IndexOf(section);
+            var sectionAfter = orderedSections[currentIndex + 1];
+
+            var currentSectionOrder = section.Order;
+            var sectionAfterOrder = sectionAfter.Order;
+
+            section.Order = sectionAfterOrder;
+            sectionAfter.Order = currentSectionOrder;
+
+            _storeRepository.InsertOrUpdate(Username, store);
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [Route("{storeId}/sections/{sectionId}/moveproducttosection/{productId}")]
+        public IHttpActionResult MoveProductToSection(int storeId, int productId, int sectionId)
+        {
+            var store = _storeRepository.GetById(Username, storeId, "Sections.Products");
+            if (store == null) return BadRequest("No store found with the specified id.");
+
+            var product = _productRepository.GetById(Username, productId);
+            if (product == null) return BadRequest("No product found with the specified id.");
+
+            var currentSection = store.Sections.SingleOrDefault(s => s.Products.Any(p => p.Id == productId));
+            if (currentSection != null)
+                currentSection.Products.Remove(product);
+            else if (store.IgnoredProducts.Contains(product))
+                store.IgnoredProducts.Remove(product);
+
+            var newSection = store.Sections.SingleOrDefault(s => s.Id == sectionId);
+            if (newSection != null)
+                newSection.Products.Add(product);
+            else
+                if (sectionId == -1)
+                    store.IgnoredProducts.Add(product);
+                else
+                    return BadRequest("No section found to move the produt to.");
+
+            _storeRepository.InsertOrUpdate(Username, store);
+            return Ok();
+        }
+    }
+
+
+    public class CreateOrUpdateStoreApiModel
+    {
+        public string Name { get; set; }
+    }
+
+    public class CreateOrUpdateStoreSectionApiModel
+    {
+        public string Name { get; set; }
+    }
+}

@@ -206,7 +206,7 @@
             $scope.storeCenterIndex = Math.ceil($scope.store.sections.length / 2);
         }
 
-        function populateProducts(products) {
+        function populateNewProducts(products) {
             for (var i = 0; i < products.length; i++) {
                 var product = products[i];
                 var productFound = false;
@@ -214,8 +214,7 @@
                 // Check the sections
                 for (var j = 0; j < $scope.store.sections.length; j++) {
                     var section = $scope.store.sections[j];
-                    if (section.productIds.indexOf(product.id) !== -1) {
-                        section.products.push(product);
+                    if (_.some(section.products, ['id', product.id])) {
                         productFound = true;
                         break;
                     }
@@ -223,8 +222,7 @@
                 if (productFound) continue;
 
                 // Check the ignoredProducts
-                if ($scope.store.ignoredProducts.productIds.indexOf(product.id) !== -1) {
-                    $scope.store.ignoredProducts.products.push(product);
+                if (_.some($scope.store.ignoredProductsSection.products, ['id', product.id])) {
                     continue;
                 }
 
@@ -241,16 +239,13 @@
             storesService.get($routeParams.id)
                 .then(function (result) {
                     $scope.store = result.data;
-                    angular.forEach($scope.store.sections, function (value, key) {
-                        value.products = [];
-                    });
-                    $scope.store.ignoredProducts.products = [];
+                    $scope.store.ignoredProductsSection = { id: -1, name: "Ignorerade produkter", products: result.data.ignoredProducts };
                     updateCenterIndex();
 
                     // The stores are in place, now get the products
                     productsService.getAll()
                         .then(function (result) {
-                            populateProducts(result.data);
+                            populateNewProducts(result.data);
                         }, function (result) {
                             showError('Lyckades inte hämta produkterna. :(', 'getAll', error);
                         })

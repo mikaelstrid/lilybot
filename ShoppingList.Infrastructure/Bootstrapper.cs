@@ -23,8 +23,8 @@ namespace Lily.ShoppingList.Infrastructure
             builder.RegisterInstance(new ShoppingListDbContext()).As<DbContext>();
 
             builder.RegisterType<EntityFrameworkProfileRepository>().As<IProfileRepository>();
+            builder.RegisterType<EntityFrameworkStoreRepository>().As<IStoreRepository>();
             builder.RegisterType<EntityFrameworkAggregateRepository<Product>>().As<IAggregateRepository<Product>>();
-            //builder.RegisterType<EntityFrameworkAggregateRepository<Store>>().As<IAggregateRepository<Store>>();
             //builder.RegisterType<EntityFrameworkAggregateRepository<AddItemToListEvent>>().As<IAggregateRepository<AddItemToListEvent>>();
             //builder.RegisterType<EntityFrameworkAggregateRepository<ReAddItemToListEvent>>().As<IAggregateRepository<ReAddItemToListEvent>>();
             //builder.RegisterType<EntityFrameworkAggregateRepository<RemoveItemFromListEvent>>().As<IAggregateRepository<RemoveItemFromListEvent>>();

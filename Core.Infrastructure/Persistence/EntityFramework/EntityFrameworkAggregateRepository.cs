@@ -11,36 +11,56 @@ namespace Lily.Core.Infrastructure.Persistence.EntityFramework
 {
     public class EntityFrameworkAggregateRepository<T> : IAggregateRepository<T> where T : class, IAggregate
     {
-        private readonly DbContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbContext Context;
+        protected readonly DbSet<T> DbSet;
         
         public EntityFrameworkAggregateRepository(DbContext context)
         {
-            _context = context;
-            _dbSet = context.Set<T>();
+            Context = context;
+            DbSet = context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll(string username)
+        public virtual IEnumerable<T> GetAll(string username, string includeProperties = "")
         {
-            return _dbSet.Where(e => e.Username == username);
+            IQueryable<T> query = DbSet;
+
+            query = query.Where(e => e.Username == username);
+
+            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
+                query = query.Include(includeProperty);
+            }
+
+            return query.ToList();
         }
 
-        public IEnumerable<T> Get(string username, Expression<Func<T, bool>> predicate)
+        public virtual IEnumerable<T> Get(string username, Expression<Func<T, bool>> predicate, string includeProperties = "")
         {
-            return _dbSet.Where(e => e.Username == username).Where(predicate);
+            IQueryable<T> query = DbSet;
+
+            query = query.Where(e => e.Username == username);
+
+            if (predicate != null) {
+                query = query.Where(predicate);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
+                query = query.Include(includeProperty);
+            }
+
+            return query.ToList();
         }
 
-        public T GetById(string username, int id)
+        public virtual T GetById(string username, int id, string includeProperties = "")
         {
-            return Get(username, a => a.Id == id).SingleOrDefault();
+            return Get(username, a => a.Id == id, includeProperties).SingleOrDefault();
         }
 
-        public void InsertOrUpdate(string username, T aggregate)
+        public virtual void InsertOrUpdate(string username, T aggregate)
         {
             if (aggregate.Id == 0)
             {
-                _dbSet.Add(aggregate);
-                _context.SaveChanges();
+                DbSet.Add(aggregate);
+                Context.SaveChanges();
             }
             else
             {
@@ -49,8 +69,8 @@ namespace Lily.Core.Infrastructure.Persistence.EntityFramework
                 if (existingAggregate != null)
                 {
                     if (existingAggregate.Username != username) throw new SecurityException("User not authorized to update entity");
-                    _context.Entry(aggregate).State = EntityState.Modified;
-                    _context.SaveChanges();
+                    Context.Entry(aggregate).State = EntityState.Modified;
+                    Context.SaveChanges();
                 }
                 else
                 {
@@ -59,28 +79,38 @@ namespace Lily.Core.Infrastructure.Persistence.EntityFramework
             }
         }
 
-        public void Delete(string username, T aggregate)
+        public virtual void Delete(string username, T aggregate)
         {
             DeleteById(username, aggregate.Id);
         }
 
-        public void DeleteById(string username, int id)
+        public virtual void DeleteById(string username, int id)
         {
             var existingAggregate = GetById(username, id);
 
             if (existingAggregate == null) return;
 
-            if (_context.Entry(existingAggregate).State == EntityState.Detached) _dbSet.Attach(existingAggregate);
+            if (Context.Entry(existingAggregate).State == EntityState.Detached) DbSet.Attach(existingAggregate);
 
-            _dbSet.Remove(existingAggregate);
-            _context.SaveChanges();
+            DbSet.Remove(existingAggregate);
+            Context.SaveChanges();
         }
 
 
 
-        protected IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
+        protected IEnumerable<T> Get(Expression<Func<T, bool>> predicate, string includeProperties = "")
         {
-            return _dbSet.Where(predicate);
+            IQueryable<T> query = DbSet;
+
+            if (predicate != null) {
+                query = query.Where(predicate);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
+                query = query.Include(includeProperty);
+            }
+
+            return query.ToList();
         }
     }
 }

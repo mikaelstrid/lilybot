@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using Lily.Core.Application;
 using Lily.ShoppingList.Domain;
+// ReSharper disable PossibleMultipleEnumeration
 
 namespace Lily.ShoppingList.Api.Controllers
 {
@@ -21,7 +23,9 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            return Ok(_repository.GetAll(Username));
+            var allProducts = _repository.GetAll(Username);
+            var allProductDtos = DefaultMapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(allProducts);
+            return Ok(allProductDtos);
         }
 
         [HttpGet]

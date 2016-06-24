@@ -5,19 +5,34 @@ namespace Lily.ShoppingList.Domain
 {
     public class Store : AggregateRoot
     {
-        public Store(string username) : base(username) { }
-        
+        internal Store()
+        {
+            Sections = new List<StoreSection>();
+            IgnoredProducts = new List<Product>();
+        }
+
+        public Store(string username) : base(username)
+        {
+            Sections = new List<StoreSection>();
+            IgnoredProducts = new List<Product>();
+        }
+
         public string Name { get; set; }
 
         public virtual IList<StoreSection> Sections { get; set; }
 
-        public virtual StoreSection IgnoredProducts { get; set; }
+        public virtual ICollection<Product> IgnoredProducts { get; set; }
     }
 
     public class StoreSection : Entity<int>
     {
-        public string Name { get; set; }
+        public StoreSection()
+        {
+            Products = new List<Product>();
+        }
 
-        public IList<Product> Products { get; set; }
+        public string Name { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+        public int Order { get; set; }
     }
 }
