@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using Lily.Core.Domain.Model;
 using Lily.ShoppingList.Domain;
 
 namespace Lily.ShoppingList.Infrastructure
@@ -10,6 +11,7 @@ namespace Lily.ShoppingList.Infrastructure
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<Event> Events { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -25,6 +27,12 @@ namespace Lily.ShoppingList.Infrastructure
                 .Map(t => t.MapLeftKey("StoreId")
                     .MapRightKey("ProductId")
                     .ToTable("IgnoredProducts"));
+
+            //modelBuilder.Ignore<AddItemToListEvent>();
+            //modelBuilder.Ignore<MarkItemAsDoneEvent>();
+            //modelBuilder.Ignore<ReAddItemToListEvent>();
+            //modelBuilder.Ignore<RemoveItemFromListEvent>();
+            //modelBuilder.Ignore<SetCommentEvent>();
         }
     }
 }

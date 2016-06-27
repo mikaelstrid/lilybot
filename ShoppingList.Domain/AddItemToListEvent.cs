@@ -1,17 +1,31 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Lily.Core.Domain.Model;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Lily.ShoppingList.Domain
 {
-    [Serializable]
+    [NotMapped]
     public class AddItemToListEvent : Event, IImuttable
     {
-        public AddItemToListEvent(string username) : base(username)
+        public AddItemToListEvent() { }
+
+        public AddItemToListEvent(Event baseEvent) : base(baseEvent) { }
+
+        public AddItemToListEvent(string username, int productId) : base(username)
         {
+            UpdatePayload(productId);
         }
 
-        [JsonProperty(PropertyName = "productId")]
-        public Guid ProductId { get; set; }
+        public int ProductId => JObject.Parse(Payload)["productId"].Value<int>();
+
+        private void UpdatePayload(int productId)
+        {
+            Payload = JObject.FromObject(
+                new
+                {
+                    productId
+                })
+                .ToString();
+        }
     }
 }

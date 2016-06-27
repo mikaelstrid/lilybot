@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Persistence\EntityFramework\EntityFrameworkEventRepository.cs" />
     <Compile Include="Persistence\EntityFramework\EntityFrameworkAggregateRepository.cs" />
     <Compile Include="Persistence\DocumetDb\DocumentDbAggregateRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

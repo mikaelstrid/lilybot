@@ -32,7 +32,9 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public IHttpActionResult Get(int id)
         {
-            return Ok(_repository.GetById(Username, id));
+            var product = _repository.GetById(Username, id);
+            var productDto = DefaultMapper.Map<ProductDto>(product);
+            return Ok(productDto);
         }
 
         [HttpPost]
@@ -41,7 +43,8 @@ namespace Lily.ShoppingList.Api.Controllers
         {
             var newProduct = new Product(Username) { Name = model.Name };
             _repository.InsertOrUpdate(Username, newProduct);
-            return Ok(newProduct);
+            var newProductDto = DefaultMapper.Map<ProductDto>(newProduct);
+            return Ok(newProductDto);
         }
 
         [HttpPut]
@@ -53,7 +56,8 @@ namespace Lily.ShoppingList.Api.Controllers
 
             product.Name = model.Name;
             _repository.InsertOrUpdate(Username, product);
-            return Ok(product);
+            var productDto = DefaultMapper.Map<ProductDto>(product);
+            return Ok(productDto);
         }
 
         [HttpDelete]
