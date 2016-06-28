@@ -36,9 +36,9 @@ namespace Lily.ShoppingList.Api.Controllers
 
             foreach (var @event in allEvents)
             {
-                if (@event is AddItemToListEvent)
+                if (@event is ItemAddedToListEvent)
                 {
-                    var addEvent = @event as AddItemToListEvent;
+                    var addEvent = @event as ItemAddedToListEvent;
                     items.Add(new GetItemApiModel
                     {
                         Id = addEvent.Id,
@@ -47,27 +47,27 @@ namespace Lily.ShoppingList.Api.Controllers
                         Active = true
                     });
                 }
-                else if (@event is RemoveItemFromListEvent)
+                else if (@event is ItemRemovedFromListEvent)
                 {
-                    var removeEvent = @event as RemoveItemFromListEvent;
+                    var removeEvent = @event as ItemRemovedFromListEvent;
                     var item = items.FirstOrDefault(i => i.Id == removeEvent.ItemId);
                     if (item != null) item.Active = false;
                 }
-                else if (@event is MarkItemAsDoneEvent)
+                else if (@event is ItemMarkedAsDoneEvent)
                 {
-                    var markAsDoneEvent = @event as MarkItemAsDoneEvent;
+                    var markAsDoneEvent = @event as ItemMarkedAsDoneEvent;
                     var item = items.FirstOrDefault(i => i.Id == markAsDoneEvent.ItemId);
                     if (item != null) item.Active = false;
                 }
-                else if (@event is SetCommentEvent)
+                else if (@event is CommentSetOnItemEvent)
                 {
-                    var setCommentEvent = @event as SetCommentEvent;
+                    var setCommentEvent = @event as CommentSetOnItemEvent;
                     var existingItem = items.FirstOrDefault(i => i.Id == setCommentEvent.ItemId);
                     if (existingItem != null) existingItem.Comment = setCommentEvent.Comment;
                 }
-                else if (@event is ReAddItemToListEvent)
+                else if (@event is ItemReaddedToListEvent)
                 {
-                    var reAddEvent = @event as ReAddItemToListEvent;
+                    var reAddEvent = @event as ItemReaddedToListEvent;
                     var item = items.FirstOrDefault(i => i.Id == reAddEvent.OldItemId);
                     if (item != null) item.Active = true;
                 }
@@ -80,7 +80,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody] AddItemApiModel model)
         {
-            var newEvent = new AddItemToListEvent(Username, model.ProductId);
+            var newEvent = new ItemAddedToListEvent(Username, model.ProductId);
             _eventRepository.Insert(Username, newEvent);
             return Ok(new GetItemApiModel
             {
@@ -94,7 +94,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("readd/{id}")]
         public IHttpActionResult PostReAdd(int id)
         {
-            var newEvent = new ReAddItemToListEvent(Username, id);
+            var newEvent = new ItemReaddedToListEvent(Username, id);
             _eventRepository.Insert(Username, newEvent);
             return Ok(newEvent);
         }
@@ -103,7 +103,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public IHttpActionResult Delete(int id)
         {
-            var newEvent = new RemoveItemFromListEvent(Username, id);
+            var newEvent = new ItemRemovedFromListEvent(Username, id);
             _eventRepository.Insert(Username, newEvent);
             return Ok(newEvent);
         }
@@ -112,7 +112,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("markasdone/{id}")]
         public IHttpActionResult PutMarkAsDone(int id)
         {
-            var newEvent = new MarkItemAsDoneEvent(Username, id);
+            var newEvent = new ItemMarkedAsDoneEvent(Username, id);
             _eventRepository.Insert(Username, newEvent);
             return Ok(newEvent);
         }
@@ -121,7 +121,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("comment/{id}")]
         public IHttpActionResult PutComment(int id, [FromBody] SetCommentModel model)
         {
-            var newEvent = new SetCommentEvent(Username, id, model.Comment);
+            var newEvent = new CommentSetOnItemEvent(Username, id, model.Comment);
             _eventRepository.Insert(Username, newEvent);
             return Ok();
         }

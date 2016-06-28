@@ -5,13 +5,13 @@ using Newtonsoft.Json.Linq;
 namespace Lily.ShoppingList.Domain.Events
 {
     [NotMapped]
-    public class RemoveItemFromListEvent : Event, IImuttable
+    public class ItemMarkedAsDoneEvent : Event, IImuttable
     {
-        public RemoveItemFromListEvent() { }
+        public ItemMarkedAsDoneEvent() { }
 
-        public RemoveItemFromListEvent(Event baseEvent) : base(baseEvent) { }
+        public ItemMarkedAsDoneEvent(Event baseEvent) : base(baseEvent) { }
 
-        public RemoveItemFromListEvent(string username, int itemId) : base(username)
+        public ItemMarkedAsDoneEvent(string username, int itemId) : base(username)
         {
             UpdatePayload(itemId);
         }
