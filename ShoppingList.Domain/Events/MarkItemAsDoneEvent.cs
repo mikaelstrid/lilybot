@@ -2,7 +2,7 @@
 using Lily.Core.Domain.Model;
 using Newtonsoft.Json.Linq;
 
-namespace Lily.ShoppingList.Domain
+namespace Lily.ShoppingList.Domain.Events
 {
     [NotMapped]
     public class MarkItemAsDoneEvent : Event, IImuttable

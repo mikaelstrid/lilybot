@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Http;
 using Lily.Core.Application;
 using Lily.ShoppingList.Domain;
+using Lily.ShoppingList.Domain.Events;
 
 namespace Lily.ShoppingList.Api.Controllers
 {
