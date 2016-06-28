@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ReAddItemToListEvent.cs" />
-    <Compile Include="SetCommentEvent.cs" />
-    <Compile Include="MarkItemAsDoneEvent.cs" />
-    <Compile Include="RemoveItemFromListEvent.cs" />
-    <Compile Include="AddItemToListEvent.cs" />
+    <Compile Include="Events\ReAddItemToListEvent.cs" />
+    <Compile Include="Events\SetCommentEvent.cs" />
+    <Compile Include="Events\MarkItemAsDoneEvent.cs" />
+    <Compile Include="Events\RemoveItemFromListEvent.cs" />
+    <Compile Include="Events\AddItemToListEvent.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Product.cs" />
