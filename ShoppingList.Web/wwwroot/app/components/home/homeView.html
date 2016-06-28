@@ -6,7 +6,7 @@
             <div ng-show="authData.isAuthorized">
                 <!-- DESKTOP MENU -->
                 <div hide-xs>
-                    <md-button aria-label="Handla" ng-click="goto('handla')">Handla</md-button>
+                    <md-button aria-label="Handla" ng-click="goto('valj-butik')">Handla</md-button>
                     <md-button aria-label="Planera" ng-click="goto('planera')">Planera</md-button>
                     <md-menu md-position-mode="target-right target" md-offset="-10 55">
                         <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
@@ -28,7 +28,7 @@
                         <md-icon>menu</md-icon>
                     </md-button>
                     <md-menu-content width="3">
-                        <md-menu-item><md-button ng-click="goto('handla')">Handla</md-button></md-menu-item>
+                        <md-menu-item><md-button ng-click="goto('valj-butik')">Handla</md-button></md-menu-item>
                         <md-menu-item><md-button ng-click="goto('planera')">Planera</md-button></md-menu-item>
                         <md-divider></md-divider>
                         <md-menu-item><md-button ng-disabled="true">Administrera</md-button></md-menu-item>

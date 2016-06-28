@@ -1,26 +1,16 @@
 ﻿<md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Till startsidan" href="/#!/">
-            <md-icon>home</md-icon>
+        <md-button class="md-icon-button" aria-label="Bakåt" href="/#!/valj-butik">
+            <md-icon>arrow_back</md-icon>
         </md-button>
         <h2>
             <span>Handla</span>
         </h2>
         <span flex></span>
-        <md-button aria-label="Ta bort" ng-if="selectedStore" ng-click="clearSelectedStore()">
-            Byt butik
-        </md-button>
     </div>
 </md-toolbar>
 
 <md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
-
-<md-list ng-if="!isLoading && !selectedStore">
-    <md-subheader class="md-primary">Välj butik</md-subheader>
-    <md-list-item ng-repeat="store in stores | orderBy:'name'" ng-click="selectStore(store)">
-        <p> {{ store.name }} </p>
-    </md-list-item>
-</md-list>
 
 <md-list ng-if="!isLoading && selectedStore">
     <div ng-repeat="section in selectedStore.sections">

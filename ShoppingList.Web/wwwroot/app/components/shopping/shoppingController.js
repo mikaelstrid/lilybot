@@ -5,29 +5,14 @@
         .module('myApp.shopping')
         .controller('ShoppingCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'storesService', 'itemsService', '$mdToast', '$q'];
+    controller.$inject = ['$scope', '$location', '$routeParams', 'storesService', 'itemsService', '$mdToast', '$q'];
 
-    function controller($scope, $location, storesService, itemsService, $mdToast, $q) {
+    function controller($scope, $location, $routeParams, storesService, itemsService, $mdToast, $q) {
 
         $scope.isLoading = true;
         $scope.isWorking = false;
-        $scope.stores = [];
         $scope.selectedStore = null;
         $scope.items = [];
-
-        $scope.selectStore = function (store) {
-            $scope.isWorking = true;
-            if (!store.isInitialized) {
-                _.forEach($scope.items, function(item) { addItemToStoreSection(store, item); });
-                store.isInitialized = true;
-            }
-            $scope.selectedStore = store;
-            $scope.isWorking = false;
-        }
-
-        $scope.clearSelectedStore = function() {
-            $scope.selectedStore = null;
-        }
 
         $scope.markItemAsDone = function(item) {
             $scope.isWorking = true;
@@ -81,7 +66,7 @@
                 .then(
                     function () {
                         $scope.items.push(item);
-                        addItemToStoreSection($scope.selectedStore, item);
+                        addItemToStoreSection(item);
                     },
                     function (error) {
                         showError('Lyckades inte lägga tillbaka varan i inköpslistan. :(', 'itemsService.reAdd', error);
@@ -91,11 +76,11 @@
                 });
         }
 
-        function addItemToStoreSection(store, item) {
-            _.forEach(store.sections,
+        function addItemToStoreSection(item) {
+            _.forEach($scope.selectedStore.sections,
                 function(section) {
                     section.items = section.items || [];
-                    if (_.some(section.productIds, function(i) { return i === item.productId; })) {
+                    if (_.some(section.products, ['id', item.productId])) {
                         section.items.push(item);
                         return false;
                     }
@@ -105,13 +90,13 @@
         
         // === INIT ===
         function activate() {
-            var getStoresPromise = storesService.getAll()
+            var getStorePromise = storesService.get($routeParams.id)
                 .then(
                     function(result) {
-                        $scope.stores = result.data;
+                        $scope.selectedStore = result.data;
                     },
                     function(error) {
-                        showError('Lyckades inte hämta några butiker. :(', 'storesService.getAll', error);
+                        showError('Lyckades inte hämta butiken. :(', 'storesService.get', error);
                     });
 
             var getItemsPromise = itemsService.getActive()
@@ -123,7 +108,15 @@
                         showError('Lyckades inte hämta några varor. :(', 'itemsService.getActive', error);
                     });
 
-            $q.all([getStoresPromise, getItemsPromise]).finally(function () { $scope.isLoading = false; });
+            $q.all([getStorePromise, getItemsPromise])
+                .then(function () {
+                    if ($scope.selectedStore) {
+                        _.forEach($scope.items, function(item) {
+                                addItemToStoreSection(item);
+                            });
+                    }
+                })
+                .finally(function () { $scope.isLoading = false; });
         }
 
         activate();
