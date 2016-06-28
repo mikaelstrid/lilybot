@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Lily.Core.Domain.Model;
 
 namespace Lily.ShoppingList.Domain
@@ -8,6 +9,8 @@ namespace Lily.ShoppingList.Domain
         internal Product() { }
         public Product(string username) : base(username) { }
         public string Name { get; set; }
+        public int Count { get; set; }
+        public DateTime CountUpdateTimestampUtc { get; set; }
         public virtual ICollection<StoreSection> StoreSections { get; set; }
         public virtual ICollection<Store> IgnoredInStores { get; set; }
     }

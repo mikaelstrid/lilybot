@@ -41,7 +41,12 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody] CreateOrUpdateProductApiModel model)
         {
-            var newProduct = new Product(Username) { Name = model.Name };
+            var newProduct = new Product(Username)
+            {
+                Name = model.Name,
+                Count = 0,
+                CountUpdateTimestampUtc = DateTime.UtcNow
+            };
             _repository.InsertOrUpdate(Username, newProduct);
             var newProductDto = DefaultMapper.Map<ProductDto>(newProduct);
             return Ok(newProductDto);
