@@ -26,31 +26,31 @@ namespace Lily.ShoppingList.Api.Controllers
             return Ok(newProfile);
         }
 
-        //[HttpPost]
-        //[Route("friends")]
-        //public IHttpActionResult PostFriend([FromBody] AddFriendApiModel model)
-        //{
-        //    var parentProfile = _repository.Get(User.Identity.Name, p => true).SingleOrDefault();
-        //    if (parentProfile == null) return BadRequest($"There is no profile for parent user {User.Identity.Name}.");
+        [HttpPost]
+        [Route("friends")]
+        public IHttpActionResult PostFriend([FromBody] AddFriendApiModel model)
+        {
+            var parentProfile = _repository.Get(User.Identity.Name, p => true).SingleOrDefault();
+            if (parentProfile == null) return BadRequest($"There is no profile for parent user {User.Identity.Name}.");
 
-        //    parentProfile.Friends += model.FriendUsername + ";";
-        //    _repository.Add(User.Identity.Name, parentProfile);
-        //    return Ok();
-        //}
+            parentProfile.Friends += model.FriendUsername + ";";
+            _repository.InsertOrUpdate(User.Identity.Name, parentProfile);
+            return Ok();
+        }
 
-        //[HttpDelete]
-        //[Route("friends/{username}")]
-        //public IHttpActionResult DeleteFriend(string username)
-        //{
-        //    var parentProfile = _repository.Get(User.Identity.Name, p => true).SingleOrDefault();
-        //    if (parentProfile == null) return BadRequest($"There is no profile for parent user {User.Identity.Name}.");
+        [HttpDelete]
+        [Route("friends/{username}")]
+        public IHttpActionResult DeleteFriend(string username)
+        {
+            var parentProfile = _repository.Get(User.Identity.Name, p => true).SingleOrDefault();
+            if (parentProfile == null) return BadRequest($"There is no profile for parent user {User.Identity.Name}.");
 
-        //    if (!parentProfile.Friends.Contains(username)) return BadRequest($"No friend profile {username} found.");
+            if (!parentProfile.Friends.Contains(username)) return BadRequest($"No friend profile {username} found.");
 
-        //    parentProfile.Friends = parentProfile.Friends.Replace(username + ";", "");
-        //    _repository.Update(User.Identity.Name, parentProfile);
-        //    return Ok();
-        //}
+            parentProfile.Friends = parentProfile.Friends.Replace(username + ";", "");
+            _repository.InsertOrUpdate(User.Identity.Name, parentProfile);
+            return Ok();
+        }
     }
 
     public class AddFriendApiModel

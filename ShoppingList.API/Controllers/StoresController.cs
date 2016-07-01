@@ -38,7 +38,7 @@ namespace Lily.ShoppingList.Api.Controllers
         [Route("{id}")]
         public IHttpActionResult Get(int id)
         {
-            var store = _storeRepository.GetById(Username, id, "Sections.Products");
+            var store = _storeRepository.GetById(Username, id, "Sections.Products,IgnoredProducts");
             if (store == null) return NotFound();
             store.Sections = store.Sections.OrderBy(s => s.Order).ToList();
             var storeDto = DefaultMapper.Map<StoreDto>(store);

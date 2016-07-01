@@ -30,7 +30,7 @@
                 <md-card-content>
                     <md-menu ng-repeat="product in section.products | orderBy:'name'">
                         <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
-                        <md-menu-content>
+                        <md-menu-content width="3">
                             <md-menu-item ng-repeat="toSection in store.sections">
                                 <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
                             </md-menu-item>

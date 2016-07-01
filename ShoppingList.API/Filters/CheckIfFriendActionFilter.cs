@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Autofac.Integration.WebApi;
 using Lily.ShoppingList.Application;
+using Lily.ShoppingList.Domain;
 
 namespace Lily.ShoppingList.API.Filters
 {
@@ -18,7 +21,15 @@ namespace Lily.ShoppingList.API.Filters
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             var username = actionContext.RequestContext.Principal.Identity.Name;
-            var friend = Task.Run(() => _repository.GetFriend(username)).Result;
+            if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException($"The user with username '{username}' is not authenticted.");
+
+            var existingProfile = _repository.Get(username, p => true).SingleOrDefault();
+            if (existingProfile == null)
+            {
+                _repository.InsertOrUpdate(username, new Profile(username));
+            } 
+
+            var friend = _repository.GetFriend(username);
             actionContext.Request.Properties["username"] = friend?.Username ?? username;
             base.OnActionExecuting(actionContext);
         }
