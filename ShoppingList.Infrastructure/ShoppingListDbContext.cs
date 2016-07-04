@@ -27,12 +27,6 @@ namespace Lily.ShoppingList.Infrastructure
                 .Map(t => t.MapLeftKey("StoreId")
                     .MapRightKey("ProductId")
                     .ToTable("IgnoredProducts"));
-
-            //modelBuilder.Ignore<AddItemToListEvent>();
-            //modelBuilder.Ignore<MarkItemAsDoneEvent>();
-            //modelBuilder.Ignore<ReAddItemToListEvent>();
-            //modelBuilder.Ignore<RemoveItemFromListEvent>();
-            //modelBuilder.Ignore<SetCommentEvent>();
         }
     }
 }

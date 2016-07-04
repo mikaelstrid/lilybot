@@ -228,7 +228,7 @@ namespace Lily.Authentication.API.Controllers
 
         private static JObject GenerateLocalAccessTokenResponse(string userName)
         {
-            var tokenExpiration = TimeSpan.FromDays(1);
+            var tokenExpiration = TimeSpan.FromDays(30);
 
             var claimsIdentity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
             claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, userName));

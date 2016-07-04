@@ -120,7 +120,7 @@
             var receivedProducts = null;
             var receivedItems = null;
 
-            var getProductsPromise = productsService.getAll()
+            var getProductsPromise = productsService.getTop(20)
                 .then(
                     function(result) {
                         receivedProducts = result.data;

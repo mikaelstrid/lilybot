@@ -13,6 +13,7 @@
 
         var service = {
             getAll: getAll,
+            getTop: getTop,
             add: add,
             rename: rename,
             remove: remove,
@@ -24,6 +25,10 @@
 
         function getAll() {
             return $http.get(serviceBase + pathBase);
+        }
+
+        function getTop(count) {
+            return $http.get(serviceBase + pathBase + '/top/' + count);
         }
 
         function add(name) {

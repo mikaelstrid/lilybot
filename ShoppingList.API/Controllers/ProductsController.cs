@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using Lily.Core.Application;
 using Lily.ShoppingList.Domain;
@@ -37,6 +38,15 @@ namespace Lily.ShoppingList.Api.Controllers
             return Ok(productDto);
         }
 
+        [HttpGet]
+        [Route("top/{count}")]
+        public IHttpActionResult GetTop(int count)
+        {
+            var topProducts = _repository.Get(Username, orderBy: q => q.OrderByDescending(p => p.Count), count: count);
+            var allProductDtos = DefaultMapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(topProducts);
+            return Ok(allProductDtos);
+        }
+        
         [HttpPost]
         [Route("")]
         public IHttpActionResult Post([FromBody] CreateOrUpdateProductApiModel model)

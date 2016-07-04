@@ -33,7 +33,12 @@ namespace Lily.Core.Infrastructure.Persistence.EntityFramework
             return query.ToList();
         }
 
-        public virtual IEnumerable<T> Get(string username, Expression<Func<T, bool>> predicate, string includeProperties = "")
+        public virtual IEnumerable<T> Get(
+            string username, 
+            Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            int? count = null,
+            string includeProperties = "")
         {
             IQueryable<T> query = DbSet;
 
@@ -47,12 +52,22 @@ namespace Lily.Core.Infrastructure.Persistence.EntityFramework
                 query = query.Include(includeProperty);
             }
 
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (count.HasValue)
+            {
+                query = query.Take(count.Value);
+            }
+
             return query.ToList();
         }
 
         public virtual T GetById(string username, int id, string includeProperties = "")
         {
-            return Get(username, a => a.Id == id, includeProperties).SingleOrDefault();
+            return Get(username, a => a.Id == id, includeProperties: includeProperties).SingleOrDefault();
         }
 
         public virtual void InsertOrUpdate(string username, T aggregate)
