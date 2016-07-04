@@ -7,6 +7,7 @@
             <span>{{store.name}}</span>
         </h2>
         <span flex></span>
+        <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent"></md-progress-circular>
         <md-button aria-label="Ta bort" ng-click="showRenameDialog($event)">
             Ändra namn
         </md-button>
@@ -15,8 +16,6 @@
         </md-button>
     </div>
 </md-toolbar>
-
-<md-progress-circular ng-if="isLoading || isWorking" md-mode="indeterminate"></md-progress-circular>
 
 <section ng-if="!isLoading">
     <md-content class="md-padding" layout-xs="column" layout="row">

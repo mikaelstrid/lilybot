@@ -7,10 +7,9 @@
             <span>Butiker</span>
         </h2>
         <span flex></span>
+        <md-progress-circular ng-if="isLoading" md-mode="indeterminate" class="md-accent"></md-progress-circular>
     </div>
 </md-toolbar>
-
-<md-progress-circular ng-if="isLoading" md-mode="indeterminate"></md-progress-circular>
 
 <md-list ng-if="!isLoading">
     <md-subheader class="md-no-sticky">Välj butik...</md-subheader>
