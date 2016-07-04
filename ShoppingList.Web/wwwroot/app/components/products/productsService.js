@@ -14,9 +14,10 @@
         var service = {
             getAll: getAll,
             getTop: getTop,
+            search: search,
             add: add,
             rename: rename,
-            remove: remove,
+            remove: remove
         };
 
         return service;
@@ -29,6 +30,10 @@
 
         function getTop(count) {
             return $http.get(serviceBase + pathBase + '/top/' + count);
+        }
+
+        function search(query) {
+            return $http.get(serviceBase + pathBase + '/search?q=' + query);
         }
 
         function add(name) {

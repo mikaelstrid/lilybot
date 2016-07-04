@@ -14,6 +14,17 @@
         $scope.products = [];
         $scope.items = [];
 
+        $scope.searchText = '';
+        $scope.selectedItem = null;
+
+        $scope.querySearch = function (query) {
+            console.log(query);
+            return productsService.search(query)
+                .then(function(result) {
+                    return result.data;
+                });
+        }
+
         $scope.addItemToList = function (product) {
             $scope.isWorking = true;
             itemsService.add(product.id)

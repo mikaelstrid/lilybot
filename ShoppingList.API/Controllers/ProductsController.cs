@@ -46,6 +46,18 @@ namespace Lily.ShoppingList.Api.Controllers
             var allProductDtos = DefaultMapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(topProducts);
             return Ok(allProductDtos);
         }
+
+        [HttpGet]
+        [Route("search")]
+        public IHttpActionResult GetSearch(string q)
+        {
+            var matchingProducts = _repository.Get(
+                Username,
+                predicate: p => p.Name.ToLower().Contains(q.ToLower()),
+                orderBy: o => o.OrderByDescending(p => p.Count));
+            var matchingProductDtos = DefaultMapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(matchingProducts);
+            return Ok(matchingProductDtos);
+        }
         
         [HttpPost]
         [Route("")]

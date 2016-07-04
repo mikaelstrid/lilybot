@@ -15,6 +15,15 @@
     <md-content layout-padding layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="50">
             <h2 class="md-title">Produkter</h2>
+            <md-autocomplete placeholder="Sök..." md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name">
+                <md-item-template>
+                    <span md-highlight-text="searchText">{{item.name}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No matches found.
+                </md-not-found>
+            </md-autocomplete>
+            <h4>De 20 vanligaste</h4>
             <md-button class="md-raised" ng-repeat="product in products" ng-show="!product.hidden" ng-click="addItemToList(product)">{{product.name}}</md-button>
         </div>
         <div flex-xs flex-gt-xs="50">
