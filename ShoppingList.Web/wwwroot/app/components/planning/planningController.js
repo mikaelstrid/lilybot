@@ -5,59 +5,70 @@
         .module('myApp.planning')
         .controller('PlanningCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'productsService', 'itemsService', '$mdDialog', '$mdToast', '$q'];
+    controller.$inject = ['$location', 'productsService', 'itemsService', '$mdDialog', '$mdToast', '$q'];
 
-    function controller($scope, $location, productsService, itemsService, $mdDialog, $mdToast, $q) {
+    function controller($location, productsService, itemsService, $mdDialog, $mdToast, $q) {
+        var self = this;
 
-        $scope.isLoading = true;
-        $scope.isWorking = false;
-        $scope.products = [];
-        $scope.items = [];
+        self.isLoading = true;
+        self.isWorking = false;
+        self.products = [];
+        self.items = [];
 
-        $scope.searchText = '';
-        $scope.selectedItem = null;
+        self.searchText = null;
+        self.selectedItem = null;
 
-        $scope.querySearch = function (query) {
-            console.log(query);
+        self.querySearch = function (query) {
             return productsService.search(query)
-                .then(function(result) {
-                    return result.data;
+                .then(function (result) {
+                    return _.filter(result.data, function (p) {
+                        console.log(p.Id);
+                        return !_.some(self.items, ['productId', p.id]);
+                    });
                 });
         }
 
-        $scope.addItemToList = function (product) {
-            $scope.isWorking = true;
+        self.autocompleteSelectedItemChanged = function (item) {
+            if (!item) return;
+            self.searchText = null;
+            self.addItemToList(item);
+        }
+
+        self.addItemToList = function (product) {
+            self.isWorking = true;
             itemsService.add(product.id)
                 .then(
                     function(result) {
-                        _.find($scope.products, function (p) { return p.id === product.id; }).hidden = true;
-                        $scope.items.push({ id: result.data.id, productId: product.id, productName: product.name });
+                        var productInTop20 = _.find(self.products, function (p) { return p.id === product.id; });
+                        if (productInTop20) productInTop20.hidden = true;
+                        self.items.push({ id: result.data.id, productId: product.id, productName: product.name });
                     },
                     function(error) {
                         showError('Lyckades inte lägga till produkten i inköpslistan. :(', 'itemsService.add', error);
                     })
                 .finally(function() {
-                    $scope.isWorking = false;
+                    self.isWorking = false;
                 });
         }
 
-        $scope.removeFromList = function(item) {
-            $scope.isWorking = true;
+        self.removeFromList = function(item) {
+            self.isWorking = true;
             itemsService.remove(item.id)
                 .then(
                     function() {
-                        _.remove($scope.items, function(i) { return i.id === item.id; });
-                        _.find($scope.products, function (p) { return p.id === item.productId; }).hidden = false;
+                        _.remove(self.items, function (i) { return i.id === item.id; });
+                        var top20Product = _.find(self.products, function (p) { return p.id === item.productId; });
+                        if (top20Product) top20Product.hidden = false;
                     },
                     function(error) {
                         showError('Lyckades inte ta bort varan från listan. :(', 'itemsService.remove', error);
                     })
                 .finally(function() {
-                    $scope.isWorking = false;
+                    self.isWorking = false;
                 });
         }
 
-        $scope.showCommentDialog = function (ev, item) {
+        self.showCommentDialog = function (ev, item) {
             var confirm = $mdDialog.prompt()
                 .title('Fyll i en kommentar om varan.')
                 .placeholder(item.comment)
@@ -66,7 +77,7 @@
                 .ok('OK')
                 .cancel('Avbryt');
             $mdDialog.show(confirm).then(function (dialogResult) {
-                $scope.isWorking = true;
+                self.isWorking = true;
                 itemsService.setComment(item.id, dialogResult)
                     .then(
                         function(result) {
@@ -75,11 +86,11 @@
                         function(error) {
                             showError('Lyckades inte spara kommentaren. :(', 'itemsService.setComment', error);
                         })
-                    .finally(function() { $scope.isWorking = false; });
+                    .finally(function() { self.isWorking = false; });
             });
         };
         
-        $scope.showAddNewProductDialog = function (ev) {
+        self.showAddNewProductDialog = function (ev) {
             var confirm = $mdDialog.prompt()
                   .title('Vad ska den nya produkten heta?')
                   .placeholder('fyll i ett namn')
@@ -88,17 +99,17 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function (dialogResult) {
-                $scope.isWorking = true;
+                self.isWorking = true;
                 productsService.add(dialogResult)
                     .then(
                         function(result) {
-                            $scope.products.push(result.data);
+                            self.products.push(result.data);
                         },
                         function(error) {
                             showError('Lyckades inte spara den nya produkten. :(', 'productsService.add', error);
                         })
                     .finally(function() {
-                        $scope.isWorking = false;
+                        self.isWorking = false;
                     });
             });
         };
@@ -112,29 +123,30 @@
         }
 
         function populateProductsAndItems(products, items) {
-            _(products).forEach(function(product) {
-                var existingItem = _.find(items, function (i) { return i.productId === product.id; });
-                product.hidden = !!existingItem;
-                if (existingItem) {
-                    $scope.items.push(existingItem);
-                    $scope.products.push(product);
-                } else {
-                    $scope.products.push(product);
-                }
-            });
+            _(products)
+                .forEach(function(product) {
+                    var existingItem = _.find(items, function(i) { return i.productId === product.id; });
+                    product.hidden = !!existingItem;
+                    self.products.push(product);
+                });
+
+            _(items)
+                .forEach(function(item) {
+                    self.items.push(item);
+                });
         }
 
 
         
         // === INIT ===
         function activate() {
-            var receivedProducts = null;
+            var receivedTop20Products = null;
             var receivedItems = null;
 
             var getProductsPromise = productsService.getTop(20)
                 .then(
                     function(result) {
-                        receivedProducts = result.data;
+                        receivedTop20Products = result.data;
                     },
                     function(error) {
                         showError('Lyckades inte hämta några produkter. :(', 'productsService.getAll', error);
@@ -150,10 +162,10 @@
                     });
 
             $q.all([getProductsPromise, getItemsPromise]).then(function () {
-                if (receivedProducts && receivedItems)
-                    populateProductsAndItems(receivedProducts, receivedItems);
+                if (receivedTop20Products && receivedItems)
+                    populateProductsAndItems(receivedTop20Products, receivedItems);
             }).finally(function () {
-                $scope.isLoading = false;
+                self.isLoading = false;
             });
         }
 

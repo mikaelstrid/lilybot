@@ -7,36 +7,43 @@
             <span>Planera</span>
         </h2>
         <span flex></span>
-        <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent"></md-progress-circular>
+        <md-progress-circular ng-show="vm.isLoading || vm.isWorking" md-mode="indeterminate" class="md-accent"></md-progress-circular>
     </div>
 </md-toolbar>
 
-<section ng-if="!isLoading">
+<section ng-if="!vm.isLoading">
     <md-content layout-padding layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="50">
             <h2 class="md-title">Produkter</h2>
-            <md-autocomplete placeholder="Sök..." md-selected-item="selectedItem" md-search-text="searchText" md-items="item in querySearch(searchText)" md-item-text="item.name">
+            <md-autocomplete
+                placeholder="Sök..."
+                md-selected-item="vm.selectedItem"
+                md-selected-item-change="vm.autocompleteSelectedItemChanged(item)"
+                md-search-text="vm.searchText"
+                md-items="item in vm.querySearch(vm.searchText)"
+                md-item-text="item.name"
+                md-no-cache="true">
                 <md-item-template>
-                    <span md-highlight-text="searchText">{{item.name}}</span>
+                    <span>{{item.name}}</span>
                 </md-item-template>
                 <md-not-found>
-                    No matches found.
+                    Inga träffar hittade.
                 </md-not-found>
             </md-autocomplete>
             <h4>De 20 vanligaste</h4>
-            <md-button class="md-raised" ng-repeat="product in products" ng-show="!product.hidden" ng-click="addItemToList(product)">{{product.name}}</md-button>
+            <md-button class="md-raised" ng-repeat="product in vm.products" ng-show="!product.hidden" ng-click="vm.addItemToList(product)">{{product.name}}</md-button>
         </div>
         <div flex-xs flex-gt-xs="50">
             <h2 class="md-title">Inköpslistan</h2>
-            <md-menu ng-repeat="item in items | orderBy:'productName'">
+            <md-menu ng-repeat="item in vm.items | orderBy:'productName'">
                 <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{item.productName + (item.comment ? '*' : '')}}</md-button>
                 <md-menu-content>
                     <md-menu-item>
-                        <md-button ng-click="showCommentDialog($event, item)">Kommentar</md-button>
+                        <md-button ng-click="vm.showCommentDialog($event, item)">Kommentar</md-button>
                     </md-menu-item>
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item>
-                        <md-button ng-click="removeFromList(item)">Ta bort</md-button>
+                        <md-button ng-click="vm.removeFromList(item)">Ta bort</md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
@@ -44,6 +51,6 @@
     </md-content>
 </section>
 
-<md-button class="md-fab bottom-right" ng-click="showAddNewProductDialog($event)" aria-label="Lägg till produkt">
+<md-button class="md-fab bottom-right" ng-click="vm.showAddNewProductDialog($event)" aria-label="Lägg till produkt">
     <md-icon>add</md-icon>
 </md-button>
