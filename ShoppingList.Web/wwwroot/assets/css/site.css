@@ -35,8 +35,18 @@
     max-width: 1200px;
     margin: 0 auto; }
 
-md-toolbar.toolbar-transparent {
-  background-color: transparent; }
+md-toolbar {
+  color: #fafafa !important; }
+  md-toolbar md-icon, md-toolbar .md-button {
+    color: #fafafa !important; }
+  md-toolbar.toolbar-transparent {
+    background-color: transparent; }
+
+.md-button.md-fab md-icon {
+  color: #fafafa !important; }
+
+.md-button.md-primary.md-raised {
+  color: #fafafa !important; }
 
 .md-button.facebook {
   color: #fafafa;

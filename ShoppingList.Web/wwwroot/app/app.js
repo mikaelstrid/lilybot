@@ -15,9 +15,13 @@ var app = angular.module('myApp',
     'myApp.shopping'
 ]);
 
-app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
+app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', function ($locationProvider, $routeProvider, $mdThemingProvider) {
     $locationProvider.hashPrefix('!');
     $routeProvider.otherwise({ redirectTo: '/' });
+
+    $mdThemingProvider.theme('default')
+        .primaryPalette('amber')
+        .accentPalette('deep-orange');
 }]);
 
 app.constant('appSettings', {
