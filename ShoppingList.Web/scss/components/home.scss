@@ -2,53 +2,39 @@
 
 .page.home {
     position: relative;
+    min-height: 100vh;
 
-    md-toolbar {
-        position: absolute;
+    .brand {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        color: $white;
+        text-align: center;
 
-        .brand {
-            font-family: 'Lora', serif;
-            font-style: italic;
+        .material-icons {
+            color: $white !important;
+            border: 1px solid $white;
+            padding: 10px;
+            font-size: 40px;
+            padding: 20px;
+            border-radius: 60px;
         }
     }
 
-    .hero {
-        height: 80vh;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.6)), url('../img/apple-1034301.jpg');
-        background-size: cover;
-        background-position: center center;
-        font-family: 'Lora', serif;
-        font-style: italic;
+    .login-box {
+        background-color: $white;
+        text-align: center;
 
-        h1 {
+        .md-button.facebook {
             color: $white;
-            font-weight: 400;
-            font-size: 4rem;
-            line-height: 1em;
-            text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            margin: 0;
+            background-color: $facebook-blue-medium;
+            padding: 6px 24px;
 
-            @media (min-width: 400px) {
-                font-size: 5rem;
+            &:not([disabled]) {
+                &:hover, &:active, &:focus {
+                    color: $white;
+                    background-color: $facebook-blue;
+                }
             }
         }
-
-        p {
-            color: $white;
-            font-size: 2rem;
-            text-align: center;
-            text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-            margin: 20px 0;
-        }
-
-        .md-button.cta {
-            padding: 0.5rem 1.25rem;
-        }
-    }
-
-    .how-it-works {
-        max-width: $main-column-width;
-        margin: 0 auto;
     }
 }

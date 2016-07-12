@@ -20,8 +20,10 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
     $routeProvider.otherwise({ redirectTo: '/' });
 
     $mdThemingProvider.theme('default')
-        .primaryPalette('amber')
-        .accentPalette('deep-orange');
+        .primaryPalette('orange')
+        .accentPalette('pink');
+        //.backgroundPalette('')
+        //.dark();
 }]);
 
 app.constant('appSettings', {

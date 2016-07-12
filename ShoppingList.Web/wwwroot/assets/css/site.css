@@ -1,65 +1,31 @@
 .page.home {
-  position: relative; }
-  .page.home md-toolbar {
-    position: absolute; }
-    .page.home md-toolbar .brand {
-      font-family: 'Lora', serif;
-      font-style: italic; }
-  .page.home .hero {
-    height: 80vh;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.6)), url("../img/apple-1034301.jpg");
-    background-size: cover;
-    background-position: center center;
-    font-family: 'Lora', serif;
-    font-style: italic; }
-    .page.home .hero h1 {
-      color: #fafafa;
-      font-weight: 400;
-      font-size: 4rem;
-      line-height: 1em;
-      text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-      text-align: center;
-      margin: 0; }
-      @media (min-width: 400px) {
-        .page.home .hero h1 {
-          font-size: 5rem; } }
-    .page.home .hero p {
-      color: #fafafa;
-      font-size: 2rem;
-      text-align: center;
-      text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-      margin: 20px 0; }
-    .page.home .hero .md-button.cta {
-      padding: 0.5rem 1.25rem; }
-  .page.home .how-it-works {
-    max-width: 1200px;
-    margin: 0 auto; }
-
-md-toolbar {
-  color: #fafafa !important; }
-  md-toolbar md-icon, md-toolbar .md-button {
-    color: #fafafa !important; }
-  md-toolbar.toolbar-transparent {
-    background-color: transparent; }
-
-.md-button.md-fab md-icon {
-  color: #fafafa !important; }
-
-.md-button.md-primary.md-raised {
-  color: #fafafa !important; }
-
-.md-button.facebook {
-  color: #fafafa;
-  background-color: #4267b2; }
-  .md-button.facebook:not([disabled]):hover, .md-button.facebook:not([disabled]):active, .md-button.facebook:not([disabled]):focus {
+  position: relative;
+  min-height: 100vh; }
+  .page.home .brand {
+    margin-top: 50px;
+    margin-bottom: 30px;
     color: #fafafa;
-    background-color: #3b5899; }
-  .md-button.facebook.md-raised {
-    color: #fafafa;
-    background-color: #4267b2; }
-    .md-button.facebook.md-raised:not([disabled]):hover, .md-button.facebook.md-raised:not([disabled]):active, .md-button.facebook.md-raised:not([disabled]):focus {
+    text-align: center; }
+    .page.home .brand .material-icons {
+      color: #fafafa !important;
+      border: 1px solid #fafafa;
+      padding: 10px;
+      font-size: 40px;
+      padding: 20px;
+      border-radius: 60px; }
+  .page.home .login-box {
+    background-color: #fafafa;
+    text-align: center; }
+    .page.home .login-box .md-button.facebook {
       color: #fafafa;
-      background-color: #3b5899; }
+      background-color: #4267b2;
+      padding: 6px 24px; }
+      .page.home .login-box .md-button.facebook:not([disabled]):hover, .page.home .login-box .md-button.facebook:not([disabled]):active, .page.home .login-box .md-button.facebook:not([disabled]):focus {
+        color: #fafafa;
+        background-color: #3b5899; }
+
+md-toolbar.toolbar-transparent {
+  background-color: transparent; }
 
 .bottom-right {
   position: fixed;

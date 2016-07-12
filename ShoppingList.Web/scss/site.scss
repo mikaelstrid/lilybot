@@ -2,46 +2,8 @@
 @import 'components/home.scss';
 
 md-toolbar {
-    color: $white !important;
-
-    md-icon, .md-button {
-        color: $white !important;
-    }
-
     &.toolbar-transparent {
         background-color: transparent;
-    }
-}
-
-.md-button.md-fab md-icon {
-    color: $white !important;
-}
-
-.md-button.md-primary.md-raised {
-    color: $white !important;
-}
-
-.md-button.facebook {
-    color: $white;
-    background-color: $facebook-blue-medium;
-
-    &:not([disabled]) {
-        &:hover, &:active, &:focus {
-            color: $white;
-            background-color: $facebook-blue;
-        }
-    }
-
-    &.md-raised {
-        color: $white;
-        background-color: $facebook-blue-medium;
-
-        &:not([disabled]) {
-            &:hover, &:active, &:focus {
-                color: $white;
-                background-color: $facebook-blue;
-            }
-        }
     }
 }
 
