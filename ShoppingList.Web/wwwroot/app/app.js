@@ -1,7 +1,5 @@
 'use strict';
 
-//var app = angular.module('myApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
-
 var app = angular.module('myApp',
 [
     'ngMaterial',
@@ -19,11 +17,14 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
     $locationProvider.hashPrefix('!');
     $routeProvider.otherwise({ redirectTo: '/' });
 
+    var lightOrange = $mdThemingProvider.extendPalette('orange', {
+        'contrastDefaultColor': 'light'
+    });
+    $mdThemingProvider.definePalette('lightOrange', lightOrange);
+
     $mdThemingProvider.theme('default')
-        .primaryPalette('orange')
+        .primaryPalette('lightOrange')
         .accentPalette('pink');
-        //.backgroundPalette('')
-        //.dark();
 }]);
 
 app.constant('appSettings', {

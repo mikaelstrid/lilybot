@@ -22,6 +22,10 @@
             $scope.authData.isAuthorized = authService.authentication.isAuth;
         }
 
+        $scope.onProfileIconClicked = function () {
+            openSidenav();
+        }
+
         // === HELPERS ===
         function showError(messageToUser, failedMethodName, error) {
             if (error.status !== 401) {
