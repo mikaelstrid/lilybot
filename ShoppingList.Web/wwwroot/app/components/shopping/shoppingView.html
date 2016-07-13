@@ -7,13 +7,13 @@
             <span>Handla</span>
         </h2>
         <span flex></span>
-        <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent"></md-progress-circular>
+        <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent" md-diameter="25px"></md-progress-circular>
     </div>
 </md-toolbar>
 
 <md-list ng-if="!isLoading && selectedStore">
     <div ng-repeat="section in selectedStore.sections">
-        <md-subheader class="md-primary">{{ section.name }}</md-subheader>
+        <md-subheader class="md-accent">{{ section.name }}</md-subheader>
         <md-list-item ng-repeat="item in section.items | orderBy:'productName'" ng-click="markItemAsDone(item)">
             <p> {{ item.productName }} </p>
             <span>{{ item.comment }}</span>
