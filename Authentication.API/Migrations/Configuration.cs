@@ -31,7 +31,7 @@ namespace Lily.Authentication.API.Migrations
             {
                 new Client
                 {
-                    Id = "lily.shoppinglist",
+                    Id = "lilybot.shopping",
                     Secret = Helper.GetHash("abc@123"),
                     Name = "Shopping list front-end application",
                     ApplicationType = Models.ApplicationTypes.JavaScript,

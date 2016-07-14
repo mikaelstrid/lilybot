@@ -146,7 +146,7 @@
     <Content Include="App_Data\Produkter.csv" />
     <Content Include="App_Data\StoreSectionProducts.csv" />
     <Content Include="App_Data\StoreSections.csv" />
-    <None Include="Properties\PublishProfiles\LilyShoppingListAPI - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\lilybotshoppingapi - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

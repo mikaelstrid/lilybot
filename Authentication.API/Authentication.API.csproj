@@ -149,7 +149,7 @@
       <DependentUpon>lily-authentication-01.mdf</DependentUpon>
     </Content>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\LilyAuthenticationAPI - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\lilybotauthapi - Web Deploy.pubxml" />
     <None Include="Web.AzureProduction.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

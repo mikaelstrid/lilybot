@@ -37,7 +37,7 @@ namespace Lily.ShoppingList.Api.Controllers
             var migrationUsername = id?.ToString() ?? MIGRATION_USERNAME;
 
             var productParts = GetParts("Produkter.csv");
-            var products = productParts.Skip(1).Select(p =>
+            var products = productParts.Select(p =>
             {
                 var newProduct = new Product(migrationUsername)
                 {
