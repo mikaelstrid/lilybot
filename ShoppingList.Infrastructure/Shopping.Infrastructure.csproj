@@ -114,13 +114,13 @@
       <Project>{D3AA8FEA-A979-43D0-A237-F1E37B3A7674}</Project>
       <Name>Core.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShoppingList.Application\ShoppingList.Application.csproj">
+    <ProjectReference Include="..\ShoppingList.Application\Shopping.Application.csproj">
       <Project>{2497DA91-8B18-4FBC-80FC-B016F8F0766F}</Project>
-      <Name>ShoppingList.Application</Name>
+      <Name>Shopping.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShoppingList.Domain\ShoppingList.Domain.csproj">
+    <ProjectReference Include="..\ShoppingList.Domain\Shopping.Domain.csproj">
       <Project>{57C55DEE-DFAC-46F9-AB04-D6CC7D957F95}</Project>
-      <Name>ShoppingList.Domain</Name>
+      <Name>Shopping.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

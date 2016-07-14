@@ -53,9 +53,9 @@
       <Project>{7B3C3F9A-B02C-4FDC-A73C-4D5D6D239970}</Project>
       <Name>Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShoppingList.Domain\ShoppingList.Domain.csproj">
+    <ProjectReference Include="..\ShoppingList.Domain\Shopping.Domain.csproj">
       <Project>{57C55DEE-DFAC-46F9-AB04-D6CC7D957F95}</Project>
-      <Name>ShoppingList.Domain</Name>
+      <Name>Shopping.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
