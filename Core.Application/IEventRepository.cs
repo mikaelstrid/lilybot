@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Lily.Core.Domain.Model;
+using Lilybot.Core.Domain.Model;
 
-namespace Lily.Core.Application
+namespace Lilybot.Core.Application
 {
     public interface IEventRepository
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{2497DA91-8B18-4FBC-80FC-B016F8F0766F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lily.ShoppingList.Application</RootNamespace>
-    <AssemblyName>Lily.ShoppingList.Application</AssemblyName>
+    <RootNamespace>Lilybot.Shopping.Application</RootNamespace>
+    <AssemblyName>Lilybot.Shopping.Application</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

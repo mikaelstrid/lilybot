@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Lily.ShoppingList.Web
+namespace Lilybot.Shopping.Web
 {
     public class Program
     {

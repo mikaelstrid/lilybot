@@ -2,12 +2,13 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Security;
-using Lily.Core.Infrastructure.Persistence.EntityFramework;
-using Lily.ShoppingList.Application;
-using Lily.ShoppingList.Domain;
+using Lilybot.Core.Infrastructure.Persistence.EntityFramework;
+using Lilybot.Shopping.Application;
+using Lilybot.Shopping.Domain;
+
 // ReSharper disable SimplifyLinqExpression
 
-namespace Lily.ShoppingList.Infrastructure
+namespace Lilybot.Shopping.Infrastructure
 {
     public class EntityFrameworkStoreRepository : EntityFrameworkAggregateRepository<Store>, IStoreRepository
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{7B3C3F9A-B02C-4FDC-A73C-4D5D6D239970}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lily.Core.Domain</RootNamespace>
-    <AssemblyName>Lily.Core.Domain</AssemblyName>
+    <RootNamespace>Lilybot.Core.Domain</RootNamespace>
+    <AssemblyName>Lilybot.Core.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

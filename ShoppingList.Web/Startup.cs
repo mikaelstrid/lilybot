@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lily.ShoppingList.Web
+namespace Lilybot.Shopping.Web
 {
     public class Startup
     {

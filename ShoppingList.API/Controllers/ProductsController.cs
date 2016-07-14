@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using Lily.Core.Application;
-using Lily.ShoppingList.Domain;
+using Lilybot.Core.Application;
+using Lilybot.Shopping.Domain;
+
 // ReSharper disable PossibleMultipleEnumeration
 
-namespace Lily.ShoppingList.Api.Controllers
+namespace Lilybot.Shopping.API.Controllers
 {
     [Authorize]
     //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration

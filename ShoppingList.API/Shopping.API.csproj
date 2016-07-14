@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lily.ShoppingList.API</RootNamespace>
-    <AssemblyName>Lily.ShoppingList.API</AssemblyName>
+    <RootNamespace>Lilybot.Shopping.API</RootNamespace>
+    <AssemblyName>Lilybot.Shopping.API</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -166,7 +166,14 @@
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Filters\CheckIfFriendActionFilter.cs" />
+    <Compile Include="Migrations\201607140804576_Initial-Create.cs" />
+    <Compile Include="Migrations\201607140804576_Initial-Create.Designer.cs">
+      <DependentUpon>201607140804576_Initial-Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingDropCreateDbInitializer.cs" />
+    <Compile Include="ShoppingMigrateDbInitializer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +202,11 @@
       <Name>Shopping.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607140804576_Initial-Create.resx">
+      <DependentUpon>201607140804576_Initial-Create.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

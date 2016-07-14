@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Lily.Authentication.API.Results
+namespace Lilybot.Authentication.API.Results
 {
     public class ChallengeResult : IHttpActionResult
     {        

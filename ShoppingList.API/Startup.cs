@@ -2,17 +2,17 @@
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using Lily.ShoppingList.Api.Controllers;
-using Lily.ShoppingList.Application;
-using Lily.ShoppingList.API;
-using Lily.ShoppingList.API.Filters;
-using Lily.ShoppingList.Infrastructure;
+using Lilybot.Shopping.Application;
+using Lilybot.Shopping.API;
+using Lilybot.Shopping.API.Controllers;
+using Lilybot.Shopping.API.Filters;
+using Lilybot.Shopping.Infrastructure;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
-namespace Lily.ShoppingList.API
+namespace Lilybot.Shopping.API
 {
     public class Startup
     {

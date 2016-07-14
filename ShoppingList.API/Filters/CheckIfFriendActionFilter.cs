@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Autofac.Integration.WebApi;
-using Lily.ShoppingList.Application;
-using Lily.ShoppingList.Domain;
+using Lilybot.Shopping.Application;
+using Lilybot.Shopping.Domain;
 
-namespace Lily.ShoppingList.API.Filters
+namespace Lilybot.Shopping.API.Filters
 {
     public class CheckIfFriendActionFilter : ActionFilterAttribute, IAutofacActionFilter
     {

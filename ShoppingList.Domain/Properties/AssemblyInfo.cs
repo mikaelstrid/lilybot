@@ -17,6 +17,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: InternalsVisibleTo("Lily.Core.Domain")]
-[assembly: InternalsVisibleTo("Lily.Core.Infrastructure")]
+[assembly: InternalsVisibleTo("Lilybot.Core.Domain")]
+[assembly: InternalsVisibleTo("Lilybot.Core.Infrastructure")]
 

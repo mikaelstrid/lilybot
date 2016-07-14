@@ -4,10 +4,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security;
-using Lily.Core.Application;
-using Lily.Core.Domain.Model;
+using Lilybot.Core.Application;
+using Lilybot.Core.Domain.Model;
 
-namespace Lily.Core.Infrastructure.Persistence.EntityFramework
+namespace Lilybot.Core.Infrastructure.Persistence.EntityFramework
 {
     public class EntityFrameworkAggregateRepository<T> : IAggregateRepository<T> where T : class, IAggregate
     {

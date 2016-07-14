@@ -1,7 +1,7 @@
-﻿using Lily.Core.Application;
-using Lily.ShoppingList.Domain;
+﻿using Lilybot.Core.Application;
+using Lilybot.Shopping.Domain;
 
-namespace Lily.ShoppingList.Application
+namespace Lilybot.Shopping.Application
 {
     public interface IStoreRepository : IAggregateRepository<Store>
     {

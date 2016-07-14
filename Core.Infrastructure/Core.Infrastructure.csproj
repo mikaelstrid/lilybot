@@ -7,8 +7,8 @@
     <ProjectGuid>{D3AA8FEA-A979-43D0-A237-F1E37B3A7674}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lily.Core.Infrastructure</RootNamespace>
-    <AssemblyName>Lily.Core.Infrastructure</AssemblyName>
+    <RootNamespace>Lilybot.Core.Infrastructure</RootNamespace>
+    <AssemblyName>Lilybot.Core.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

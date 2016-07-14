@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Lily.Authentication.API
+namespace Lilybot.Authentication.API
 {
     public class Helper
     {

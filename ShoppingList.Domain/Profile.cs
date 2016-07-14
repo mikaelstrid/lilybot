@@ -1,6 +1,6 @@
-﻿using Lily.Core.Domain.Model;
+﻿using Lilybot.Core.Domain.Model;
 
-namespace Lily.ShoppingList.Domain
+namespace Lilybot.Shopping.Domain
 {
     public class Profile : AggregateRoot
     {

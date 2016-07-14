@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using Lily.Core.Application;
-using Lily.ShoppingList.Domain;
-using Lily.ShoppingList.Domain.Events;
+using Lilybot.Core.Application;
+using Lilybot.Shopping.Domain;
+using Lilybot.Shopping.Domain.Events;
 
-namespace Lily.ShoppingList.Api.Controllers
+namespace Lilybot.Shopping.API.Controllers
 {
     [Authorize]
     //[CheckIfFriendActionFilter] Added in the DI/Autofac configuration

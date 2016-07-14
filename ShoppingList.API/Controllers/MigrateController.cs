@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Http;
-using Lily.Core.Application;
-using Lily.ShoppingList.Application;
-using Lily.ShoppingList.Domain;
-using Lily.ShoppingList.Domain.Events;
+using Lilybot.Core.Application;
+using Lilybot.Shopping.Application;
+using Lilybot.Shopping.Domain;
+using Lilybot.Shopping.Domain.Events;
 
-namespace Lily.ShoppingList.Api.Controllers
+namespace Lilybot.Shopping.API.Controllers
 {
     [RoutePrefix("api/migrate")]
     public class MigrateController : ApiController

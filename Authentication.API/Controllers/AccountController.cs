@@ -5,15 +5,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Http;
-using Lily.Authentication.API.Models;
-using Lily.Authentication.API.Results;
+using Lilybot.Authentication.API.Models;
+using Lilybot.Authentication.API.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Linq;
 
-namespace Lily.Authentication.API.Controllers
+namespace Lilybot.Authentication.API.Controllers
 {
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController

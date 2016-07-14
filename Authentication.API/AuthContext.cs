@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
-using Lily.Authentication.API.Entities;
+using Lilybot.Authentication.API.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Lily.Authentication.API
+namespace Lilybot.Authentication.API
 {
     public class AuthContext : IdentityDbContext<IdentityUser>
     {

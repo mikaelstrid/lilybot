@@ -1,4 +1,4 @@
-﻿namespace Lily.Core.Domain.Model
+﻿namespace Lilybot.Core.Domain.Model
 {
     public abstract class AggregateRoot : Entity<int>, IAggregate
     {

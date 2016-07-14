@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using System.Web.Configuration;
 using System.Web.Http;
-using Lily.Authentication.API;
-using Lily.Authentication.API.Migrations;
-using Lily.Authentication.API.Providers;
+using Lilybot.Authentication.API;
+using Lilybot.Authentication.API.Migrations;
+using Lilybot.Authentication.API.Providers;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.OAuth;
@@ -12,7 +12,7 @@ using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
 
-namespace Lily.Authentication.API
+namespace Lilybot.Authentication.API
 {
     public class Startup
     {

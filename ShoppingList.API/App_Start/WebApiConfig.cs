@@ -3,7 +3,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace Lily.ShoppingList.API
+namespace Lilybot.Shopping.API
 {
     public static class WebApiConfig
     {

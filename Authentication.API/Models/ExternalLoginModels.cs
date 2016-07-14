@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lily.Authentication.API.Models
+namespace Lilybot.Authentication.API.Models
 {
     public class ExternalLoginViewModel
     {

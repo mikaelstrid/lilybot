@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Lily.Core.Application;
-using Lily.Core.Domain.Model;
+using Lilybot.Core.Application;
+using Lilybot.Core.Domain.Model;
 
-namespace Lily.Core.Infrastructure.Persistence.EntityFramework
+namespace Lilybot.Core.Infrastructure.Persistence.EntityFramework
 {
     public class EntityFrameworkEventRepository : IEventRepository
     {

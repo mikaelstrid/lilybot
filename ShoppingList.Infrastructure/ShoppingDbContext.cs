@@ -1,12 +1,12 @@
 ﻿using System.Data.Entity;
-using Lily.Core.Domain.Model;
-using Lily.ShoppingList.Domain;
+using Lilybot.Core.Domain.Model;
+using Lilybot.Shopping.Domain;
 
-namespace Lily.ShoppingList.Infrastructure
+namespace Lilybot.Shopping.Infrastructure
 {
-    public class ShoppingListDbContext : DbContext
+    public class ShoppingDbContext : DbContext
     {
-        public ShoppingListDbContext() : base("name=DefaultConnection") { }
+        public ShoppingDbContext() : base("name=DefaultConnection") { }
 
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Product> Products { get; set; }

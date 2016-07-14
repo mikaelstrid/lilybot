@@ -1,12 +1,11 @@
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.Linq;
 using System.Web.Configuration;
-using Lily.Authentication.API.Entities;
+using Lilybot.Authentication.API.Entities;
 
-namespace Lily.Authentication.API.Migrations
+namespace Lilybot.Authentication.API.Migrations
 {
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
     internal sealed class Configuration : DbMigrationsConfiguration<AuthContext>
     {
         public Configuration()

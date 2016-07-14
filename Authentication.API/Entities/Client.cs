@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Lily.Authentication.API.Models;
+using Lilybot.Authentication.API.Models;
 
-namespace Lily.Authentication.API.Entities
+namespace Lilybot.Authentication.API.Entities
 {
     public class Client
     {

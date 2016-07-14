@@ -3,7 +3,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace Lily.Authentication.API
+namespace Lilybot.Authentication.API
 {
     public static class WebApiConfig
     {

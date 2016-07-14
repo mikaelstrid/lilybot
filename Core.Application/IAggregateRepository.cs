@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Lily.Core.Domain.Model;
+using Lilybot.Core.Domain.Model;
 
-namespace Lily.Core.Application
+namespace Lilybot.Core.Application
 {
     public interface IAggregateRepository<T> where T: class, IAggregate
     {

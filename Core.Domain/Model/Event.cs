@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lily.Core.Domain.Model
+namespace Lilybot.Core.Domain.Model
 {
     public class Event : Entity<int>
     {

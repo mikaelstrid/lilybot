@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.Facebook;
 
-namespace Lily.Authentication.API.Providers
+namespace Lilybot.Authentication.API.Providers
 {
     public class FacebookAuthProvider : FacebookAuthenticationProvider
     {

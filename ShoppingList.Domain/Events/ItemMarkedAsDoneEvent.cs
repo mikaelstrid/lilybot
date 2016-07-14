@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Lily.Core.Domain.Model;
+using Lilybot.Core.Domain.Model;
 using Newtonsoft.Json.Linq;
 
-namespace Lily.ShoppingList.Domain.Events
+namespace Lilybot.Shopping.Domain.Events
 {
     [NotMapped]
     public class ItemMarkedAsDoneEvent : Event, IImuttable

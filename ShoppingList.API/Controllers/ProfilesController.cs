@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Http;
-using Lily.ShoppingList.Application;
-using Lily.ShoppingList.Domain;
+using Lilybot.Shopping.Application;
+using Lilybot.Shopping.Domain;
 
-namespace Lily.ShoppingList.Api.Controllers
+namespace Lilybot.Shopping.API.Controllers
 {
     [Authorize]
     [RoutePrefix("api/profiles")]

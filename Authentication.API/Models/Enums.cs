@@ -1,4 +1,4 @@
-﻿namespace Lily.Authentication.API.Models
+﻿namespace Lilybot.Authentication.API.Models
 {
     public enum ApplicationTypes
     {

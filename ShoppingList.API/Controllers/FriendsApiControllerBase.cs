@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using AutoMapper;
-using Lily.ShoppingList.Domain;
+using Lilybot.Shopping.Domain;
 
-namespace Lily.ShoppingList.Api.Controllers
+namespace Lilybot.Shopping.API.Controllers
 {
     public abstract class FriendsApiControllerBase : ApiController
     {

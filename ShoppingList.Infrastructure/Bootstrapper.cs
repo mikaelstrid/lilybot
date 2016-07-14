@@ -1,17 +1,17 @@
 ﻿using System.Data.Entity;
 using Autofac;
-using Lily.Core.Application;
-using Lily.Core.Infrastructure.Persistence.EntityFramework;
-using Lily.ShoppingList.Application;
-using Lily.ShoppingList.Domain;
+using Lilybot.Core.Application;
+using Lilybot.Core.Infrastructure.Persistence.EntityFramework;
+using Lilybot.Shopping.Application;
+using Lilybot.Shopping.Domain;
 
-namespace Lily.ShoppingList.Infrastructure
+namespace Lilybot.Shopping.Infrastructure
 {
     public class Bootstrapper
     {
         public static void Bootstrap(ContainerBuilder builder)
         {
-            builder.RegisterType<ShoppingListDbContext>().As<DbContext>().InstancePerLifetimeScope();
+            builder.RegisterType<ShoppingDbContext>().As<DbContext>().InstancePerLifetimeScope();
 
             builder.RegisterType<EntityFrameworkProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<EntityFrameworkStoreRepository>().As<IStoreRepository>();
