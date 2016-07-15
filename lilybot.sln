@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Shopping.Web", "ShoppingList.Web\Shopping.Web.xproj", "{7C5DADB6-3929-45BC-95BD-E57938451AD6}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Shopping.Web", "Shopping.Web\Shopping.Web.xproj", "{7C5DADB6-3929-45BC-95BD-E57938451AD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.API", "Authentication.API\Authentication.API.csproj", "{8207EAB4-CF3F-4BEE-B942-13EC4DAEB3B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.API", "ShoppingList.API\Shopping.API.csproj", "{BE85A387-3A05-42C3-94A5-E3E83C04C241}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.API", "Shopping.API\Shopping.API.csproj", "{BE85A387-3A05-42C3-94A5-E3E83C04C241}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "Core.Application\Core.Application.csproj", "{1EFD0C2C-A83D-4B5B-A4AC-B22138E6CD88}"
 EndProject
@@ -15,11 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "Core.Domain\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Infrastructure", "Core.Infrastructure\Core.Infrastructure.csproj", "{D3AA8FEA-A979-43D0-A237-F1E37B3A7674}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Domain", "ShoppingList.Domain\Shopping.Domain.csproj", "{57C55DEE-DFAC-46F9-AB04-D6CC7D957F95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Domain", "Shopping.Domain\Shopping.Domain.csproj", "{57C55DEE-DFAC-46F9-AB04-D6CC7D957F95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Infrastructure", "ShoppingList.Infrastructure\Shopping.Infrastructure.csproj", "{F31D30AF-5E4C-43FE-8479-DF931AB5C4AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Infrastructure", "Shopping.Infrastructure\Shopping.Infrastructure.csproj", "{F31D30AF-5E4C-43FE-8479-DF931AB5C4AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Application", "ShoppingList.Application\Shopping.Application.csproj", "{2497DA91-8B18-4FBC-80FC-B016F8F0766F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Application", "Shopping.Application\Shopping.Application.csproj", "{2497DA91-8B18-4FBC-80FC-B016F8F0766F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
