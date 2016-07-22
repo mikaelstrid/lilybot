@@ -10,6 +10,8 @@ namespace Lilybot.Shopping.API.Filters
 {
     public class CheckIfFriendActionFilter : ActionFilterAttribute, IAutofacActionFilter
     {
+        private static object _lock = new object();
+
         private readonly IShoppingProfileRepository _repository;
 
         public CheckIfFriendActionFilter(IShoppingProfileRepository repository)
@@ -22,11 +24,14 @@ namespace Lilybot.Shopping.API.Filters
             var username = actionContext.RequestContext.Principal.Identity.Name;
             if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException($"The user with username '{username}' is not authenticted.");
 
-            var existingProfile = _repository.Get(username, p => true).SingleOrDefault();
-            if (existingProfile == null)
+            lock (_lock)
             {
-                _repository.InsertOrUpdate(username, new ShoppingProfile(username));
-            } 
+                var existingProfile = _repository.Get(username, p => true).SingleOrDefault();
+                if (existingProfile == null)
+                {
+                    _repository.InsertOrUpdate(username, new ShoppingProfile(username));
+                }
+            }
 
             var friend = _repository.GetFriend(username);
             actionContext.Request.Properties["username"] = friend?.Username ?? username;
