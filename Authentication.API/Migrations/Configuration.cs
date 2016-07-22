@@ -35,8 +35,18 @@ namespace Lilybot.Authentication.API.Migrations
                     Name = "Shopping list front-end application",
                     ApplicationType = Models.ApplicationTypes.JavaScript,
                     Active = true,
-                    AllowedOrigin = WebConfigurationManager.AppSettings["SeedAllowedOrigin"]
+                    AllowedOrigin = WebConfigurationManager.AppSettings["SeedAllowedOriginShopping"]
+                },
+                new Client
+                {
+                    Id = "lilybot.commute",
+                    Secret = Helper.GetHash("cba@321"),
+                    Name = "Commute front-end application",
+                    ApplicationType = Models.ApplicationTypes.JavaScript,
+                    Active = true,
+                    AllowedOrigin = WebConfigurationManager.AppSettings["SeedAllowedOriginCommute"]
                 }
+
             };
 
             return clientsList;
