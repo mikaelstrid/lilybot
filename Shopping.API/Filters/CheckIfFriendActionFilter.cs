@@ -25,7 +25,7 @@ namespace Lilybot.Shopping.API.Filters
             var existingProfile = _repository.Get(username, p => true).SingleOrDefault();
             if (existingProfile == null)
             {
-                _repository.InsertOrUpdate(username, new Profile(username));
+                _repository.InsertOrUpdate(username, new ShoppingProfile(username));
             } 
 
             var friend = _repository.GetFriend(username);

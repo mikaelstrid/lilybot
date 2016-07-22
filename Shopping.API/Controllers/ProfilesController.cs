@@ -21,7 +21,7 @@ namespace Lilybot.Shopping.API.Controllers
         public IHttpActionResult Post()
         {
             if (_repository.Get(User.Identity.Name, p => true).Any()) return BadRequest($"A profile for user {User.Identity.Name} already exists.");
-            var newProfile = new Profile(User.Identity.Name);
+            var newProfile = new ShoppingProfile(User.Identity.Name);
             _repository.InsertOrUpdate(User.Identity.Name, newProfile);
             return Ok(newProfile);
         }

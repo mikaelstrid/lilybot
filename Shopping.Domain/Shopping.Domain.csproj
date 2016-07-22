@@ -51,7 +51,7 @@
     <Compile Include="Events\ItemMarkedAsDoneEvent.cs" />
     <Compile Include="Events\ItemRemovedFromListEvent.cs" />
     <Compile Include="Events\ItemAddedToListEvent.cs" />
-    <Compile Include="Profile.cs" />
+    <Compile Include="ShoppingProfile.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

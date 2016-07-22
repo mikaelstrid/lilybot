@@ -8,11 +8,11 @@
 
 //namespace Lily.ShoppingList.Infrastructure
 //{
-//    public class DocumentDbProfileRepository : DocumentDbAggregateRepository<Profile>, IProfileRepository
+//    public class DocumentDbProfileRepository : DocumentDbAggregateRepository<ShoppingProfile>, IProfileRepository
 //    {
 //        public DocumentDbProfileRepository(string collectionName) : base(collectionName) { }
 
-//        public async Task<Profile> GetFriend(string username)
+//        public async Task<ShoppingProfile> GetFriend(string username)
 //        {
 //            return (await Get(p => p.Friends.Contains(username))).FirstOrDefault();
 //        }

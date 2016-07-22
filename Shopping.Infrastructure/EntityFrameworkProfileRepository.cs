@@ -6,11 +6,11 @@ using Lilybot.Shopping.Domain;
 
 namespace Lilybot.Shopping.Infrastructure
 {
-    public class EntityFrameworkProfileRepository : EntityFrameworkAggregateRepository<Profile>, IProfileRepository
+    public class EntityFrameworkProfileRepository : EntityFrameworkAggregateRepository<ShoppingProfile>, IProfileRepository
     {
         public EntityFrameworkProfileRepository(DbContext context) : base(context) { }
 
-        public Profile GetFriend(string username)
+        public ShoppingProfile GetFriend(string username)
         {
             return Get(p => p.Friends.Contains(username)).FirstOrDefault();
         }

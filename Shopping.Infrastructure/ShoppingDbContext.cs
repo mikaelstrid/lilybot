@@ -8,7 +8,7 @@ namespace Lilybot.Shopping.Infrastructure
     {
         public ShoppingDbContext() : base("name=DefaultConnection") { }
 
-        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<ShoppingProfile> Profiles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Event> Events { get; set; }
