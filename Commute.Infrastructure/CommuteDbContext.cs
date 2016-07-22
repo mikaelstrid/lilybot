@@ -7,6 +7,6 @@ namespace Lilybot.Commute.Infrastructure
     {
         public CommuteDbContext() : base("name=DefaultConnection") { }
 
-        public DbSet<Profile> Profiles { get; set; }       
+        public DbSet<CommuteProfile> Profiles { get; set; }       
     }
 }

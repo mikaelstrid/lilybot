@@ -11,7 +11,7 @@ namespace Lilybot.Commute.Infrastructure
         public static void Bootstrap(ContainerBuilder builder)
         {
             builder.RegisterType<CommuteDbContext>().As<DbContext>().InstancePerLifetimeScope();
-            builder.RegisterType<EntityFrameworkAggregateRepository<Profile>>().As<IAggregateRepository<Profile>>();
+            builder.RegisterType<EntityFrameworkAggregateRepository<CommuteProfile>>().As<IAggregateRepository<CommuteProfile>>();
         }
     }
 }
