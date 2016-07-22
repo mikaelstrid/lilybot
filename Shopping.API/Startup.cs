@@ -49,7 +49,7 @@ namespace Lilybot.Shopping.API
 
         private static void RegisterControllerActionFilters(ContainerBuilder builder)
         {
-            builder.Register(c => new CheckIfFriendActionFilter(c.Resolve<IProfileRepository>()))
+            builder.Register(c => new CheckIfFriendActionFilter(c.Resolve<IShoppingProfileRepository>()))
                 .AsWebApiActionFilterFor<FriendsApiControllerBase>()
                 .InstancePerRequest();
         }

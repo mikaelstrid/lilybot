@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IStoreRepository.cs" />
-    <Compile Include="IProfileRepository.cs" />
+    <Compile Include="IShoppingProfileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

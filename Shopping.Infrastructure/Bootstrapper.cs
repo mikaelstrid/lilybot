@@ -13,7 +13,7 @@ namespace Lilybot.Shopping.Infrastructure
         {
             builder.RegisterType<ShoppingDbContext>().As<DbContext>().InstancePerLifetimeScope();
 
-            builder.RegisterType<EntityFrameworkProfileRepository>().As<IProfileRepository>();
+            builder.RegisterType<EntityFrameworkShoppingProfileRepository>().As<IShoppingProfileRepository>();
             builder.RegisterType<EntityFrameworkStoreRepository>().As<IStoreRepository>();
             builder.RegisterType<EntityFrameworkAggregateRepository<Product>>().As<IAggregateRepository<Product>>();
             builder.RegisterType<EntityFrameworkEventRepository>().As<IEventRepository>();

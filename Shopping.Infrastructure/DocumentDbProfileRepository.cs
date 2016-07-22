@@ -8,7 +8,7 @@
 
 //namespace Lily.ShoppingList.Infrastructure
 //{
-//    public class DocumentDbProfileRepository : DocumentDbAggregateRepository<ShoppingProfile>, IProfileRepository
+//    public class DocumentDbProfileRepository : DocumentDbAggregateRepository<ShoppingProfile>, IShoppingProfileRepository
 //    {
 //        public DocumentDbProfileRepository(string collectionName) : base(collectionName) { }
 

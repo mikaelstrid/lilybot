@@ -10,9 +10,9 @@ namespace Lilybot.Shopping.API.Filters
 {
     public class CheckIfFriendActionFilter : ActionFilterAttribute, IAutofacActionFilter
     {
-        private readonly IProfileRepository _repository;
+        private readonly IShoppingProfileRepository _repository;
 
-        public CheckIfFriendActionFilter(IProfileRepository repository)
+        public CheckIfFriendActionFilter(IShoppingProfileRepository repository)
         {
             _repository = repository;
         }

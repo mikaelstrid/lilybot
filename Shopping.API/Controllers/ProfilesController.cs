@@ -9,9 +9,9 @@ namespace Lilybot.Shopping.API.Controllers
     [RoutePrefix("api/profiles")]
     public class ProfilesController : ApiController
     {
-        private readonly IProfileRepository _repository;
+        private readonly IShoppingProfileRepository _repository;
 
-        public ProfilesController(IProfileRepository repository)
+        public ProfilesController(IShoppingProfileRepository repository)
         {
             _repository = repository;
         }

@@ -6,9 +6,9 @@ using Lilybot.Shopping.Domain;
 
 namespace Lilybot.Shopping.Infrastructure
 {
-    public class EntityFrameworkProfileRepository : EntityFrameworkAggregateRepository<ShoppingProfile>, IProfileRepository
+    public class EntityFrameworkShoppingProfileRepository : EntityFrameworkAggregateRepository<ShoppingProfile>, IShoppingProfileRepository
     {
-        public EntityFrameworkProfileRepository(DbContext context) : base(context) { }
+        public EntityFrameworkShoppingProfileRepository(DbContext context) : base(context) { }
 
         public ShoppingProfile GetFriend(string username)
         {

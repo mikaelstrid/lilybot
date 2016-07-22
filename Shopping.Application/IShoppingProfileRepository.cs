@@ -3,7 +3,7 @@ using Lilybot.Shopping.Domain;
 
 namespace Lilybot.Shopping.Application
 {
-    public interface IProfileRepository : IAggregateRepository<ShoppingProfile>
+    public interface IShoppingProfileRepository : IAggregateRepository<ShoppingProfile>
     {
         ShoppingProfile GetFriend(string username);
     }
