@@ -4,7 +4,7 @@ using Lilybot.Shopping.Infrastructure;
 
 namespace Lilybot.Shopping.API
 {
-    public class ShoppingMigrateDbInitializer : MigrateDatabaseToLatestVersion<ShoppingDbContext,  Configuration>
+    public class ShoppingMigrateDbInitializer : MigrateDatabaseToLatestVersion<ShoppingDbContext, Configuration>
     {
     }
 }

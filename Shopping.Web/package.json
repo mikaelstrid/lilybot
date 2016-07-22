@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "lily.shopping-list",
+  "name": "lilybot.shopping",
   "private": true,
   "devDependencies": {
     "bower": "^1.7.9",

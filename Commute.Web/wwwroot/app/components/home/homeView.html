@@ -1,0 +1,47 @@
+﻿<md-content class="page home" md-colors="{backgroundColor: 'primary'}">
+    <md-toolbar class="toolbar-transparent">
+        <div class="md-toolbar-tools">
+            <span flex></span>
+            <div ng-show="authData.isAuthorized">
+                <md-button ng-click="onProfileIconClicked()" class="md-icon-button" aria-label="Open menu">
+                    <md-icon>menu</md-icon>
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <div layout="column" layout-margin layout-align="center center">
+        <div class="brand">
+            <i class="material-icons" md-colors="::{backgroundColor: 'primary-600'}">train</i>
+            <h1 class="md-headline">
+                lilybot:<strong>commute</strong>
+            </h1>
+            <p class="md-caption">Den smarta pendlingsassistenten</p>
+        </div>
+        <md-whiteframe class="md-whiteframe-6dp login-box" flex layout-padding md-colors="{backgroundColor: 'grey-50'}">
+            <div ng-if="authData.isAuthorized">
+                <md-button class="md-primary" aria-label="Handla" ng-click="goto('valj-butik')">Handla</md-button>
+                <md-button class="md-primary" aria-label="Planera" ng-click="goto('planera')">Planera</md-button>
+            </div>
+
+            <div ng-controller="LoginCtrl" ng-if="!authData.isAuthorized">
+                <md-button class="facebook" aria-label="Logga in med Facebook" ng-click="authExternalProvider('Facebook');">
+                    Logga in med Facebook
+                </md-button>
+                <p class="md-caption">
+                    <strong>Har du inget konto?</strong> Börja med att logga in, så skapar vi ett.
+                </p>
+            </div>
+        </md-whiteframe>
+    </div>
+
+    <md-sidenav class="md-sidenav-right" md-component-id="right" md-whiteframe="4">
+        <md-content layout="column" layout-padding layout-align="center left">
+            <!--<md-icon>account_circle</md-icon>-->
+            <md-button ng-click="goto('butiker')">Butiker</md-button>
+            <md-button ng-click="goto('produkter')">Produkter</md-button>
+            <md-divider></md-divider>
+            <md-button ng-click="logout()">Logga ut</md-button>
+        </md-content>
+    </md-sidenav>
+</md-content>

@@ -1,4 +1,5 @@
-﻿using Lilybot.Core.Domain.Model;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Lilybot.Core.Domain.Model;
 
 namespace Lilybot.Shopping.Domain
 {

@@ -1,0 +1,14 @@
+﻿@import 'variables.scss';
+@import 'components/home.scss';
+
+md-toolbar {
+    &.toolbar-transparent {
+        background-color: transparent;
+    }
+}
+
+.bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
