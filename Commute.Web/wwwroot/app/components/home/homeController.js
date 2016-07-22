@@ -5,47 +5,49 @@
         .module('myApp.home')
         .controller('HomeCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', '$mdSidenav', 'authService'];
+    controller.$inject = ['$scope', '$location', '$mdToast', 'authService', 'vasttrafikService'];
 
-    function controller($scope, $location, $mdSidenav, authService) {
+    function controller($scope, $location, $mdToast, authService, vasttrafikService) {
+        //$scope.isLoading = true;
+        $scope.isWorking = false;
+
+        $scope.upcomingTrips = [];
 
         $scope.authData = {
             isAuthorized: false
         };
-
-        $scope.goto = function (page) {
-            $location.path('/' + page);
-        }
 
         $scope.logout = function() {
             authService.logOut();
             $scope.authData.isAuthorized = authService.authentication.isAuth;
         }
 
-        $scope.onProfileIconClicked = function () {
-            openSidenav();
-        }
+
+
 
         // === HELPERS ===
         function showError(messageToUser, failedMethodName, error) {
-            if (error.status !== 401) {
+            if (!error || error.status !== 401) {
                 $mdToast.show($mdToast.simple().textContent(messageToUser).hideDelay(3000));
             }
-            console.log('Call to storesService.' + failedMethodName + ' failed: ' + error.statusText);
+            console.log('Call to ' + failedMethodName + ' failed: ' + (error ? error.statusText : ''));
         }
 
-        function openSidenav() {
-            $mdSidenav('right').open();
-        }
 
-        function closeSidenav() {
-            $mdSidenav('right').close();
-        }
-
+        // === INITIALIZATION ===
         activate();
 
         function activate() {
             $scope.authData.isAuthorized = authService.authentication.isAuth;
+            $scope.isWorking = true;
+            vasttrafikService.getUpcomingTrips()
+                .then(
+                    function(trips) { $scope.upcomingTrips = trips },
+                    function (reason) { showError(reason + ' :(', 'vasttrafikService.getUpcomingTrips', null); }
+                )
+                .finally(
+                    function() { $scope.isWorking = false; }
+                );
         }
     }
 })();

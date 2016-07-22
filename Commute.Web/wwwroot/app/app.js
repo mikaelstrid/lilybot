@@ -28,7 +28,10 @@ app.constant('appSettings', {
     resourceApiServiceBaseUri: 'http://localhost:6001/',
     //authApiServiceBaseUri: 'http://lilybotauthapi.azurewebsites.net/',
     //resourceApiServiceBaseUri: 'http://lilybotcommuteapi.azurewebsites.net/',
-    clientId: 'lilybot.commute'
+    clientId: 'lilybot.commute',
+    vasttrafikKey: 'QUTQ96MIf4QvdZ0jG91UVEBLDGMa',
+    vasttrafikSecret: '7iLamTRw_HxX_dzUFC3GKVkf8Pca',
+    vasttrafikScope: '123'
 });
 
 app.config(function ($httpProvider) {

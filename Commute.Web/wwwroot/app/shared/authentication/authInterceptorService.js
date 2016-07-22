@@ -5,6 +5,10 @@ app.factory('authInterceptorService', ['$q', '$injector','$location', 'localStor
 
     var _request = function (config) {
 
+        if (!_.startsWith(config.url, 'http://lilybot')) {
+            return config;
+        }
+
         config.headers = config.headers || {};
        
         var authData = localStorageService.get('authorizationData');
