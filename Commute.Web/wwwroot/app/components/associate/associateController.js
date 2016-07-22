@@ -5,9 +5,9 @@
         .module('myApp.associate')
         .controller('AssociateCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'authService', 'profilesService'];
+    controller.$inject = ['$scope', '$location', 'authService'];
 
-    function controller($scope, $location, authService, profilesService) {
+    function controller($scope, $location, authService) {
 
         $scope.userDisplayName = authService.externalAuthData.userDisplayName;
 
@@ -21,20 +21,7 @@
             authService.registerExternal($scope.registerData)
                 .then(
                     function () {
-                        profilesService.create()
-                            .then(
-                                function() {
-                                    $location.path('/home');
-                                },
-                                function(response) {
-                                    var errors = [];
-                                    for (var key in response.modelState) {
-                                        errors.push(response.modelState[key]);
-                                    }
-                                    $scope.message = "Failed to create profile due to:" + errors.join(' ');
-                                    console.log($scope.message);
-                                }
-                            );
+                        $location.path('/home');
                     },
                     function (response) {
                         var errors = [];

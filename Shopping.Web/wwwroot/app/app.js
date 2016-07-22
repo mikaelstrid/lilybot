@@ -28,10 +28,10 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
 }]);
 
 app.constant('appSettings', {
-    authApiServiceBaseUri: 'http://localhost:51350/',
-    resourceApiServiceBaseUri: 'http://localhost:54299/',
-    //authApiServiceBaseUri: 'http://lilybotauthapi.azurewebsites.net/',
-    //resourceApiServiceBaseUri: 'http://lilybotshoppingapi.azurewebsites.net/',
+    //authApiServiceBaseUri: 'http://localhost:51350/',
+    //resourceApiServiceBaseUri: 'http://localhost:54299/',
+    authApiServiceBaseUri: 'http://lilybotauthapi.azurewebsites.net/',
+    resourceApiServiceBaseUri: 'http://lilybotshoppingapi.azurewebsites.net/',
     clientId: 'lilybot.shopping'
 });
 

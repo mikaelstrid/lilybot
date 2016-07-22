@@ -5,9 +5,9 @@
         .module('myApp.associate')
         .controller('AssociateCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'authService', 'profilesService'];
+    controller.$inject = ['$scope', '$location', 'authService'];
 
-    function controller($scope, $location, authService, profilesService) {
+    function controller($scope, $location, authService) {
 
         $scope.userDisplayName = authService.externalAuthData.userDisplayName;
 
