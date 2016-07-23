@@ -1,5 +1,5 @@
 ﻿<md-content class="page home" md-colors="{backgroundColor: 'primary'}">
-    <md-toolbar class="toolbar-transparent">
+    <!--<md-toolbar class="toolbar-transparent">
         <div class="md-toolbar-tools">
             <span flex></span>
             <div ng-show="authData.isAuthorized">
@@ -8,7 +8,7 @@
                 </md-button>
             </div>
         </div>
-    </md-toolbar>
+    </md-toolbar>-->
 
     <div layout="column" layout-margin layout-align="center center">
         <div class="brand">
@@ -45,8 +45,8 @@
                     </md-card-header-text>
                 </md-card-header>
                 <md-card-content>
-                    <p ng-if="!trip.isDelayed" class="md-headline">{{trip.plannedDurationInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></p>
-                    <p ng-if="trip.isDelayed" class="md-headline" md-colors="{color: 'warn'}">{{trip.plannedDurationInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></p>
+                    <p ng-if="!trip.isDelayed" class="md-headline">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></p>
+                    <p ng-if="trip.isDelayed" class="md-headline" md-colors="{color: 'warn'}">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></p>
                 </md-card-content>
                 <!--<md-card-actions layout="column" layout-align="start">
                     <md-button>Välj</md-button>

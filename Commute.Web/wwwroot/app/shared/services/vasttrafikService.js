@@ -11,6 +11,10 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
     return service;
 
 
+    // === HELPERS ===
+    function getMinutes(milliseconds) {
+        return Math.floor(milliseconds / (60 * 1000));
+    }
 
 
     // === FUNCTIONS ===
@@ -59,13 +63,17 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
         return _.map(response.data.TripList.Trip, function (trip) {
             var plannedOriginTime = Date.parse(trip.Leg.Origin.date + ' ' + trip.Leg.Origin.time);
             var plannedDestinationTime = Date.parse(trip.Leg.Destination.date + ' ' + trip.Leg.Destination.time);
-            var expectedOriginTime = Date.parse(trip.Leg.Origin.rtdate + ' ' + trip.Leg.Origin.rttime);
-            var expectedDestinationTime = Date.parse(trip.Leg.Destination.rtdate + ' ' + trip.Leg.Destination.rttime);
+            var expectedOriginTime = Date.parse(trip.Leg.Origin.rtDate + ' ' + trip.Leg.Origin.rtTime);
+            var expectedDestinationTime = Date.parse(trip.Leg.Destination.rtDate + ' ' + trip.Leg.Destination.rtTime);
+
+            var now = new Date().getTime();
 
             return {
                 type: 'train',
-                plannedDurationInMinutes: (plannedDestinationTime - plannedOriginTime) / (60 * 1000),
-                expectedDurationInMinutes: (expectedDestinationTime - expectedOriginTime) / (60 * 1000),
+                plannedDurationInMinutes: getMinutes(plannedDestinationTime - plannedOriginTime),
+                expectedDurationInMinutes: getMinutes(expectedDestinationTime - expectedOriginTime),
+                plannedDepartsInMinutes: getMinutes(plannedOriginTime - now),
+                expectedDepartsInMinutes: getMinutes(expectedOriginTime - now),
                 isDelayed: trip.Leg.Origin.time !== trip.Leg.Origin.rtTime || trip.Leg.Destination.time !== trip.Leg.Destination.rtTime,
                 origin: {
                     name: trip.Leg.Origin.name,
