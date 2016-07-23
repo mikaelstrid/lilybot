@@ -27,12 +27,16 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
         .accentPalette('pink');
 }]);
 
+var AUTH_API_SERVICE_BASE_URI = 'http://localhost:51350/';
+var RESOURCE_API_SERVICE_BASE_URI = 'http://localhost:54299/';
+//var AUTH_API_SERVICE_BASE_URI = 'http://lilybotauthapi.azurewebsites.net/';
+//var RESOURCE_API_SERVICE_BASE_URI = 'http://lilybotshoppingapi.azurewebsites.net/';
+
 app.constant('appSettings', {
-    //authApiServiceBaseUri: 'http://localhost:51350/',
-    //resourceApiServiceBaseUri: 'http://localhost:54299/',
-    authApiServiceBaseUri: 'http://lilybotauthapi.azurewebsites.net/',
-    resourceApiServiceBaseUri: 'http://lilybotshoppingapi.azurewebsites.net/',
-    clientId: 'lilybot.shopping'
+    authApiServiceBaseUri: AUTH_API_SERVICE_BASE_URI,
+    resourceApiServiceBaseUri: RESOURCE_API_SERVICE_BASE_URI,
+    clientId: 'lilybot.shopping',
+    appendAuthTokenUrls: [RESOURCE_API_SERVICE_BASE_URI]
 });
 
 app.config(function ($httpProvider) {

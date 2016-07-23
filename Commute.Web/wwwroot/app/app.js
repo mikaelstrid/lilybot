@@ -23,15 +23,20 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
         .accentPalette('pink');
 }]);
 
+
+var AUTH_API_SERVICE_BASE_URI = 'http://localhost:51350/';
+var RESOURCE_API_SERVICE_BASE_URI = 'http://localhost:6001/';
+//var AUTH_API_SERVICE_BASE_URI = 'http://lilybotauthapi.azurewebsites.net/';
+//var RESOURCE_API_SERVICE_BASE_URI = 'http://lilybotcommuteapi.azurewebsites.net/';
+
 app.constant('appSettings', {
-    authApiServiceBaseUri: 'http://localhost:51350/',
-    resourceApiServiceBaseUri: 'http://localhost:6001/',
-    //authApiServiceBaseUri: 'http://lilybotauthapi.azurewebsites.net/',
-    //resourceApiServiceBaseUri: 'http://lilybotcommuteapi.azurewebsites.net/',
+    authApiServiceBaseUri: AUTH_API_SERVICE_BASE_URI,
+    resourceApiServiceBaseUri: RESOURCE_API_SERVICE_BASE_URI,
     clientId: 'lilybot.commute',
     vasttrafikKey: 'QUTQ96MIf4QvdZ0jG91UVEBLDGMa',
     vasttrafikSecret: '7iLamTRw_HxX_dzUFC3GKVkf8Pca',
-    vasttrafikScope: '123'
+    vasttrafikScope: '123',
+    appendAuthTokenUrls: [RESOURCE_API_SERVICE_BASE_URI]
 });
 
 app.config(function ($httpProvider) {
