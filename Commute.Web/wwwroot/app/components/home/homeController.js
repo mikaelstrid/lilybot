@@ -33,21 +33,30 @@
             console.log('Call to ' + failedMethodName + ' failed: ' + (error ? error.statusText : ''));
         }
 
+        function getUpcomingTrips() {
+            $scope.isWorking = true;
+            vasttrafikService.getUpcomingTrips()
+                .then(
+                    function (trips) { $scope.upcomingTrips = trips },
+                    function (reason) { showError(reason + ' :(', 'vasttrafikService.getUpcomingTrips', null); }
+                )
+                .finally(
+                    function () { $scope.isWorking = false; }
+                );
+        }
+
 
         // === INITIALIZATION ===
         activate();
 
+        $scope.$watch('authData.isAuthorized', function () {
+            if ($scope.authData.isAuthorized) {
+                getUpcomingTrips();
+            }
+        });
+
         function activate() {
             $scope.authData.isAuthorized = authService.authentication.isAuth;
-            $scope.isWorking = true;
-            vasttrafikService.getUpcomingTrips()
-                .then(
-                    function(trips) { $scope.upcomingTrips = trips },
-                    function (reason) { showError(reason + ' :(', 'vasttrafikService.getUpcomingTrips', null); }
-                )
-                .finally(
-                    function() { $scope.isWorking = false; }
-                );
         }
     }
 })();

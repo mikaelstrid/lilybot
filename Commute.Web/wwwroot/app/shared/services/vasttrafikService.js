@@ -102,7 +102,7 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
         });
     }
     
-    function getUpcomingTrips() {
+    function getUpcomingTrips(currentPosition) {
         var deferred = $q.defer();
 
         getAccessToken()
