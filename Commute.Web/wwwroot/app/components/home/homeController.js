@@ -5,9 +5,9 @@
         .module('myApp.home')
         .controller('HomeCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', '$mdToast', 'authService', 'vasttrafikService'];
+    controller.$inject = ['$scope', '$location', '$mdToast', '$geolocation', 'authService', 'vasttrafikService'];
 
-    function controller($scope, $location, $mdToast, authService, vasttrafikService) {
+    function controller($scope, $location, $mdToast, $geolocation, authService, vasttrafikService) {
         //$scope.isLoading = true;
         $scope.isWorking = false;
 
@@ -35,14 +35,21 @@
 
         function getUpcomingTrips() {
             $scope.isWorking = true;
-            vasttrafikService.getUpcomingTrips()
-                .then(
-                    function (trips) { $scope.upcomingTrips = trips },
-                    function (reason) { showError(reason + ' :(', 'vasttrafikService.getUpcomingTrips', null); }
-                )
-                .finally(
-                    function () { $scope.isWorking = false; }
-                );
+            $geolocation.getCurrentPosition({
+                timeout: 60000
+            }).then(function (position) {
+                vasttrafikService.getUpcomingTrips(position.coords)
+                    .then(
+                        function (trips) { $scope.upcomingTrips = trips },
+                        function (reason) { showError(reason + ' :(', 'vasttrafikService.getUpcomingTrips', null); }
+                    )
+                    .finally(
+                        function () { $scope.isWorking = false; }
+                    );
+            }, function () {
+                showError('Kunde inte bestämma din position :(', '$geolocation.getCurrentPosition', null);
+                $scope.isWorking = false;
+            });
         }
 
 

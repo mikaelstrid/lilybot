@@ -8,7 +8,8 @@
     "angular-mocks": "^1.5.6",
     "angular-material": "^1.1.0",
     "angular-local-storage": "^0.2.7",
-    "lodash": "^4.13.1"
+    "lodash": "^4.13.1",
+    "ngGeolocation": ">=0.0.2"
   },
   "devDependencies": {}
 }

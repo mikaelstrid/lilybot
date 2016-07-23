@@ -4,6 +4,9 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
     var lindomeStationId = '9021014012711000';
     var gotebordCId = '9021014008000000';
 
+    var homeLatLng = new google.maps.LatLng(57.5697346, 12.075034);
+    var workLatLng = new google.maps.LatLng(57.7083954, 11.9653797);
+
     var service = {
         getUpcomingTrips: getUpcomingTrips
     };
@@ -60,7 +63,10 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
     }
 
     function createTripData(response) {
-        return _.map(response.data.TripList.Trip, function (trip) {
+        // Remove all trips that consists of multiple legs
+        var filteredArray = _.filter(response.data.TripList.Trip, function (trip) { return !angular.isArray(trip.Leg); });
+
+        return _.map(filteredArray, function (trip) {
             var plannedOriginTime = Date.parse(trip.Leg.Origin.date + ' ' + trip.Leg.Origin.time);
             var plannedDestinationTime = Date.parse(trip.Leg.Destination.date + ' ' + trip.Leg.Destination.time);
             var expectedOriginTime = Date.parse(trip.Leg.Origin.rtDate + ' ' + trip.Leg.Origin.rtTime);
@@ -97,18 +103,32 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
                         time: trip.Leg.Destination.rtTime
                     }
                 }
-
             }
         });
     }
     
+    function distanceTo(from, to) {
+        return google.maps.geometry.spherical.computeDistanceBetween(from, to);
+    }
+
+    function getTripIds(currentPosition) {
+        var currentPositionLatLng = new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude);
+        if (distanceTo(currentPositionLatLng, homeLatLng) < distanceTo(currentPositionLatLng, workLatLng)) {
+            return { originId: lindomeStationId, destId: gotebordCId };
+        } else {
+            return { originId: gotebordCId, destId: lindomeStationId };
+        }
+    }
+
     function getUpcomingTrips(currentPosition) {
         var deferred = $q.defer();
 
         getAccessToken()
             .then(
-                function(accessToken) {
-                    var url = 'https://api.vasttrafik.se/bin/rest.exe/v2/trip?originId=' +lindomeStationId + '&destId=' + gotebordCId + '&format=json';
+                function (accessToken) {
+                    var tripIds = getTripIds(currentPosition);
+
+                    var url = 'https://api.vasttrafik.se/bin/rest.exe/v2/trip?originId=' + tripIds.originId + '&destId=' + tripIds.destId + '&format=json';
                     $http.get(url, { headers: { 'Authorization': 'Bearer ' + accessToken } })
                         .then(
                             function(response) {

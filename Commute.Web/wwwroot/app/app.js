@@ -5,6 +5,7 @@ var app = angular.module('myApp',
     'ngMaterial',
     'ngRoute',
     'LocalStorageModule',
+    'ngGeolocation',
     'myApp.home',
     'myApp.associate'
 ]);
