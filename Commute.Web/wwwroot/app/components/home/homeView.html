@@ -29,30 +29,49 @@
             </div>
         </md-whiteframe>
 
-        <div layout="row" layout-align="space-around" ng-if="isWorking">
-            <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
-        </div>
-
-        <div ng-if="authData.isAuthorized || upcomingTrips.length > 0">
-            <md-card ng-repeat="trip in upcomingTrips">
-                <md-card-header>
-                    <md-card-avatar>
-                        <md-icon class="md-avatar-icon">train</md-icon>
-                    </md-card-avatar>
-                    <md-card-header-text>
-                        <span class="md-title">{{trip.origin.name}}</span>
-                        <span class="md-subhead">{{trip.destination.name}}</span>
-                    </md-card-header-text>
-                </md-card-header>
-                <md-card-content>
-                    <p ng-if="!trip.isDelayed" class="md-headline">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></p>
-                    <p ng-if="trip.isDelayed" class="md-headline" md-colors="{color: 'warn'}">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></p>
-                </md-card-content>
-                <!--<md-card-actions layout="column" layout-align="start">
-                    <md-button>Välj</md-button>
-                </md-card-actions>-->
-            </md-card>
-        </div>
+        <md-whiteframe ng-if="authData.isAuthorized" class="md-whiteframe-6dp tabs-box" layout="column" flex md-colors="{backgroundColor: 'grey-50'}">
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Kollektivt" md-on-select="switchToPublicTransportTab()">
+                    <md-content class="md-padding public-transport">
+                        <div layout="row" layout-align="space-around" ng-if="isWorking">
+                            <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
+                        </div>
+                        <div ng-if="authData.isAuthorized || upcomingPublicTransportTrips.length > 0">
+                            <md-card ng-repeat="trip in upcomingPublicTransportTrips">
+                                <md-card-header>
+                                    <md-card-avatar>
+                                        <md-icon class="md-avatar-icon">train</md-icon>
+                                    </md-card-avatar>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{trip.origin.name}}</span>
+                                        <span class="md-subhead">{{trip.destination.name}}</span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-card-content>
+                                    <p ng-if="!trip.isDelayed" class="md-headline">
+                                        Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small>
+                                    </p>
+                                    <p ng-if="trip.isDelayed" class="md-headline" md-colors="{color: 'warn'}">
+                                        Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small>
+                                    </p>
+                                </md-card-content>
+                                <!--<md-card-actions layout="column" layout-align="start">
+                                <md-button>Välj</md-button>
+                            </md-card-actions>-->
+                            </md-card>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Bil" md-on-select="switchToCarTab()">
+                    <md-content class="md-padding">
+                        <h1 class="md-display-2">Tab Two</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
+                        <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
+                        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-whiteframe>
     </div>
 
     <!--<md-sidenav class="md-sidenav-right" md-component-id="right" md-whiteframe="4">

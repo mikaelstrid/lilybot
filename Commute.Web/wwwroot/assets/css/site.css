@@ -21,6 +21,12 @@
       .page.home .login-box .md-button.facebook:not([disabled]):hover, .page.home .login-box .md-button.facebook:not([disabled]):active, .page.home .login-box .md-button.facebook:not([disabled]):focus {
         color: #fafafa;
         background-color: #3b5899; }
+  .page.home .tabs-box {
+    min-width: 280px; }
+  .page.home .public-transport md-card-header-text span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
 
 md-toolbar.toolbar-transparent {
   background-color: transparent; }

@@ -25,10 +25,10 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
 }]);
 
 
-//var AUTH_API_SERVICE_BASE_URI = 'http://localhost:51350/';
-//var RESOURCE_API_SERVICE_BASE_URI = 'http://localhost:6001/';
-var AUTH_API_SERVICE_BASE_URI = 'https://lilybotauthapi.azurewebsites.net/';
-var RESOURCE_API_SERVICE_BASE_URI = 'https://lilybotcommuteapi.azurewebsites.net/';
+var AUTH_API_SERVICE_BASE_URI = 'http://localhost:51350/';
+var RESOURCE_API_SERVICE_BASE_URI = 'http://localhost:6001/';
+//var AUTH_API_SERVICE_BASE_URI = 'https://lilybotauthapi.azurewebsites.net/';
+//var RESOURCE_API_SERVICE_BASE_URI = 'https://lilybotcommuteapi.azurewebsites.net/';
 
 app.constant('appSettings', {
     authApiServiceBaseUri: AUTH_API_SERVICE_BASE_URI,

@@ -35,4 +35,18 @@
             }
         }
     }
+
+    .tabs-box {
+        min-width: 280px;
+    }
+
+    .public-transport {
+        md-card-header-text {
+            span {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
 }
