@@ -5,32 +5,34 @@
         .module('myApp.home')
         .controller('HomeCtrl', controller);
 
-    controller.$inject = ['$scope', '$log', '$location', '$mdToast', '$geolocation', 'authService', 'vasttrafikService'];
+    controller.$inject = ['$scope', '$log', '$location', '$mdToast', '$geolocation', 'authService', 'vasttrafikService', 'googleTrafficService'];
 
-    function controller($scope, $log, $location, $mdToast, $geolocation, authService, vasttrafikService) {
+    function controller($scope, $log, $location, $mdToast, $geolocation, authService, vasttrafikService, googleTrafficService) {
         //$scope.isLoading = true;
         $scope.isWorking = false;
 
         $scope.upcomingPublicTransportTrips = [];
+        $scope.carRouteAlternatives = [];
 
         $scope.authData = {
             isAuthorized: false
         };
 
-        $scope.logout = function() {
+        $scope.logout = function () {
             authService.logOut();
             $scope.authData.isAuthorized = authService.authentication.isAuth;
         }
 
-        $scope.switchToPublicTransportTab = function() {
+        $scope.switchToPublicTransportTab = function () {
             if ($scope.authData.isAuthorized) {
                 $scope.upcomingPublicTransportTrips = [];
                 getUpcomingPublicTransportTrips();
             }
         }
 
-        $scope.switchToCarTab = function() {
+        $scope.switchToCarTab = function () {
             if ($scope.authData.isAuthorized) {
+                $scope.carRouteAlternatives = [];
                 getCarRouteAlternatives();
             }
         }
@@ -64,7 +66,16 @@
         }
 
         function getCarRouteAlternatives() {
-            $log.log('car');
+            if ($scope.isWorking) return;
+            $scope.isWorking = true;
+            console.log(".");
+            googleTrafficService.getCarRouteAlternatives()
+                .then(function (routes) {
+                    $scope.carRouteAlternatives = routes;
+                })
+                .finally(
+                    function() { $scope.isWorking = false; }
+                );
         }
 
 
