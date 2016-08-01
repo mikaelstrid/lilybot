@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('googleTrafficService', ['$http', '$log', '$q', 'appSettings', function ($http, $log, $q, appSettings) {
+app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'appSettings', function ($http, $log, $q, utilsService, appSettings) {
 
     var homeLatLng = new google.maps.LatLng(57.5697346, 12.075034);
     var workLatLng = new google.maps.LatLng(57.7083954, 11.9653797);
@@ -17,13 +17,11 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'appSettings', funct
     // === FUNCTIONS ===
     function createTripData(response) {
         return _.map(response, function (route) {
-            //var now = new Date().getTime();
-
             return {
                 type: 'car',
-                name: 'Älvborgsbron',
-                plannedDurationInMinutes: 10,
-                expectedDurationInMinutes: 12,
+                name: route.summary,
+                plannedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function(o) { return o.duration.value * 1000; })),
+                expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function (o) { return o.duration.value * 1000; })),
                 isDelayed: false
             }
         });
@@ -33,11 +31,27 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'appSettings', funct
     function getCarRouteAlternatives(currentPosition) {
         var deferred = $q.defer();
 
-        window.setTimeout(function() {
-                deferred.resolve(createTripData([1,2]));
+        var directionsService = new google.maps.DirectionsService;
+        directionsService.route(
+            {
+                origin: new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
+                destination: workLatLng,
+                provideRouteAlternatives: true,
+                travelMode: 'DRIVING',
+                drivingOptions: {
+                    departureTime: new Date(),
+                    trafficModel: 'bestguess'
+                }
             },
-            500);
+            callback);
 
+        function callback(response, status) {
+            if (status === 'OK')
+                deferred.resolve(createTripData(response.routes));
+            else
+                deferred.reject(status);
+        }
+        
         return deferred.promise;
     }
 }

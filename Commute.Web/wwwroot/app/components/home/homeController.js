@@ -54,7 +54,7 @@
                 vasttrafikService.getUpcomingTrips(position.coords)
                     .then(
                         function (trips) { $scope.upcomingPublicTransportTrips = trips },
-                        function (reason) { showError(reason + ' :(', 'vasttrafikService.getUpcomingTrips', null); }
+                        function (reason) { showError(reason + ' :(', 'vasttrafikService.upcomingPublicTransportTrips', null); }
                     )
                     .finally(
                         function () { $scope.isWorking = false; }
@@ -68,14 +68,21 @@
         function getCarRouteAlternatives() {
             if ($scope.isWorking) return;
             $scope.isWorking = true;
-            console.log(".");
-            googleTrafficService.getCarRouteAlternatives()
-                .then(function (routes) {
-                    $scope.carRouteAlternatives = routes;
-                })
-                .finally(
-                    function() { $scope.isWorking = false; }
-                );
+            $geolocation.getCurrentPosition({
+                timeout: 60000
+            }).then(function (position) {
+                googleTrafficService.getCarRouteAlternatives(position.coords)
+                    .then(
+                        function (routes) { $scope.carRouteAlternatives = routes },
+                        function (reason) { showError(reason + ' :(', 'googleTrafficService.getCarRouteAlternatives', null); }
+                    )
+                    .finally(
+                        function () { $scope.isWorking = false; }
+                    );
+            }, function () {
+                showError('Kunde inte bestämma din position :(', '$geolocation.getCurrentPosition', null);
+                $scope.isWorking = false;
+            });
         }
 
 

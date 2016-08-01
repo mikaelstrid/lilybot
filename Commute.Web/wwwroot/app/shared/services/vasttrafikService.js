@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 'appSettings', function ($http, $log, $q, localStorageService, appSettings) {
+app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 'utilsService', 'appSettings', function ($http, $log, $q, localStorageService, utilsService, appSettings) {
 
     var lindomeStationId = '9021014012711000';
     var gotebordCId = '9021014008000000';
@@ -13,11 +13,6 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
 
     return service;
 
-
-    // === HELPERS ===
-    function getMinutes(milliseconds) {
-        return Math.floor(milliseconds / (60 * 1000));
-    }
 
 
     // === FUNCTIONS ===
@@ -76,10 +71,10 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
 
             return {
                 type: 'train',
-                plannedDurationInMinutes: getMinutes(plannedDestinationTime - plannedOriginTime),
-                expectedDurationInMinutes: getMinutes(expectedDestinationTime - expectedOriginTime),
-                plannedDepartsInMinutes: getMinutes(plannedOriginTime - now),
-                expectedDepartsInMinutes: getMinutes(expectedOriginTime - now),
+                plannedDurationInMinutes: utilsService.getMinutesFromMilliseconds(plannedDestinationTime - plannedOriginTime),
+                expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(expectedDestinationTime - expectedOriginTime),
+                plannedDepartsInMinutes: utilsService.getMinutesFromMilliseconds(plannedOriginTime - now),
+                expectedDepartsInMinutes: utilsService.getMinutesFromMilliseconds(expectedOriginTime - now),
                 isDelayed: trip.Leg.Origin.time !== trip.Leg.Origin.rtTime || trip.Leg.Destination.time !== trip.Leg.Destination.rtTime,
                 origin: {
                     name: trip.Leg.Origin.name,
