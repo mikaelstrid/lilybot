@@ -102,13 +102,13 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
         });
     }
     
-    function distanceTo(from, to) {
-        return google.maps.geometry.spherical.computeDistanceBetween(from, to);
-    }
-
     function getTripIds(currentPosition) {
         var currentPositionLatLng = new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude);
-        if (distanceTo(currentPositionLatLng, homeLatLng) < distanceTo(currentPositionLatLng, workLatLng)) {
+
+        var distanceToHome = utilsService.computeDistanceBetween(currentPositionLatLng, homeLatLng);
+        var distanceToWork = utilsService.computeDistanceBetween(currentPositionLatLng, workLatLng);
+
+        if (distanceToHome < distanceToWork) {
             return { originId: lindomeStationId, destId: gotebordCId };
         } else {
             return { originId: gotebordCId, destId: lindomeStationId };

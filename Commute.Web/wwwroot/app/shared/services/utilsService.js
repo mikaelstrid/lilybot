@@ -3,7 +3,7 @@ app.factory('utilsService', [function () {
 
     var service = {
         getMinutesFromMilliseconds: getMinutesFromMilliseconds,
-        distanceTo: distanceTo
+        computeDistanceBetween: computeDistanceBetween
     };
 
     return service;
@@ -15,7 +15,7 @@ app.factory('utilsService', [function () {
         return Math.floor(milliseconds / (60 * 1000));
     }
 
-    function distanceTo(from, to) {
+    function computeDistanceBetween(from, to) {
         return google.maps.geometry.spherical.computeDistanceBetween(from, to);
     }
 }

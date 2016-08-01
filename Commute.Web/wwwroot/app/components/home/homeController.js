@@ -1,4 +1,4 @@
-(function () {
+Ôªø(function () {
     'use strict';
 
     angular
@@ -60,7 +60,7 @@
                         function () { $scope.isWorking = false; }
                     );
             }, function () {
-                showError('Kunde inte best‰mma din position :(', '$geolocation.getCurrentPosition', null);
+                showError('Kunde inte best√§mma din position :(', '$geolocation.getCurrentPosition', null);
                 $scope.isWorking = false;
             });
         }
@@ -80,7 +80,7 @@
                         function () { $scope.isWorking = false; }
                     );
             }, function () {
-                showError('Kunde inte best‰mma din position :(', '$geolocation.getCurrentPosition', null);
+                showError('Kunde inte best√§mma din position :(', '$geolocation.getCurrentPosition', null);
                 $scope.isWorking = false;
             });
         }

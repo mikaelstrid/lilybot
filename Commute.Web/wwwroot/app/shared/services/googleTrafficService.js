@@ -11,18 +11,23 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'app
     return service;
 
 
-    // === HELPERS ===
-
-
     // === FUNCTIONS ===
+
+    function getDestinationLatLng(currentPosition) {
+        var currentPositionLatLng = new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude);
+        var distanceToHome = utilsService.computeDistanceBetween(currentPositionLatLng, homeLatLng);
+        var distanceToWork = utilsService.computeDistanceBetween(currentPositionLatLng, workLatLng);
+        return distanceToHome > distanceToWork ? homeLatLng : workLatLng;
+    }
+    
     function createTripData(response) {
         return _.map(response, function (route) {
             return {
                 type: 'car',
                 name: route.summary,
+                distanceInKilometers: _.sumBy(route.legs, function(o) { return o.distance.value; }) / 1000,
                 plannedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function(o) { return o.duration.value * 1000; })),
-                expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function (o) { return o.duration.value * 1000; })),
-                isDelayed: false
+                expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function (o) { return o.duration.value * 1000; }))
             }
         });
     }
@@ -31,11 +36,13 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'app
     function getCarRouteAlternatives(currentPosition) {
         var deferred = $q.defer();
 
+        var destinationLatLng = getDestinationLatLng(currentPosition);
+
         var directionsService = new google.maps.DirectionsService;
         directionsService.route(
             {
                 origin: new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
-                destination: workLatLng,
+                destination: destinationLatLng,
                 provideRouteAlternatives: true,
                 travelMode: 'DRIVING',
                 drivingOptions: {
