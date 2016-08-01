@@ -11,6 +11,14 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'app
     return service;
 
 
+    // === HELPERS ===
+    function getAddressPartBeforeColon(address) {
+        var index = address.indexOf(',');
+        return index !== -1 ? address.substring(0, index) : address;
+    }
+
+
+
     // === FUNCTIONS ===
 
     function getDestinationLatLng(currentPosition) {
@@ -27,7 +35,9 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'app
                 name: route.summary,
                 distanceInKilometers: _.sumBy(route.legs, function(o) { return o.distance.value; }) / 1000,
                 plannedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function(o) { return o.duration.value * 1000; })),
-                expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function (o) { return o.duration.value * 1000; }))
+                expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(_.sumBy(route.legs, function (o) { return o.duration.value * 1000; })),
+                startAddress: getAddressPartBeforeColon(route.legs[0].start_address),
+                endAddress: getAddressPartBeforeColon(route.legs[route.legs.length-1].end_address)
             }
         });
     }

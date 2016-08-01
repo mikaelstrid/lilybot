@@ -74,12 +74,13 @@
                                         <md-icon class="md-avatar-icon">directions_car</md-icon>
                                     </md-card-avatar>
                                     <md-card-header-text>
-                                        <span class="md-title">{{route.name}}</span>
+                                        <span class="md-title">{{route.startAddress}}</span>
+                                        <span class="md-subhead">{{route.endAddress}}</span>
                                     </md-card-header-text>
                                 </md-card-header>
                                 <md-card-content>
                                     <p class="md-title">
-                                        {{route.expectedDurationInMinutes}} min <small class="md-caption">({{route.distanceInKilometers.toFixed(1)}} km)</small>
+                                        <span md-colors="{color: 'primary'}">{{route.name}}</span> : {{route.expectedDurationInMinutes}} min <small class="md-caption">({{route.distanceInKilometers.toFixed(1)}} km)</small>
                                     </p>
                                 </md-card-content>
                             </md-card>
