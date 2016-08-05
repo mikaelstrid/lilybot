@@ -1,8 +1,8 @@
 ﻿'use strict';
 app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'appSettings', function ($http, $log, $q, utilsService, appSettings) {
 
-    var homeLatLng = new google.maps.LatLng(57.5697346, 12.075034);
-    var workLatLng = new google.maps.LatLng(57.7083954, 11.9653797);
+    //var homeLatLng = new google.maps.LatLng(57.5697346, 12.075034);
+    //var workLatLng = new google.maps.LatLng(57.7083954, 11.9653797);
 
     var service = {
         getCarRouteAlternatives: getCarRouteAlternatives
@@ -21,7 +21,7 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'app
 
     // === FUNCTIONS ===
 
-    function getDestinationLatLng(currentPosition) {
+    function getDestinationLatLng(currentPosition, homeLatLng, workLatLng) {
         var currentPositionLatLng = new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude);
         var distanceToHome = utilsService.computeDistanceBetween(currentPositionLatLng, homeLatLng);
         var distanceToWork = utilsService.computeDistanceBetween(currentPositionLatLng, workLatLng);
@@ -43,10 +43,10 @@ app.factory('googleTrafficService', ['$http', '$log', '$q', 'utilsService', 'app
     }
 
 
-    function getCarRouteAlternatives(currentPosition) {
+    function getCarRouteAlternatives(currentPosition, homeLatLng, workLatLng) {
         var deferred = $q.defer();
 
-        var destinationLatLng = getDestinationLatLng(currentPosition);
+        var destinationLatLng = getDestinationLatLng(currentPosition, homeLatLng, workLatLng);
 
         var directionsService = new google.maps.DirectionsService;
         directionsService.route(

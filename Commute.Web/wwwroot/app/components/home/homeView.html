@@ -29,7 +29,7 @@
             </div>
         </md-whiteframe>
 
-        <md-whiteframe ng-if="authData.isAuthorized" class="md-whiteframe-6dp tabs-box" layout="column" flex md-colors="{backgroundColor: 'grey-50'}">
+        <md-whiteframe ng-if="authData.isAuthorized && profile" class="md-whiteframe-6dp tabs-box" layout="column" flex md-colors="{backgroundColor: 'grey-50'}">
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Kollektivt" md-on-select="switchToPublicTransportTab()">
                     <md-content class="md-padding public-transport">
@@ -48,10 +48,10 @@
                                     </md-card-header-text>
                                 </md-card-header>
                                 <md-card-content>
-                                    <p ng-if="!trip.isDelayed" class="md-headline">
+                                    <p ng-if="!trip.isDelayed" class="md-title">
                                         Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small>
                                     </p>
-                                    <p ng-if="trip.isDelayed" class="md-headline" md-colors="{color: 'warn'}">
+                                    <p ng-if="trip.isDelayed" class="md-title" md-colors="{color: 'warn'}">
                                         Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small>
                                     </p>
                                 </md-card-content>

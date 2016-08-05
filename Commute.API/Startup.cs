@@ -8,7 +8,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
-[assembly: OwinStartup(typeof(Startup))]
+[assembly: OwinStartup(typeof(Lilybot.Commute.API.Startup))]
 namespace Lilybot.Commute.API
 {
     public class Startup

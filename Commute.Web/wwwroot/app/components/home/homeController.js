@@ -5,15 +5,16 @@
         .module('myApp.home')
         .controller('HomeCtrl', controller);
 
-    controller.$inject = ['$scope', '$log', '$location', '$mdToast', '$geolocation', 'authService', 'vasttrafikService', 'googleTrafficService'];
+    controller.$inject = ['$scope', '$log', '$location', '$mdToast', '$geolocation', 'authService', 'profilesService', 'vasttrafikService', 'googleTrafficService'];
 
-    function controller($scope, $log, $location, $mdToast, $geolocation, authService, vasttrafikService, googleTrafficService) {
+    function controller($scope, $log, $location, $mdToast, $geolocation, authService, profilesService, vasttrafikService, googleTrafficService) {
         //$scope.isLoading = true;
         $scope.isWorking = false;
-
+        
         $scope.upcomingPublicTransportTrips = [];
         $scope.carRouteAlternatives = [];
 
+        $scope.profile = null;
         $scope.authData = {
             isAuthorized: false
         };
@@ -46,12 +47,21 @@
             console.log('Call to ' + failedMethodName + ' failed: ' + (error ? error.statusText : ''));
         }
 
+        function createProfile(response) {
+            return {
+                homeLocation: new google.maps.LatLng(response.homeLocationLatitude, response.homeLocationLongitude),
+                workLocation: new google.maps.LatLng(response.workLocationLatitude, response.workLocationLongitude),
+                homePublicTransportStationId: response.homePublicTransportStationId,
+                workPublicTransportStationId: response.workPublicTransportStationId
+            };
+        }
+
         function getUpcomingPublicTransportTrips() {
             $scope.isWorking = true;
             $geolocation.getCurrentPosition({
                 timeout: 60000
             }).then(function (position) {
-                vasttrafikService.getUpcomingTrips(position.coords)
+                vasttrafikService.getUpcomingTrips(position.coords, $scope.profile.homeLocation, $scope.profile.workLocation, $scope.profile.homePublicTransportStationId, $scope.profile.workPublicTransportStationId)
                     .then(
                         function (trips) { $scope.upcomingPublicTransportTrips = trips },
                         function (reason) { showError(reason + ' :(', 'vasttrafikService.upcomingPublicTransportTrips', null); }
@@ -71,7 +81,7 @@
             $geolocation.getCurrentPosition({
                 timeout: 60000
             }).then(function (position) {
-                googleTrafficService.getCarRouteAlternatives(position.coords)
+                googleTrafficService.getCarRouteAlternatives(position.coords, $scope.profile.homeLocation, $scope.profile.workLocation)
                     .then(
                         function (routes) { $scope.carRouteAlternatives = routes },
                         function (reason) { showError(reason + ' :(', 'googleTrafficService.getCarRouteAlternatives', null); }
@@ -88,6 +98,18 @@
 
         // === INITIALIZATION ===
         activate();
+
+        $scope.$watch('authData.isAuthorized', function () {
+            if ($scope.authData.isAuthorized) {
+                profilesService.getMyProfile()
+                    .then(
+                        function(response) {
+                            $scope.profile = createProfile(response.data);
+                        },
+                        function (response) { showError('Kunde inte hämta din profil :(', 'profilesService.getMyProfile', response) }
+                    );
+            }
+        });
 
         function activate() {
             $scope.authData.isAuthorized = authService.authentication.isAuth;

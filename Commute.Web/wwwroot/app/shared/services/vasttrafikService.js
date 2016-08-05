@@ -1,12 +1,6 @@
 ﻿'use strict';
 app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 'utilsService', 'appSettings', function ($http, $log, $q, localStorageService, utilsService, appSettings) {
 
-    var lindomeStationId = '9021014012711000';
-    var gotebordCId = '9021014008000000';
-
-    var homeLatLng = new google.maps.LatLng(57.5697346, 12.075034);
-    var workLatLng = new google.maps.LatLng(57.7083954, 11.9653797);
-
     var service = {
         getUpcomingTrips: getUpcomingTrips
     };
@@ -102,26 +96,26 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
         });
     }
     
-    function getTripIds(currentPosition) {
+    function getTripIds(currentPosition, homeLatLng, workLatLng, homeStationId, workStationId) {
         var currentPositionLatLng = new google.maps.LatLng(currentPosition.latitude, currentPosition.longitude);
 
         var distanceToHome = utilsService.computeDistanceBetween(currentPositionLatLng, homeLatLng);
         var distanceToWork = utilsService.computeDistanceBetween(currentPositionLatLng, workLatLng);
 
         if (distanceToHome < distanceToWork) {
-            return { originId: lindomeStationId, destId: gotebordCId };
+            return { originId: homeStationId, destId: workStationId };
         } else {
-            return { originId: gotebordCId, destId: lindomeStationId };
+            return { originId: workStationId, destId: homeStationId };
         }
     }
 
-    function getUpcomingTrips(currentPosition) {
+    function getUpcomingTrips(currentPosition, homeLatLng, workLatLng, homeStationId, workStationId) {
         var deferred = $q.defer();
 
         getAccessToken()
             .then(
                 function (accessToken) {
-                    var tripIds = getTripIds(currentPosition);
+                    var tripIds = getTripIds(currentPosition, homeLatLng, workLatLng, homeStationId, workStationId);
 
                     var url = 'https://api.vasttrafik.se/bin/rest.exe/v2/trip?originId=' + tripIds.originId + '&destId=' + tripIds.destId + '&format=json';
                     $http.get(url, { headers: { 'Authorization': 'Bearer ' + accessToken } })

@@ -23,6 +23,8 @@
         background-color: #3b5899; }
   .page.home .tabs-box {
     min-width: 280px; }
+  .page.home md-card-content {
+    padding-top: 0; }
   .page.home .public-transport md-card-header-text span {
     white-space: nowrap;
     overflow: hidden;

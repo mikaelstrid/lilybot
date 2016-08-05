@@ -20,7 +20,13 @@ namespace Lilybot.Commute.API.Controllers
         [Route("me")]
         public IHttpActionResult GetMyProfile()
         {
-            return Ok(new CommuteProfile(User.Identity.Name));
+            var existingProfile = _repository.Get(User.Identity.Name, p => true).SingleOrDefault();
+
+            if (existingProfile != null) return Ok(existingProfile);
+
+            var newProfile = new CommuteProfile(User.Identity.Name);
+            _repository.InsertOrUpdate(User.Identity.Name, newProfile);
+            return Ok(newProfile);
         }
 
         [HttpPost]
