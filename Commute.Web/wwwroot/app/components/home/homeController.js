@@ -24,6 +24,8 @@
             $scope.authData.isAuthorized = authService.authentication.isAuth;
         }
 
+        $scope.selectedTabIndex = 0;
+
         $scope.switchToPublicTransportTab = function () {
             if ($scope.authData.isAuthorized) {
                 $scope.upcomingPublicTransportTrips = [];
@@ -37,7 +39,7 @@
                 getCarRouteAlternatives();
             }
         }
-
+        
 
         // === HELPERS ===
         function showError(messageToUser, failedMethodName, error) {
@@ -52,8 +54,13 @@
                 homeLocation: new google.maps.LatLng(response.homeLocationLatitude, response.homeLocationLongitude),
                 workLocation: new google.maps.LatLng(response.workLocationLatitude, response.workLocationLongitude),
                 homePublicTransportStationId: response.homePublicTransportStationId,
-                workPublicTransportStationId: response.workPublicTransportStationId
+                workPublicTransportStationId: response.workPublicTransportStationId,
+                primaryWayOfCommuting: response.primaryWayOfCommuting
             };
+        }
+
+        function getSelectedTabIndex(primaryWayOfCommuting) {
+            return primaryWayOfCommuting === "publictransport" ? 0 : 1;
         }
 
         function getUpcomingPublicTransportTrips() {
@@ -105,6 +112,7 @@
                     .then(
                         function(response) {
                             $scope.profile = createProfile(response.data);
+                            $scope.selectedTabIndex = getSelectedTabIndex($scope.profile.primaryWayOfCommuting);
                         },
                         function (response) { showError('Kunde inte hämta din profil :(', 'profilesService.getMyProfile', response) }
                     );

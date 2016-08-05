@@ -21,5 +21,7 @@ namespace Lilybot.Commute.Domain
         public string HomePublicTransportStationId { get; set; }
 
         public string WorkPublicTransportStationId { get; set; }
+
+        public string PrimaryWayOfCommuting { get; set; }
     }
 }

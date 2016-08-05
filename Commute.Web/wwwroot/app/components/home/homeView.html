@@ -30,7 +30,7 @@
         </md-whiteframe>
 
         <md-whiteframe ng-if="authData.isAuthorized && profile" class="md-whiteframe-6dp tabs-box" layout="column" flex md-colors="{backgroundColor: 'grey-50'}">
-            <md-tabs md-dynamic-height md-border-bottom>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTabIndex">
                 <md-tab label="Kollektivt" md-on-select="switchToPublicTransportTab()">
                     <md-content class="md-padding public-transport">
                         <div layout="row" layout-align="space-around" ng-if="isWorking">
@@ -62,7 +62,7 @@
                         </div>
                     </md-content>
                 </md-tab>
-                <md-tab label="Bil" md-on-select="switchToCarTab()" md-active="true">
+                <md-tab label="Bil" md-on-select="switchToCarTab()">
                     <md-content class="md-padding">
                         <div layout="row" layout-align="space-around" ng-if="isWorking">
                             <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>

@@ -144,6 +144,10 @@
     <Compile Include="Migrations\201608051315578_AddedLocationsAndStationIds.Designer.cs">
       <DependentUpon>201608051315578_AddedLocationsAndStationIds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608051341571_AddedPrimaryWayOfCommuting.cs" />
+    <Compile Include="Migrations\201608051341571_AddedPrimaryWayOfCommuting.Designer.cs">
+      <DependentUpon>201608051341571_AddedPrimaryWayOfCommuting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommuteMigrateDbInitializer.cs" />
@@ -176,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608051315578_AddedLocationsAndStationIds.resx">
       <DependentUpon>201608051315578_AddedLocationsAndStationIds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608051341571_AddedPrimaryWayOfCommuting.resx">
+      <DependentUpon>201608051341571_AddedPrimaryWayOfCommuting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
