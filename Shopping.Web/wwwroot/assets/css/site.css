@@ -25,6 +25,9 @@
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
 
+md-toast {
+  position: fixed; }
+
 .bottom-right {
   position: fixed;
   bottom: 20px;
