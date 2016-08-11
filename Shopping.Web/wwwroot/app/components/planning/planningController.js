@@ -140,13 +140,13 @@
         
         // === INIT ===
         function activate() {
-            var receivedTop20Products = null;
+            var receivedTopProducts = null;
             var receivedItems = null;
 
-            var getProductsPromise = productsService.getTop(20)
+            var getProductsPromise = productsService.getTop(40)
                 .then(
                     function(result) {
-                        receivedTop20Products = result.data;
+                        receivedTopProducts = result.data;
                     },
                     function(error) {
                         showError('Lyckades inte hämta några produkter. :(', 'productsService.getAll', error);
@@ -162,8 +162,8 @@
                     });
 
             $q.all([getProductsPromise, getItemsPromise]).then(function () {
-                if (receivedTop20Products && receivedItems)
-                    populateProductsAndItems(receivedTop20Products, receivedItems);
+                if (receivedTopProducts && receivedItems)
+                    populateProductsAndItems(receivedTopProducts, receivedItems);
             }).finally(function () {
                 self.isLoading = false;
             });

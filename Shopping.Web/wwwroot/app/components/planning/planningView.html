@@ -31,7 +31,7 @@
                     Inga träffar hittade.
                 </md-not-found>
             </md-autocomplete>
-            <h4>De 20 vanligaste</h4>
+            <h4>De vanligaste</h4>
             <md-button class="md-raised" ng-repeat="product in vm.products" ng-show="!product.hidden" ng-click="vm.addItemToList(product)">{{product.name}}</md-button>
         </div>
         <div flex-xs flex-gt-xs="50">
