@@ -31,8 +31,12 @@
         function activate() {
             storesService.getAll()
                 .then(
-                    function(result) {
-                        $scope.stores = result.data;
+                    function (result) {
+                        if (result.data.length === 1) {
+                            $scope.selectStore(result.data[0]);
+                        } else {
+                            $scope.stores = result.data;
+                        }
                     },
                     function(error) {
                         showError('Lyckades inte hämta några butiker. :(', 'storesService.getAll', error);

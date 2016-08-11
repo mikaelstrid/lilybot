@@ -1,10 +1,10 @@
 ﻿<md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Bakåt" href="/#!/valj-butik">
-            <md-icon>arrow_back</md-icon>
+        <md-button class="md-icon-button" aria-label="Till startsidan" href="/#!/">
+            <md-icon>home</md-icon>
         </md-button>
         <h2>
-            <span>Handla</span>
+            <span>{{selectedStore.name}}</span>
         </h2>
         <span flex></span>
         <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent" md-diameter="25px"></md-progress-circular>
