@@ -16,6 +16,7 @@ namespace Lilybot.Commute.API
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             ConfigureOAuth(app);
 
             WebApiConfig.Register(config);
