@@ -5,13 +5,14 @@
         .module('myApp.planning')
         .controller('PlanningCtrl', controller);
 
-    controller.$inject = ['$location', 'productsService', 'itemsService', '$mdDialog', '$mdToast', '$q'];
+    controller.$inject = ['$location', 'productsService', 'itemsService', '$mdDialog', '$mdToast', '$q', '$mdMedia', '$log'];
 
-    function controller($location, productsService, itemsService, $mdDialog, $mdToast, $q) {
+    function controller($location, productsService, itemsService, $mdDialog, $mdToast, $q, $mdMedia, $log) {
         var self = this;
 
         self.isLoading = true;
         self.isWorking = false;
+        self.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
         self.products = [];
         self.items = [];
 
@@ -91,28 +92,25 @@
         };
         
         self.showAddNewProductDialog = function (ev) {
-            var confirm = $mdDialog.prompt()
-                  .title('Vad ska den nya produkten heta?')
-                  .placeholder('fyll i ett namn')
-                  .ariaLabel('Produktnamn')
-                  .targetEvent(ev)
-                  .ok('OK')
-                  .cancel('Avbryt');
-            $mdDialog.show(confirm).then(function (dialogResult) {
-                self.isWorking = true;
-                productsService.add(dialogResult)
-                    .then(
-                        function(result) {
-                            self.products.push(result.data);
-                        },
-                        function(error) {
-                            showError('Lyckades inte spara den nya produkten. :(', 'productsService.add', error);
-                        })
-                    .finally(function() {
-                        self.isWorking = false;
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && self.customFullscreen;
+            $mdDialog.show({
+                    controller: 'CreateNewProductDialogController',
+                    controllerAs: 'vm',
+                    templateUrl: 'app/components/planning/createNewProductDialog.tmpl.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: useFullScreen
+                })
+                .then(
+                    function (result) {
+                        self.addItemToList(result.data);
+                    },
+                    function (error) {
+                        showError('Lyckades inte skapa den nya produkten. :(', 'productsService.add', error);
                     });
-            });
         };
+
 
         // === HELPERS ===
         function showError(messageToUser, failedMethodName, error) {
@@ -137,7 +135,6 @@
         }
 
 
-        
         // === INIT ===
         function activate() {
             var receivedTopProducts = null;

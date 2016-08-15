@@ -27,7 +27,7 @@ namespace Lilybot.Shopping.API.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            var allStores = _storeRepository.GetAll(Username);
+            var allStores = _storeRepository.GetAll(Username, "Sections");
             var allStoreDtos = DefaultMapper.Map<IEnumerable<Store>, IEnumerable<StoreDto>>(allStores);
             return Ok(allStoreDtos);
         }
