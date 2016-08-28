@@ -5,21 +5,22 @@
         .module('myApp.shopping')
         .controller('ShoppingCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', '$routeParams', 'storesService', 'itemsService', '$mdToast', '$q'];
+    controller.$inject = ['$location', '$routeParams', 'storesService', 'itemsService', '$mdToast', '$q'];
 
-    function controller($scope, $location, $routeParams, storesService, itemsService, $mdToast, $q) {
+    function controller($location, $routeParams, storesService, itemsService, $mdToast, $q) {
+        var self = this;
 
-        $scope.isLoading = true;
-        $scope.isWorking = false;
-        $scope.selectedStore = null;
-        $scope.items = [];
+        self.isLoading = true;
+        self.isWorking = false;
+        self.selectedStore = null;
+        self.items = [];
 
-        $scope.markItemAsDone = function(item) {
-            $scope.isWorking = true;
+        self.markItemAsDone = function(item) {
+            self.isWorking = true;
             itemsService.markItemAsDone(item.id)
                 .then(
                     function () {
-                        _.forEach($scope.selectedStore.sections,
+                        _.forEach(self.selectedStore.sections,
                             function (section) {
                                 if (_.some(section.items, ['id', item.id])) {
                                     _.remove(section.items, ['id', item.id]);
@@ -27,13 +28,13 @@
                                     return false;
                                 }
                             });
-                        _.remove($scope.items, ['id', item.id]);
+                        _.remove(self.items, ['id', item.id]);
                     },
                     function(error) {
                         showError('Lyckades inte markera varan som klar. :(', 'itemsService.markItemAsDone', error);
                     })
                 .finally(function() {
-                    $scope.isWorking = false;
+                    self.isWorking = false;
                 });
         }
 
@@ -61,23 +62,23 @@
         }
 
         function reAddItemToList(item) {
-            $scope.isWorking = true;
+            self.isWorking = true;
             itemsService.reAdd(item.id)
                 .then(
                     function () {
-                        $scope.items.push(item);
+                        self.items.push(item);
                         addItemToStoreSection(item);
                     },
                     function (error) {
                         showError('Lyckades inte lägga tillbaka varan i inköpslistan. :(', 'itemsService.reAdd', error);
                     })
                 .finally(function () {
-                    $scope.isWorking = false;
+                    self.isWorking = false;
                 });
         }
 
         function addItemToStoreSection(item) {
-            _.forEach($scope.selectedStore.sections,
+            _.forEach(self.selectedStore.sections,
                 function(section) {
                     section.items = section.items || [];
                     if (_.some(section.products, ['id', item.productId])) {
@@ -93,7 +94,7 @@
             var getStorePromise = storesService.get($routeParams.id)
                 .then(
                     function(result) {
-                        $scope.selectedStore = result.data;
+                        self.selectedStore = result.data;
                     },
                     function(error) {
                         showError('Lyckades inte hämta butiken. :(', 'storesService.get', error);
@@ -102,7 +103,7 @@
             var getItemsPromise = itemsService.getActive()
                 .then(
                     function(result) {
-                        $scope.items = result.data;
+                        self.items = result.data;
                     },
                     function(error) {
                         showError('Lyckades inte hämta några varor. :(', 'itemsService.getActive', error);
@@ -110,13 +111,13 @@
 
             $q.all([getStorePromise, getItemsPromise])
                 .then(function () {
-                    if ($scope.selectedStore) {
-                        _.forEach($scope.items, function(item) {
+                    if (self.selectedStore) {
+                        _.forEach(self.items, function(item) {
                                 addItemToStoreSection(item);
                             });
                     }
                 })
-                .finally(function () { $scope.isLoading = false; });
+                .finally(function () { self.isLoading = false; });
         }
 
         activate();

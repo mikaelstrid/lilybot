@@ -4,17 +4,18 @@
             <md-icon>home</md-icon>
         </md-button>
         <h2>
-            <span>{{selectedStore.name}}</span>
+            <span>{{vm.selectedStore.name}}</span>
         </h2>
         <span flex></span>
-        <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent" md-diameter="25px"></md-progress-circular>
+        <md-progress-circular ng-show="vm.isLoading || vm.isWorking" md-mode="indeterminate" class="md-accent" md-diameter="25px"></md-progress-circular>
+        <span hide-gt-xs class="number-of-items">{{vm.items.length}} {{(vm.items.length === 1 ? 'vara' : 'varor')}}</span>
     </div>
 </md-toolbar>
 
-<md-list ng-if="!isLoading && selectedStore">
-    <div ng-repeat="section in selectedStore.sections">
+<md-list ng-if="!vm.isLoading && vm.selectedStore">
+    <div ng-repeat="section in vm.selectedStore.sections">
         <md-subheader class="md-accent">{{ section.name }}</md-subheader>
-        <md-list-item ng-repeat="item in section.items | orderBy:'productName'" ng-click="markItemAsDone(item)">
+        <md-list-item ng-repeat="item in section.items | orderBy:'productName'" ng-click="vm.markItemAsDone(item)">
             <p> {{ item.productName }} </p>
             <span>{{ item.comment }}</span>
         </md-list-item>

@@ -6,6 +6,10 @@ md-toolbar {
     &.toolbar-transparent {
         background-color: transparent;
     }
+
+    .number-of-items {
+        margin-left: 12px;
+    }
 }
 
 md-toast {
