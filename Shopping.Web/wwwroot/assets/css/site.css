@@ -22,6 +22,9 @@
         color: #fafafa;
         background-color: #3b5899; }
 
+.page.planning .number-of-items {
+  margin-left: 12px; }
+
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
 
