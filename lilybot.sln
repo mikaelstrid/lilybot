@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A5000A7D-3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commute.API", "Commute.API\Commute.API.csproj", "{14FD0E04-441B-4278-8E62-70EEE22EE083}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.UpdateItemCountJob", "Shopping.UpdateItemCountJob\Shopping.UpdateItemCountJob.csproj", "{73422BF3-62CE-461A-857F-3351655A90F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AzureProduction|Any CPU = AzureProduction|Any CPU
@@ -56,8 +58,8 @@ Global
 		{8207EAB4-CF3F-4BEE-B942-13EC4DAEB3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8207EAB4-CF3F-4BEE-B942-13EC4DAEB3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8207EAB4-CF3F-4BEE-B942-13EC4DAEB3B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.AzureProduction|Any CPU.ActiveCfg = AzureProduction|Any CPU
-		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.AzureProduction|Any CPU.Build.0 = AzureProduction|Any CPU
+		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.AzureProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.AzureProduction|Any CPU.Build.0 = Release|Any CPU
 		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE85A387-3A05-42C3-94A5-E3E83C04C241}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -98,8 +100,8 @@ Global
 		{2497DA91-8B18-4FBC-80FC-B016F8F0766F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2497DA91-8B18-4FBC-80FC-B016F8F0766F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2497DA91-8B18-4FBC-80FC-B016F8F0766F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.AzureProduction|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.AzureProduction|Any CPU.Build.0 = Debug|Any CPU
+		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.AzureProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.AzureProduction|Any CPU.Build.0 = Release|Any CPU
 		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E2F6E59-797E-473A-A74B-F8D58632BE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -128,6 +130,12 @@ Global
 		{14FD0E04-441B-4278-8E62-70EEE22EE083}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14FD0E04-441B-4278-8E62-70EEE22EE083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14FD0E04-441B-4278-8E62-70EEE22EE083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73422BF3-62CE-461A-857F-3351655A90F5}.AzureProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{73422BF3-62CE-461A-857F-3351655A90F5}.AzureProduction|Any CPU.Build.0 = Release|Any CPU
+		{73422BF3-62CE-461A-857F-3351655A90F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73422BF3-62CE-461A-857F-3351655A90F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73422BF3-62CE-461A-857F-3351655A90F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73422BF3-62CE-461A-857F-3351655A90F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,5 +154,6 @@ Global
 		{3AC3F328-2D53-4EFB-9A33-117720B563DF} = {8E9F4E3A-A972-443A-9E05-893435F78318}
 		{F3DBD9BB-42B8-41C2-BC2B-C5973CB76B55} = {8E9F4E3A-A972-443A-9E05-893435F78318}
 		{14FD0E04-441B-4278-8E62-70EEE22EE083} = {8E9F4E3A-A972-443A-9E05-893435F78318}
+		{73422BF3-62CE-461A-857F-3351655A90F5} = {E96383C5-C0B6-4DAC-9C78-481FC9284983}
 	EndGlobalSection
 EndGlobal

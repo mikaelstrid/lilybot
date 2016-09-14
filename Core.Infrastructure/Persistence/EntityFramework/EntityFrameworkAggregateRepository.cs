@@ -20,11 +20,12 @@ namespace Lilybot.Core.Infrastructure.Persistence.EntityFramework
             DbSet = context.Set<T>();
         }
 
-        public virtual IEnumerable<T> GetAll(string username, string includeProperties = "")
+        public virtual IEnumerable<T> GetAll(string username = "", string includeProperties = "")
         {
             IQueryable<T> query = DbSet;
 
-            query = query.Where(e => e.Username == username);
+            if (!string.IsNullOrWhiteSpace(username) && username != "*")
+                query = query.Where(e => e.Username == username);
 
             foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
                 query = query.Include(includeProperty);
@@ -91,6 +92,21 @@ namespace Lilybot.Core.Infrastructure.Persistence.EntityFramework
                 {
                     throw new ArgumentException("No aggregate to update found.");
                 }
+            }
+        }
+
+        public virtual void Update(T aggregate)
+        {
+            var existingAggregate = Get(a => a.Id == aggregate.Id).SingleOrDefault();
+
+            if (existingAggregate != null)
+            {
+                Context.Entry(aggregate).State = EntityState.Modified;
+                Context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("No aggregate to update found.");
             }
         }
 

@@ -20,11 +20,21 @@ namespace Lilybot.Core.Infrastructure.Persistence.EntityFramework
 
         public virtual IEnumerable<Event> GetAll(string username, string includeProperties = "")
         {
+            return GetFrom(username, null, includeProperties);
+        }
+
+        public IEnumerable<Event> GetFrom(string username, DateTime? timestampUtc, string includeProperties = "")
+        {
             IQueryable<Event> query = DbSet;
 
-            query = query.Where(e => e.Username == username);
+            if (!string.IsNullOrWhiteSpace(username) && username != "*")
+                query = query.Where(e => e.Username == username);
 
-            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) {
+            if (timestampUtc.HasValue)
+                query = query.Where(e => e.TimestampUtc >= timestampUtc.Value);
+
+            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
                 query = query.Include(includeProperty);
             }
 
