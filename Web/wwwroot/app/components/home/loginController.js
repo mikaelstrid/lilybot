@@ -8,36 +8,38 @@
     controller.$inject = ['$scope', '$location', '$log', 'authenticationService', 'appSettings'];
 
     function controller($scope, $location, $log, authenticationService, appSettings) {
+        var vm = this;
 
-        $scope.loginUsingExternalProvider = function (provider) {
-            // Open the provider login form as a new window
+        vm.loginUsingExternalProvider = function (provider) {
             var redirectUri = location.protocol + '//' + location.host + '/authcomplete.html';
-            var externalProviderUrl = appSettings.authApiServiceBaseUri +
-                "api/Account/ExternalLogin?provider=" + provider +
+            var externalProviderUrl =
+                appSettings.authApiServiceBaseUri +
+                "api/login?provider=" + provider +
                 "&response_type=token&client_id=" + appSettings.clientId +
                 "&redirect_uri=" + redirectUri;
             window.$windowScope = $scope;
-            var oauthWindow = window.open(externalProviderUrl,
+            $log.log(externalProviderUrl);
+            var oauthWindow = window.open(
+                externalProviderUrl,
                 "Logga in med " + provider,
                 "location=0,status=0,centerscreen,width=600,height=750");
         };
 
-        $scope.authenticationCompletedCallback = function (fragment) {
+        vm.authenticationCompletedCallback = function (fragment) {
             $scope.$apply(function () {
-                var externalAuthData = {
-                    provider: fragment.provider,
-                    userName: fragment.external_user_name,
-                    accessToken: fragment.external_access_token
-                };
-                authenticationService.updateExternalAuthData(externalAuthData);
+                authenticationService.userData.externalProvider = fragment.provider;
+                authenticationService.userData.externalDisplayName = fragment.external_user_name;
+                authenticationService.userData.externalAccessToken = fragment.external_access_token;
+                authenticationService.saveUserData();
+                $log.log('authenticationCompletedCallback', 'apply', JSON.stringify(authenticationService.userData));
 
                 if (fragment.haslocalaccount === 'False') {
                     $location.path('/skapa-konto');
                 } else {
-                    authenticationService.obtainAccessToken(externalAuthData)
+                    authenticationService.obtainAccessToken(fragment.provider, fragment.external_access_token)
                         .then(
-                            function(response) {
-                                $scope.userData.isAuthorized = authenticationService.userData.isAuthorized; // Parent scope
+                            function() {
+                                $scope.user.isAuthorized = authenticationService.userData.isAuthorized; // Parent scope
                             },
                             function(err) {
                                 $log.log(err.error_description);

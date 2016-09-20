@@ -5,13 +5,13 @@
         .module('myApp.home')
         .controller('HomeCtrl', controller);
 
-    controller.$inject = ['$location', '$mdToast', 'authenticationService'];
+    controller.$inject = ['$scope', '$location', '$mdToast', 'authenticationService'];
 
-    function controller($location, $mdToast, authenticationService) {
-        /* jshint validthis:true */
+    function controller($scope, $location, $mdToast, authenticationService) {
         var vm = this;
 
         vm.user = {
+            authenticationPending: true,
             isAuthorized: false
         };
 
@@ -35,14 +35,9 @@
         activate();
 
         function activate() {
-            authenticationService.checkToken()
-                .then(
-                    function () {
-                        vm.user.isAuthorized = authenticationService.userData.isAuthorized;
-                    },
-                    function(err) {
-                        //$scope.message = err.error_description;
-                    });
+            window.setTimeout(function() { $scope.$apply(function() {
+                vm.user.authenticationPending = false;
+            }); }, 300);
         }
     }
 })();

@@ -1,8 +1,6 @@
 ﻿'use strict';
-app.factory('authenticationInterceptorService', ['$q', '$injector', '$location', 'localStorageService', 'appSettings', function ($q, $injector, $location, localStorageService, appSettings) {
+app.factory('authenticationInterceptorService', ['$q', '$injector', '$location', 'appSettings', function ($q, $injector, $location, localStorageService, appSettings) {
 
-    var authInterceptorServiceFactory = {};
-    
     // Checks whether the specified url is listed in the configuration as a url that should have the auth token appended
     function isUrlListed(url) {
         return appSettings.appendAuthTokenUrls && 
@@ -15,10 +13,10 @@ app.factory('authenticationInterceptorService', ['$q', '$injector', '$location',
         if (!isUrlListed(config.url)) return config;
 
         config.headers = config.headers || {};
-       
-        var authData = localStorageService.get('authorizationData');
-        if (authData) {
-            config.headers.Authorization = 'Bearer ' + authData.token;
+
+        var authenticationService = $injector.get('authenticationService');
+        if (authenticationService.userData.lilybotAccessToken) {
+            config.headers.Authorization = 'Bearer ' + authenticationService.userData.lilybotAccessToken;
         }
 
         return config;
@@ -33,8 +31,8 @@ app.factory('authenticationInterceptorService', ['$q', '$injector', '$location',
         return $q.reject(rejection);
     }
 
-    authInterceptorServiceFactory.request = _request;
-    authInterceptorServiceFactory.responseError = _responseError;
-
-    return authInterceptorServiceFactory;
+    var factory = {};
+    factory.request = _request;
+    factory.responseError = _responseError;
+    return factory;
 }]);

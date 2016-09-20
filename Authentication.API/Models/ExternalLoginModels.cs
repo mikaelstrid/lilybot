@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lilybot.Authentication.API.Models
 {
@@ -9,7 +10,7 @@ namespace Lilybot.Authentication.API.Models
         public string State { get; set; }
     }
 
-    public class RegisterExternalBindingModel
+    public class RegisterApiModel
     {
         [Required]
         public string Provider { get; set; }
@@ -22,5 +23,6 @@ namespace Lilybot.Authentication.API.Models
     {
         public string user_id { get; set; }
         public string app_id { get; set; }
+        public DateTimeOffset expires_at { get; set; }
     }
 }

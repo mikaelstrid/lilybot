@@ -17,9 +17,7 @@ namespace Lilybot.Authentication.API.Providers
             Client client;
 
             if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
-            {
                 context.TryGetFormCredentials(out clientId, out clientSecret);
-            }
 
             if (context.ClientId == null)
             {

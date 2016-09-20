@@ -7,7 +7,8 @@ namespace Lilybot.Authentication.API.Providers
     public class FacebookAuthProvider : FacebookAuthenticationProvider
     {
         // http://stackoverflow.com/questions/25646055/facebook-popup-login-with-owin
-        public override void ApplyRedirect(FacebookApplyRedirectContext context) {
+        public override void ApplyRedirect(FacebookApplyRedirectContext context)
+        {
             context.Response.Redirect(context.RedirectUri + "&display=popup");
         }
 

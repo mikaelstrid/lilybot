@@ -6,7 +6,8 @@ angular.module('myApp.createAccount', ['ngRoute'])
             $routeProvider.when('/skapa-konto',
             {
                 templateUrl: 'app/components/createAccount/createAccountView.html',
-                controller: 'CreateAccountCtrl'
+                controller: 'CreateAccountCtrl',
+                controllerAs: 'vm'
             });
         }
     ]);

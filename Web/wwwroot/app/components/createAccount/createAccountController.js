@@ -5,15 +5,15 @@
         .module('myApp.createAccount')
         .controller('CreateAccountCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'authenticationService'];
+    controller.$inject = ['$location', 'authenticationService'];
 
-    function controller($scope, $location, authenticationService) {
+    function controller($location, authenticationService) {
+        var vm = this;
 
-        $scope.userDisplayName = authenticationService.externalAuthData.userName;
+        vm.userDisplayName = authenticationService.userData.externalDisplayName;
 
-        $scope.createAccount = function () {
-            var externalAuthData = authenticationService.externalAuthData;
-            authenticationService.createAccount(externalAuthData.provider, externalAuthData.accessToken)
+        vm.createAccount = function () {
+            authenticationService.createAccount(authenticationService.userData.externalProvider, authenticationService.userData.externalAccessToken)
                 .then(
                     function () {
                         $location.path('/home');
@@ -23,10 +23,8 @@
                         for (var key in response.modelState) {
                             errors.push(response.modelState[key]);
                         }
-                        $scope.message = "Failed to register user due to:" + errors.join(' ');
-                        console.log($scope.message);
+                        vm.message = "Failed to register user due to:" + errors.join(' ');
                     });
         };
-
     }
 })();

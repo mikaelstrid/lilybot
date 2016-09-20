@@ -1,26 +1,39 @@
 .page.home {
   position: relative;
-  min-height: 100vh; }
-  .page.home .brand {
-    margin-top: 50px;
-    margin-bottom: 30px;
+  min-height: 100vh;
+  /*.brand {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        text-align: center;
+
+        .material-icons {
+            border: 1px solid $white;
+            padding: 10px;
+            font-size: 40px;
+            padding: 20px;
+            border-radius: 60px;
+        }
+    }
+
+    .login-box {
+        background-color: $white;
+        text-align: center;
+
+        .md-button.facebook {
+            color: $white;
+            background-color: $facebook-blue-medium;
+            padding: 6px 24px;
+
+            &:not([disabled]) {
+                &:hover, &:active, &:focus {
+                    color: $white;
+                    background-color: $facebook-blue;
+                }
+            }
+        }
+    }*/ }
+  .page.home .welcome {
     text-align: center; }
-    .page.home .brand .material-icons {
-      border: 1px solid #fafafa;
-      padding: 10px;
-      font-size: 40px;
-      padding: 20px;
-      border-radius: 60px; }
-  .page.home .login-box {
-    background-color: #fafafa;
-    text-align: center; }
-    .page.home .login-box .md-button.facebook {
-      color: #fafafa;
-      background-color: #4267b2;
-      padding: 6px 24px; }
-      .page.home .login-box .md-button.facebook:not([disabled]):hover, .page.home .login-box .md-button.facebook:not([disabled]):active, .page.home .login-box .md-button.facebook:not([disabled]):focus {
-        color: #fafafa;
-        background-color: #3b5899; }
 
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
