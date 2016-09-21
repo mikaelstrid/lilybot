@@ -39,9 +39,10 @@
                     authenticationService.obtainAccessToken(fragment.provider, fragment.external_access_token)
                         .then(
                             function() {
-                                $scope.user.isAuthorized = authenticationService.userData.isAuthorized; // Parent scope
+                                $scope.$parent.vm.user.isAuthorized = authenticationService.userData.isAuthorized;
                             },
                             function(err) {
+                                $scope.$parent.vm.user.isAuthorized = authenticationService.userData.isAuthorized;
                                 $log.log(err.error_description);
                             });
                 }

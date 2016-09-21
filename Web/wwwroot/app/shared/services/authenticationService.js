@@ -89,7 +89,7 @@ app.factory('authenticationService', ['$http', '$q', '$log', 'localStorageServic
 
     var authServiceFactory = {};
     authServiceFactory.userData = _userData;
-    authServiceFactory.clearUserData = _clearUserData();
+    authServiceFactory.clearUserData = _clearUserData;
     authServiceFactory.saveUserData = _saveUserData;
     authServiceFactory.loadUserData = _loadUserData;
     authServiceFactory.logOut = _logOut;

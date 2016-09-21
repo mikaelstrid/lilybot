@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('authenticationInterceptorService', ['$q', '$injector', '$location', 'appSettings', function ($q, $injector, $location, localStorageService, appSettings) {
+app.factory('authenticationInterceptorService', ['$q', '$injector', '$location', 'appSettings', function ($q, $injector, $location, appSettings) {
 
     // Checks whether the specified url is listed in the configuration as a url that should have the auth token appended
     function isUrlListed(url) {

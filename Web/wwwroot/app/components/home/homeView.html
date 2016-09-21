@@ -4,10 +4,11 @@
     <h1 class="md-headline welcome" ng-if="vm.user.authenticationPending">Välkommen!<br/>Vänta medan vi loggar in dig.</h1>
 
     <div ng-controller="LoginCtrl as vm" ng-if="!vm.user.authenticationPending && !vm.user.isAuthorized">
-        <md-button aria-label="Fortsätt med Facebook" ng-click="vm.loginUsingExternalProvider('Facebook');">Logga in med Facebook</md-button>
+        <md-button ng-click="vm.loginUsingExternalProvider('Facebook');">Logga in med Facebook</md-button>
     </div>
 
     <div ng-if="!vm.user.authenticationPending && vm.user.isAuthorized">
-        Inloggad
+        Inloggad <br/>
+        <md-button ng-click="vm.logout();">Logga ut</md-button>
     </div>
 </md-content>
