@@ -25,6 +25,10 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
     $mdThemingProvider.theme('default')
         .primaryPalette('lightOrange')
         .accentPalette('pink');
+
+    $mdThemingProvider.theme('introTheme')
+        .dark()
+        .primaryPalette('purple');
 }]);
 
 var AUTH_API_SERVICE_BASE_URI = 'http://localhost:51350/';

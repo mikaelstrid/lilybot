@@ -11,7 +11,6 @@
         var vm = this;
 
         vm.user = {
-            authenticationPending: false,
             isAuthorized: false
         };
 
@@ -27,9 +26,6 @@
         activate();
 
         function activate() {
-            //window.setTimeout(function() { $scope.$apply(function() {
-            //    vm.user.authenticationPending = false;
-            //}); }, 300);
             vm.user.isAuthorized = authenticationService.userData.isAuthorized;
         }
     }

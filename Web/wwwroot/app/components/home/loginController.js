@@ -18,7 +18,6 @@
                 "&response_type=token&client_id=" + appSettings.clientId +
                 "&redirect_uri=" + redirectUri;
             window.$windowScope = $scope;
-            $log.log(externalProviderUrl);
             var oauthWindow = window.open(
                 externalProviderUrl,
                 "Logga in med " + provider,
@@ -31,7 +30,6 @@
                 authenticationService.userData.externalDisplayName = fragment.external_user_name;
                 authenticationService.userData.externalAccessToken = fragment.external_access_token;
                 authenticationService.saveUserData();
-                $log.log('authenticationCompletedCallback', 'apply', JSON.stringify(authenticationService.userData));
 
                 if (fragment.haslocalaccount === 'False') {
                     $location.path('/skapa-konto');
@@ -39,11 +37,13 @@
                     authenticationService.obtainAccessToken(fragment.provider, fragment.external_access_token)
                         .then(
                             function() {
-                                $scope.$parent.vm.user.isAuthorized = authenticationService.userData.isAuthorized;
                             },
                             function(err) {
-                                $scope.$parent.vm.user.isAuthorized = authenticationService.userData.isAuthorized;
                                 $log.log(err.error_description);
+                            })
+                        .finally(
+                            function() {
+                                $scope.$parent.vm.user.isAuthorized = authenticationService.userData.isAuthorized;
                             });
                 }
             });

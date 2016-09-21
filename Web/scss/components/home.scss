@@ -4,40 +4,38 @@
     position: relative;
     min-height: 100vh;
 
-   .welcome {
-       text-align: center;
-   }
-
-
-    /*.brand {
-        margin-top: 50px;
-        margin-bottom: 30px;
-        text-align: center;
+    .brand {
+        height: 50vh;
 
         .material-icons {
-            border: 1px solid $white;
+            font-size: 80px;
+        }
+    }
+
+    .md-button.facebook {
+        color: $white;
+        background-color: $facebook-blue-medium;
+        padding: 6px 24px;
+
+        &:not([disabled]) {
+            &:hover, &:active, &:focus {
+                color: $white;
+                background-color: $facebook-blue;
+            }
+        }
+    }
+
+    .buttons {
+        a {
+            text-align: center;
+        }
+
+        .material-icons {
+            border: 2px solid $white;
             padding: 10px;
-            font-size: 40px;
+            font-size: 30px;
             padding: 20px;
             border-radius: 60px;
         }
     }
-
-    .login-box {
-        background-color: $white;
-        text-align: center;
-
-        .md-button.facebook {
-            color: $white;
-            background-color: $facebook-blue-medium;
-            padding: 6px 24px;
-
-            &:not([disabled]) {
-                &:hover, &:active, &:focus {
-                    color: $white;
-                    background-color: $facebook-blue;
-                }
-            }
-        }
-    }*/
 }

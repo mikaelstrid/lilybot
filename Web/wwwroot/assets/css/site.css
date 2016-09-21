@@ -1,39 +1,25 @@
 .page.home {
   position: relative;
-  min-height: 100vh;
-  /*.brand {
-        margin-top: 50px;
-        margin-bottom: 30px;
-        text-align: center;
-
-        .material-icons {
-            border: 1px solid $white;
-            padding: 10px;
-            font-size: 40px;
-            padding: 20px;
-            border-radius: 60px;
-        }
-    }
-
-    .login-box {
-        background-color: $white;
-        text-align: center;
-
-        .md-button.facebook {
-            color: $white;
-            background-color: $facebook-blue-medium;
-            padding: 6px 24px;
-
-            &:not([disabled]) {
-                &:hover, &:active, &:focus {
-                    color: $white;
-                    background-color: $facebook-blue;
-                }
-            }
-        }
-    }*/ }
-  .page.home .welcome {
+  min-height: 100vh; }
+  .page.home .brand {
+    height: 50vh; }
+    .page.home .brand .material-icons {
+      font-size: 80px; }
+  .page.home .md-button.facebook {
+    color: #fafafa;
+    background-color: #4267b2;
+    padding: 6px 24px; }
+    .page.home .md-button.facebook:not([disabled]):hover, .page.home .md-button.facebook:not([disabled]):active, .page.home .md-button.facebook:not([disabled]):focus {
+      color: #fafafa;
+      background-color: #3b5899; }
+  .page.home .buttons a {
     text-align: center; }
+  .page.home .buttons .material-icons {
+    border: 2px solid #fafafa;
+    padding: 10px;
+    font-size: 30px;
+    padding: 20px;
+    border-radius: 60px; }
 
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
