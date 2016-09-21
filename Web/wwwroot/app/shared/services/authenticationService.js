@@ -29,7 +29,9 @@ app.factory('authenticationService', ['$http', '$q', '$log', 'localStorageServic
     }
 
     var _loadUserData = function () {
-        _userData = localStorageService.get('userAuthData');
+        var storedData = localStorageService.get('userAuthData');
+        if (storedData) 
+            angular.extend(_userData, storedData);
     }
 
     var _logOut = function () {

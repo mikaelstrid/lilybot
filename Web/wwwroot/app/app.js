@@ -44,6 +44,7 @@ app.config(function ($httpProvider) {
 });
 
 app.run(['authenticationService', function (authenticationService) {
+    authenticationService.loadUserData();
 }]);
 
 

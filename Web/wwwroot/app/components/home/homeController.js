@@ -11,7 +11,7 @@
         var vm = this;
 
         vm.user = {
-            authenticationPending: true,
+            authenticationPending: false,
             isAuthorized: false
         };
 
@@ -24,20 +24,13 @@
             vm.user.isAuthorized = authenticationService.userData.isAuthorized;
         }
 
-        // === HELPERS ===
-        function showError(messageToUser, failedMethodName, error) {
-            if (error.status !== 401) {
-                $mdToast.show($mdToast.simple().textContent(messageToUser).hideDelay(3000));
-                console.log('Call to storesService.' + failedMethodName + ' failed: ' + error.statusText);
-            }
-        }
-
         activate();
 
         function activate() {
-            window.setTimeout(function() { $scope.$apply(function() {
-                vm.user.authenticationPending = false;
-            }); }, 300);
+            //window.setTimeout(function() { $scope.$apply(function() {
+            //    vm.user.authenticationPending = false;
+            //}); }, 300);
+            vm.user.isAuthorized = authenticationService.userData.isAuthorized;
         }
     }
 })();
