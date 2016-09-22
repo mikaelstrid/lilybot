@@ -6,7 +6,8 @@ var app = angular.module('myApp',
     'ngRoute',
     'LocalStorageModule',
     'myApp.home',
-    'myApp.createAccount'
+    'myApp.createAccount',
+    'myApp.shopping'
     //'myApp.stores',
     //'myApp.products',
     //'myApp.planning',

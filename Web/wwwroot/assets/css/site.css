@@ -6,23 +6,20 @@
     color: #fafafa;
     background-color: #3b5899; }
 
-/*md-toolbar {
-    &.toolbar-transparent {
-        background-color: transparent;
-    }
+md-toolbar.toolbar-transparent {
+  background-color: transparent; }
 
-    .number-of-items {
-        margin-left: 12px;
-    }
-}*/
+md-toolbar .number-of-items {
+  margin-left: 12px; }
+
 md-toast {
   position: fixed; }
 
-/*.bottom-right {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-}*/
+.bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px; }
+
 .page {
   position: relative;
   min-height: 100vh; }

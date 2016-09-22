@@ -1,7 +1,7 @@
 ﻿@import 'variables.scss';
 @import 'components/home.scss';
 
-/*md-toolbar {
+md-toolbar {
     &.toolbar-transparent {
         background-color: transparent;
     }
@@ -9,18 +9,17 @@
     .number-of-items {
         margin-left: 12px;
     }
-}*/
+}
 
 md-toast {
     position: fixed;
 }
 
-/*.bottom-right {
+.bottom-right {
     position: fixed;
     bottom: 20px;
     right: 20px;
-}*/
-
+}
 
 .page {
     position: relative;
