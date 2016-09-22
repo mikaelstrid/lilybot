@@ -1,0 +1,40 @@
+﻿<md-dialog ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Skapa ny produkt</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="vm.onCancelClicked()">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="column">
+                <h3>Vad ska produkten heta?</h3>
+                <md-input-container>
+                    <label>Namn på produkten</label>
+                    <input ng-model="vm.newProduct.name">
+                </md-input-container>
+                <h3>I vilka avdelningar finns produkten?</h3>
+                <md-input-container ng-repeat="store in vm.stores | filter:vm.storeHasSections">
+                    <label>{{store.name}}</label>
+                    <md-select ng-model="vm.newProduct.storeSections[store.id]">
+                        <md-option ng-repeat="section in store.sections" value="{{section.id}}">
+                            {{section.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="vm.onCancelClicked()">
+                Avbryt
+            </md-button>
+            <md-button ng-click="vm.onCreateClicked()" ng-disabled="!vm.newProduct.name">
+                Skapa
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

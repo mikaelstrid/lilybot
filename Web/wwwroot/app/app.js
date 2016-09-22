@@ -8,28 +8,18 @@ var app = angular.module('myApp',
     'myApp.home',
     'myApp.createAccount',
     'myApp.shopping'
-    //'myApp.stores',
-    //'myApp.products',
-    //'myApp.planning',
-    //'myApp.shopping'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', function ($locationProvider, $routeProvider, $mdThemingProvider) {
     $locationProvider.hashPrefix('!');
     $routeProvider.otherwise({ redirectTo: '/' });
 
-    var lightOrange = $mdThemingProvider.extendPalette('orange', {
-        'contrastDefaultColor': 'light'
-    });
-    $mdThemingProvider.definePalette('lightOrange', lightOrange);
-
     $mdThemingProvider.theme('default')
-        .primaryPalette('lightOrange')
-        .accentPalette('pink');
+        .primaryPalette('purple')
+        .accentPalette('deep-purple');
 
     $mdThemingProvider.theme('introTheme')
-        .dark()
-        .primaryPalette('purple');
+        .dark();
 }]);
 
 var AUTH_API_SERVICE_BASE_URI = 'http://localhost:51350/';

@@ -71,13 +71,10 @@ app.factory('authenticationService', ['$http', '$q', '$log', 'localStorageServic
     var _obtainAccessToken = function (provider, externalAccessToken) {
         var deferred = $q.defer();
 
-        $log.log('_obtainAccessToken', 'before post', provider, externalAccessToken);
-
         $http.get(serviceBase + 'api/access-token', { params: { provider: provider, externalAccessToken: externalAccessToken }})
             .then(
                 function (tokenResponse) {
                     _handleSuccessfulLilybotTokenRepsonse(provider, externalAccessToken, tokenResponse.data);
-                    $log.log('_obtainAccessToken', 'get response', JSON.stringify(_userData));
                     deferred.resolve(tokenResponse);
                 },
                 function(err) {

@@ -5,11 +5,12 @@
         .module('myApp.shopping.home')
         .controller('ShoppingHomeCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', '$mdSidenav'];
+    controller.$inject = ['$location', '$mdSidenav'];
 
-    function controller($scope, $location, $mdSidenav) {
+    function controller($location, $mdSidenav) {
+        var vm = this;
 
-        $scope.goto = function (page) {
+        vm.goto = function (page) {
             $location.path('/' + page);
         }
 
