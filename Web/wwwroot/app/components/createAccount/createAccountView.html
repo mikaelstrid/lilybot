@@ -1,4 +1,14 @@
 ﻿<md-content class="page home" layout="column" layout-padding layout-align="center center" md-theme="introTheme">
-    <p>Vill du skapa ett konto för {{vm.userDisplayName}}?</p>
-    <md-button class="md-raised md-primary" ng-click="vm.createAccount();">Japp, skapa konto</md-button>
+    <div flex="initial" layout="column" layout-align="center center" class="brand">
+        <i class="material-icons">face</i>
+        <h1 class="md-headline">
+            lilybot
+        </h1>
+        <p class="md-caption">Din smarta hjälpreda i molnet</p>
+    </div>
+
+    <div flex layout="column" layout-align="center center">
+        <p>Vill du skapa ett konto för {{vm.userDisplayName}}?</p>
+        <md-button class="md-raised md-primary" ng-click="vm.createAccount();">Japp, skapa konto</md-button>
+    </div>
 </md-content>
