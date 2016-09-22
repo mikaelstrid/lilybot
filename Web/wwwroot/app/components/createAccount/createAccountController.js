@@ -10,6 +10,10 @@
     function controller($location, authenticationService) {
         var vm = this;
 
+        vm.goto = function (page) {
+            $location.path('/' + page);
+        }
+
         vm.userDisplayName = authenticationService.userData.externalDisplayName;
 
         vm.createAccount = function () {

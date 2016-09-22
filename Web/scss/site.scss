@@ -1,7 +1,7 @@
 ﻿@import 'variables.scss';
 @import 'components/home.scss';
 
-md-toolbar {
+/*md-toolbar {
     &.toolbar-transparent {
         background-color: transparent;
     }
@@ -9,14 +9,50 @@ md-toolbar {
     .number-of-items {
         margin-left: 12px;
     }
-}
+}*/
 
 md-toast {
     position: fixed;
 }
 
-.bottom-right {
+/*.bottom-right {
     position: fixed;
     bottom: 20px;
     right: 20px;
+}*/
+
+
+.page {
+    position: relative;
+    min-height: 100vh;
+
+    .brand {
+        height: 50vh;
+
+        .material-icons {
+            font-size: 80px;
+        }
+    }
+
+    .content-area {
+        height: 200px;
+    }
+
+    .buttons {
+        a {
+            text-align: center;
+        }
+
+        .material-icons {
+            border: 2px solid $white;
+            padding: 10px;
+            font-size: 30px;
+            padding: 20px;
+            border-radius: 60px;
+        }
+    }
+
+    .bottom-menu {
+        height: 64px;
+    }
 }

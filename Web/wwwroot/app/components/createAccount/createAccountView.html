@@ -1,5 +1,5 @@
-﻿<md-content class="page home" layout="column" layout-padding layout-align="center center" md-theme="introTheme">
-    <div flex="initial" layout="column" layout-align="center center" class="brand">
+﻿<md-content class="page" layout="column" layout-padding layout-align="center center" md-theme="introTheme">
+    <div flex layout="column" layout-align="center center" class="brand">
         <i class="material-icons">face</i>
         <h1 class="md-headline">
             lilybot
@@ -7,8 +7,12 @@
         <p class="md-caption">Din smarta hjälpreda i molnet</p>
     </div>
 
-    <div flex layout="column" layout-align="center center">
+    <div flex="none" layout="column" layout-align="center center" class="content-area">
         <p>Vill du skapa ett konto för {{vm.userDisplayName}}?</p>
         <md-button class="md-raised md-primary" ng-click="vm.createAccount();">Japp, skapa konto</md-button>
+    </div>
+
+    <div class="bottom-menu" layout="row" layout-align="center center">
+        <md-button ng-click="vm.goto('');">Tillbaka</md-button>
     </div>
 </md-content>

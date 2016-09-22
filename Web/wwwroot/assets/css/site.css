@@ -1,36 +1,44 @@
-.page.home {
+.page.home .md-button.facebook {
+  color: #fafafa;
+  background-color: #4267b2;
+  padding: 6px 24px; }
+  .page.home .md-button.facebook:not([disabled]):hover, .page.home .md-button.facebook:not([disabled]):active, .page.home .md-button.facebook:not([disabled]):focus {
+    color: #fafafa;
+    background-color: #3b5899; }
+
+/*md-toolbar {
+    &.toolbar-transparent {
+        background-color: transparent;
+    }
+
+    .number-of-items {
+        margin-left: 12px;
+    }
+}*/
+md-toast {
+  position: fixed; }
+
+/*.bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}*/
+.page {
   position: relative;
   min-height: 100vh; }
-  .page.home .brand {
+  .page .brand {
     height: 50vh; }
-    .page.home .brand .material-icons {
+    .page .brand .material-icons {
       font-size: 80px; }
-  .page.home .md-button.facebook {
-    color: #fafafa;
-    background-color: #4267b2;
-    padding: 6px 24px; }
-    .page.home .md-button.facebook:not([disabled]):hover, .page.home .md-button.facebook:not([disabled]):active, .page.home .md-button.facebook:not([disabled]):focus {
-      color: #fafafa;
-      background-color: #3b5899; }
-  .page.home .buttons a {
+  .page .content-area {
+    height: 200px; }
+  .page .buttons a {
     text-align: center; }
-  .page.home .buttons .material-icons {
+  .page .buttons .material-icons {
     border: 2px solid #fafafa;
     padding: 10px;
     font-size: 30px;
     padding: 20px;
     border-radius: 60px; }
-
-md-toolbar.toolbar-transparent {
-  background-color: transparent; }
-
-md-toolbar .number-of-items {
-  margin-left: 12px; }
-
-md-toast {
-  position: fixed; }
-
-.bottom-right {
-  position: fixed;
-  bottom: 20px;
-  right: 20px; }
+  .page .bottom-menu {
+    height: 64px; }

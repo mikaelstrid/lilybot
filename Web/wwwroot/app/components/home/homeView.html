@@ -1,5 +1,5 @@
 ﻿<md-content class="page home" layout="column" layout-padding md-theme="introTheme">
-    <div flex="initial" layout="column" layout-align="center center" class="brand">
+    <div flex layout="column" layout-align="center center" class="brand">
         <i class="material-icons">face</i>
         <h1 class="md-headline">
             lilybot
@@ -7,7 +7,7 @@
         <p class="md-caption">Din smarta hjälpreda i molnet</p>
     </div>
 
-    <div flex layout="row" layout-align="center center">
+    <div flex="none" layout="row" layout-align="center center" class="content-area">
         <div ng-controller="LoginCtrl as vm" ng-if="!vm.user.isAuthorized">
             <md-button class="facebook" ng-click="vm.loginUsingExternalProvider('Facebook');">Fortsätt med Facebook</md-button>
         </div>
@@ -16,16 +16,21 @@
             <div flex layout="column" layout-align="center center">
                 <a>
                     <i class="material-icons">add_shopping_cart</i>
-                    <h2 class="md-subhead"><strong>shopping</strong></h2>
+                    <h2 class="md-subhead"><strong>shopping</strong>
+                    </h2>
                 </a>
             </div>
             <div flex layout="column" layout-align="center center">
                 <a>
                     <i class="material-icons">train</i>
-                    <h2 class="md-subhead"><strong>commute</strong></h2>
+                    <h2 class="md-subhead"><strong>commute</strong>
+                    </h2>
                 </a>
             </div>
         </div>
     </div>
-    <md-button ng-if="vm.user.isAuthorized" flex="initial" class="md-primary" ng-click="vm.logout();">Logga ut</md-button>
+
+    <div class="bottom-menu" layout="row" layout-align="center center">
+        <md-button ng-if="vm.user.isAuthorized" ng-click="vm.logout();">Logga ut</md-button>
+    </div>
 </md-content>

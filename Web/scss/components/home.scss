@@ -1,17 +1,6 @@
 ﻿@import '../variables.scss';
 
 .page.home {
-    position: relative;
-    min-height: 100vh;
-
-    .brand {
-        height: 50vh;
-
-        .material-icons {
-            font-size: 80px;
-        }
-    }
-
     .md-button.facebook {
         color: $white;
         background-color: $facebook-blue-medium;
@@ -22,20 +11,6 @@
                 color: $white;
                 background-color: $facebook-blue;
             }
-        }
-    }
-
-    .buttons {
-        a {
-            text-align: center;
-        }
-
-        .material-icons {
-            border: 2px solid $white;
-            padding: 10px;
-            font-size: 30px;
-            padding: 20px;
-            border-radius: 60px;
         }
     }
 }
