@@ -14,7 +14,7 @@
 
 <md-list ng-if="!vm.isLoading && vm.selectedStore">
     <div ng-repeat="section in vm.selectedStore.sections">
-        <md-subheader class="md-accent">{{ section.name }}</md-subheader>
+        <md-subheader class="md-primary">{{ section.name }}</md-subheader>
         <md-list-item ng-repeat="item in section.items | orderBy:'productName'" ng-click="vm.markItemAsDone(item)">
             <p> {{ item.productName }} </p>
             <span>{{ item.comment }}</span>

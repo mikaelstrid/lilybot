@@ -95,7 +95,7 @@
             $mdDialog.show({
                     controller: 'CreateNewProductDialogController',
                     controllerAs: 'vm',
-                    templateUrl: 'app/components/planning/createNewProductDialog.tmpl.html',
+                    templateUrl: 'app/shopping/components/planning/createNewProductDialog.tmpl.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
