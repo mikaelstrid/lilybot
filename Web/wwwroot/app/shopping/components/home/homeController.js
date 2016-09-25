@@ -14,6 +14,10 @@
             $location.path('/' + page);
         }
 
+        vm.onMenuButtonClicked = function() {
+            $mdSidenav('right').open();
+        }
+
         activate();
 
         function activate() {

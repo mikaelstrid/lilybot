@@ -15,6 +15,13 @@ md-toast {
     position: fixed;
 }
 
+
+.top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
 .bottom-right {
     position: fixed;
     bottom: 20px;
@@ -23,7 +30,6 @@ md-toast {
 
 .page {
     position: relative;
-    min-height: 100vh;
 
     .brand {
         height: 50vh;

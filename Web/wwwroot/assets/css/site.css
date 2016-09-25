@@ -15,14 +15,18 @@ md-toolbar .number-of-items {
 md-toast {
   position: fixed; }
 
+.top-right {
+  position: fixed;
+  top: 20px;
+  right: 20px; }
+
 .bottom-right {
   position: fixed;
   bottom: 20px;
   right: 20px; }
 
 .page {
-  position: relative;
-  min-height: 100vh; }
+  position: relative; }
   .page .brand {
     height: 50vh; }
     .page .brand .material-icons {
