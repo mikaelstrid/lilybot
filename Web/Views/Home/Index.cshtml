@@ -10,58 +10,62 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-    <link href="assets/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/bower_components/angular-material/angular-material.css" />
+    <link href="~/assets/css/site.css" rel="stylesheet" />
 
     @Html.Partial("_Favicons")
 
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="~/manifest.json">
 </head>
 <body>
     <div ng-view></div>
 
     <!-- 3rd party libraries -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-material/angular-material.js" type="text/javascript"></script>
-    <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
-    <script src="bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="~/bower_components/angular/angular.js"></script>
+    <script src="~/bower_components/angular-route/angular-route.js"></script>
+    <script src="~/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="~/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="~/bower_components/angular-material/angular-material.js" type="text/javascript"></script>
+    <script src="~/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    <script src="~/bower_components/lodash/dist/lodash.min.js"></script>
 
     <!-- Load app main script -->
-    <script src="app/app.js"></script>
+    <script src="~/app/app.js"></script>
+    <environment names="Development">
+        <script src="~/app/app-settings-dev.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/app/app-settings-prod.js"></script>
+    </environment>
 
     <!-- Load core -->
-    <script src="app/core/services/authenticationInterceptorService.js"></script>
-    <script src="app/core/services/authenticationService.js"></script>
-    <script src="app/core/services/facebookService.js"></script>
-    <script src="app/core/components/home/home.js"></script>
-    <script src="app/core/components/home/homeController.js"></script>
-    <script src="app/core/components/home/loginController.js"></script>
-    <script src="app/core/components/createAccount/createAccount.js"></script>
-    <script src="app/core/components/createAccount/createAccountController.js"></script>
+    <script src="~/app/core/services/authenticationInterceptorService.js"></script>
+    <script src="~/app/core/services/authenticationService.js"></script>
+    <script src="~/app/core/services/facebookService.js"></script>
+    <script src="~/app/core/components/home/home.js"></script>
+    <script src="~/app/core/components/home/homeController.js"></script>
+    <script src="~/app/core/components/home/loginController.js"></script>
+    <script src="~/app/core/components/createAccount/createAccount.js"></script>
+    <script src="~/app/core/components/createAccount/createAccountController.js"></script>
 
     <!-- Load shopping -->
-    <script src="app/shopping/shopping.js"></script>
-    <script src="app/shopping/services/profilesService.js"></script>
-    <script src="app/shopping/services/storesService.js"></script>
-    <script src="app/shopping/services/productsService.js"></script>
-    <script src="app/shopping/services/itemsService.js"></script>
-    <script src="app/shopping/components/home/home.js"></script>
-    <script src="app/shopping/components/home/homeController.js"></script>
-    <script src="app/shopping/components/stores/stores.js"></script>
-    <script src="app/shopping/components/stores/storesController.js"></script>
-    <script src="app/shopping/components/stores/storeDetailsController.js"></script>
-    <script src="app/shopping/components/products/products.js"></script>
-    <script src="app/shopping/components/products/productsController.js"></script>
-    <script src="app/shopping/components/planning/planning.js"></script>
-    <script src="app/shopping/components/planning/planningController.js"></script>
-    <script src="app/shopping/components/planning/createNewProductDialogController.js"></script>
-    <script src="app/shopping/components/inStore/inStore.js"></script>
-    <script src="app/shopping/components/inStore/inStoreController.js"></script>
-    <script src="app/shopping/components/inStore/selectStoreController.js"></script>
-
-
+    <script src="~/app/shopping/shopping.js"></script>
+    <script src="~/app/shopping/services/profilesService.js"></script>
+    <script src="~/app/shopping/services/storesService.js"></script>
+    <script src="~/app/shopping/services/productsService.js"></script>
+    <script src="~/app/shopping/services/itemsService.js"></script>
+    <script src="~/app/shopping/components/home/home.js"></script>
+    <script src="~/app/shopping/components/home/homeController.js"></script>
+    <script src="~/app/shopping/components/stores/stores.js"></script>
+    <script src="~/app/shopping/components/stores/storesController.js"></script>
+    <script src="~/app/shopping/components/stores/storeDetailsController.js"></script>
+    <script src="~/app/shopping/components/products/products.js"></script>
+    <script src="~/app/shopping/components/products/productsController.js"></script>
+    <script src="~/app/shopping/components/planning/planning.js"></script>
+    <script src="~/app/shopping/components/planning/planningController.js"></script>
+    <script src="~/app/shopping/components/planning/createNewProductDialogController.js"></script>
+    <script src="~/app/shopping/components/inStore/inStore.js"></script>
+    <script src="~/app/shopping/components/inStore/inStoreController.js"></script>
+    <script src="~/app/shopping/components/inStore/selectStoreController.js"></script>
 </body>
 </html>
