@@ -39,3 +39,4 @@
 /// <reference path="bower_components/angular-messages/angular-messages.js" />
 /// <reference path="bower_components/angular-mocks/angular-mocks.js" />
 /// <reference path="bower_components/angular-route/angular-route.js" />
+/// <reference path="bower_components/inobounce/inobounce.js" />

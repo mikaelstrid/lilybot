@@ -1,6 +1,11 @@
 ﻿@import 'variables.scss';
 @import 'components/home.scss';
 
+.view-wrapper {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 md-toolbar {
     &.toolbar-transparent {
         background-color: transparent;

@@ -6,6 +6,10 @@
     color: #fafafa;
     background-color: #3b5899; }
 
+.view-wrapper {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; }
+
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
 
