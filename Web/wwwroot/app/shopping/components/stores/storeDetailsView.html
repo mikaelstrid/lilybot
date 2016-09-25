@@ -20,15 +20,14 @@
 <section ng-if="!isLoading">
     <md-content class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="50" layout="column">
-            <md-card ng-repeat="section in store.sections.slice(0, storeCenterIndex)">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{section.name}}</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                    <md-menu ng-repeat="product in section.products | orderBy:'name'">
-                        <md-button md-colors="::{backgroundColor: 'brown'}" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
+            <md-list ng-repeat="section in store.sections.slice(0, storeCenterIndex)">
+                <md-subheader class="md-no-sticky md-primary">{{section.name}}</md-subheader>
+                <md-list-item ng-repeat="product in section.products | orderBy:'name'">
+                    <p>{{product.name}}</p>
+                    <md-menu>
+                        <md-button class="md-icon-button">
+                            <md-icon>move_to_inbox</md-icon>
+                        </md-button>
                         <md-menu-content width="3">
                             <md-menu-item ng-repeat="toSection in store.sections">
                                 <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
@@ -37,34 +36,19 @@
                             <md-menu-item><md-button ng-click="moveProductToSection(product, section, store.ignoredProductsSection)">Ignorera</md-button></md-menu-item>
                         </md-menu-content>
                     </md-menu>
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp(section)">
-                        <md-icon>arrow_upward</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown(section)">
-                        <md-icon>arrow_downward</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Ändra namn" ng-click="showRenameSectionDialog($event, section)">
-                        <md-icon>edit</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Ta bort" ng-click="showDeleteSectionDialog($event, section)">
-                        <md-icon>delete</md-icon>
-                    </md-button>
-                </md-card-actions>
-            </md-card>
+                </md-list-item>
+            </md-list>
         </div>
         <div flex-xs flex-gt-xs="50" layout="column">
-            <md-card ng-repeat="section in store.sections.slice(storeCenterIndex)">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{section.name}}</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                    <md-menu ng-repeat="product in section.products | orderBy:'name'">
-                        <md-button md-colors="::{backgroundColor: 'brown'}" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
-                        <md-menu-content>
+            <md-list ng-repeat="section in store.sections.slice(storeCenterIndex)">
+                <md-subheader class="md-no-sticky md-primary">{{section.name}}</md-subheader>
+                <md-list-item ng-repeat="product in section.products | orderBy:'name'">
+                    <p>{{product.name}}</p>
+                    <md-menu>
+                        <md-button class="md-icon-button">
+                            <md-icon>move_to_inbox</md-icon>
+                        </md-button>
+                        <md-menu-content width="3">
                             <md-menu-item ng-repeat="toSection in store.sections">
                                 <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
                             </md-menu-item>
@@ -72,70 +56,54 @@
                             <md-menu-item><md-button ng-click="moveProductToSection(product, section, store.ignoredProductsSection)">Ignorera</md-button></md-menu-item>
                         </md-menu-content>
                     </md-menu>
-                </md-card-content>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning uppåt" ng-click="moveSectionUp(section)">
-                        <md-icon>arrow_upward</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Flytta avdelning nedåt" ng-click="moveSectionDown(section)">
-                        <md-icon>arrow_downward</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Ändra namn" ng-click="showRenameSectionDialog($event, section)">
-                        <md-icon>edit</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Ta bort" ng-click="showDeleteSectionDialog($event, section)">
-                        <md-icon>delete</md-icon>
-                    </md-button>
-                </md-card-actions>
-            </md-card>
+                </md-list-item>
+            </md-list>
         </div>
     </md-content>
 
     <md-content ng-if="newProductsSection.products.length > 0" class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="100" layout="column">
-            <md-card>
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{newProductsSection.name}}</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                    <md-menu ng-repeat="product in newProductsSection.products | orderBy:'name'">
-                        <md-button md-colors="::{backgroundColor: 'brown'}" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
-                        <md-menu-content>
-                            <md-menu-item ng-repeat="section in store.sections"><md-button ng-click="moveProductToSection(product, newProductsSection, section)">{{section.name}}</md-button></md-menu-item>
-                            <md-menu-divider></md-menu-divider>
-                            <md-menu-item>
-                                <md-button ng-click="moveProductToSection(product, newProductsSection, store.ignoredProductsSection)">Ignorera</md-button>
+            <md-list>
+                <md-subheader class="md-no-sticky md-primary">{{newProductsSection.name}}</md-subheader>
+                <md-list-item ng-repeat="product in newProductsSection.products | orderBy:'name'">
+                    <p>{{product.name}}</p>
+                    <md-menu>
+                        <md-button class="md-icon-button">
+                            <md-icon>move_to_inbox</md-icon>
+                        </md-button>
+                        <md-menu-content width="3">
+                            <md-menu-item ng-repeat="toSection in store.sections">
+                                <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
                             </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item><md-button ng-click="moveProductToSection(product, section, store.ignoredProductsSection)">Ignorera</md-button></md-menu-item>
                         </md-menu-content>
                     </md-menu>
-                </md-card-content>
-            </md-card>
+                </md-list-item>
+            </md-list>
         </div>
     </md-content>
 
     <md-content ng-if="store.ignoredProductsSection.products.length > 0" class="md-padding" layout-xs="column" layout="row">
         <div flex-xs flex-gt-xs="100" layout="column">
-            <md-card>
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{store.ignoredProductsSection.name}}</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                    <md-menu ng-repeat="product in store.ignoredProductsSection.products | orderBy:'name'">
-                        <md-button class="md-raised" ng-click="$mdOpenMenu($event)">{{product.name}}</md-button>
-                        <md-menu-content>
-                            <md-menu-item ng-repeat="section in store.sections"><md-button ng-click="moveProductToSection(product, store.ignoredProductsSection, section)">{{section.name}}</md-button></md-menu-item>
-                            <md-menu-divider></md-menu-divider>
-                            <md-menu-item>
-                                <md-button disabled="disabled" ng-click="moveProductToSection(product, store.ignoredProductsSection, store.ignoredProductsSection)">Ignorera</md-button>
+            <md-list>
+                <md-subheader class="md-no-sticky md-primary">{{store.ignoredProductsSection.name}}</md-subheader>
+                <md-list-item ng-repeat="product in store.ignoredProductsSection.products | orderBy:'name'">
+                    <p>{{product.name}}</p>
+                    <md-menu>
+                        <md-button class="md-icon-button">
+                            <md-icon>move_to_inbox</md-icon>
+                        </md-button>
+                        <md-menu-content width="3">
+                            <md-menu-item ng-repeat="toSection in store.sections">
+                                <md-button ng-disabled="section.id==toSection.id" ng-click="moveProductToSection(product, section, toSection)">{{toSection.name}}</md-button>
                             </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item><md-button ng-click="moveProductToSection(product, section, store.ignoredProductsSection)">Ignorera</md-button></md-menu-item>
                         </md-menu-content>
                     </md-menu>
-                </md-card-content>
-            </md-card>
+                </md-list-item>
+            </md-list>
         </div>
     </md-content>
 
