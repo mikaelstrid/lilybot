@@ -85,7 +85,7 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
                     name: trip.Leg.Destination.name,
                     planned: {
                         date: trip.Leg.Destination.date,
-                        time: trip.Leg.Destination.time,
+                        time: trip.Leg.Destination.time
                     },
                     expected: {
                         date: trip.Leg.Destination.rtDate,

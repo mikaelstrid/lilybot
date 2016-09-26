@@ -1,0 +1,34 @@
+<md-content class="page" layout="column" layout-fill>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Till startsidan" href="/#!/pendla">
+                <md-icon>home</md-icon>
+            </md-button>
+            <h2>
+                <span>Kollektivt</span>
+            </h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+
+    <div layout="row" flex layout-align="center center" ng-show="vm.isLoading" >
+        <md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="50px"></md-progress-circular>
+    </div>
+
+    <md-list class="md-dense" flex>
+        <md-list-item class="md-2-line" ng-repeat="trip in vm.upcomingPublicTransportTrips">
+            <md-icon class="md-avatar-icon">train</md-icon>
+            <div class="md-list-item-text">
+                <h3 ng-if="!trip.isDelayed">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small></h3>
+                <h3 ng-if="trip.isDelayed" md-colors="{color: 'warn'}">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small></h3>
+                <p>{{trip.origin.name}}-{{trip.destination.name}}</p>
+            </div>
+        </md-list-item>
+    </md-list>
+
+    <md-button ng-shoe="!vm.isLoading" ng-click="vm.refresh();" class="md-fab bottom-right">
+        <md-icon>refresh</md-icon>
+    </md-button>
+</md-content>
+
+
