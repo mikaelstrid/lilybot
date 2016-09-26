@@ -30,7 +30,9 @@
     <script src="~/bower_components/angular-material/angular-material.js" type="text/javascript"></script>
     <script src="~/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <script src="~/bower_components/lodash/dist/lodash.min.js"></script>
-
+    <script src="~/bower_components/ngGeolocation/ngGeolocation.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDB0gXIlcf1tAqY8gCeabUX4hLsemSm_iA&libraries=geometry"></script>
+    
     <!-- Load app main script -->
     <script src="~/app/app.js"></script>
     <environment names="Development">
@@ -69,5 +71,15 @@
     <script src="~/app/shopping/components/inStore/inStore.js"></script>
     <script src="~/app/shopping/components/inStore/inStoreController.js"></script>
     <script src="~/app/shopping/components/inStore/selectStoreController.js"></script>
+
+    <!-- Load commute -->
+    <script src="~/app/commute/commute.js"></script>
+    <script src="~/app/commute/services/profilesService.js"></script>
+    <script src="~/app/commute/services/googleTrafficService.js"></script>
+    <script src="~/app/commute/services/utilsService.js"></script>
+    <script src="~/app/commute/services/vasttrafikService.js"></script>
+    <script src="~/app/commute/components/home/home.js"></script>
+    <script src="~/app/commute/components/home/homeController.js"></script>
+
 </body>
 </html>

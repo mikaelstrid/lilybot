@@ -9,7 +9,7 @@
 
     function factory($http, appSettings) {
 
-        var serviceBase = appSettings.resourceApiServiceBaseUri;
+        var serviceBase = appSettings.shoppingApiServiceBaseUri;
         var pathBase = 'api/items';
 
         var service = {

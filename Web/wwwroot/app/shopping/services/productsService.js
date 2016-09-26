@@ -8,7 +8,7 @@
     factory.$inject = ['$http', 'appSettings'];
 
     function factory($http, appSettings) {
-        var serviceBase = appSettings.resourceApiServiceBaseUri;
+        var serviceBase = appSettings.shoppingApiServiceBaseUri;
         var pathBase = 'api/products';
 
         var service = {

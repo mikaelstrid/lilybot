@@ -1,0 +1,70 @@
+﻿<md-content class="page home" md-colors="{backgroundColor: 'primary'}">
+
+    <div layout="column" layout-margin layout-align="center center">
+        <div class="brand">
+            <i class="material-icons" md-colors="::{backgroundColor: 'primary-600'}">train</i>
+            <h1 class="md-headline">
+                lilybot:<strong>commute</strong>
+            </h1>
+            <p class="md-caption">Den smarta pendlingsassistenten</p>
+        </div>
+
+        <md-whiteframe ng-if="vm.profile" class="md-whiteframe-6dp tabs-box" layout="column" flex md-colors="{backgroundColor: 'grey-50'}">
+            <md-tabs md-dynamic-height md-border-bottom md-selected="vm.selectedTabIndex">
+                <md-tab label="Kollektivt" md-on-select="vm.switchToPublicTransportTab()">
+                    <md-content class="md-padding public-transport">
+                        <div layout="row" layout-align="space-around" ng-if="vm.isWorking">
+                            <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
+                        </div>
+                        <div ng-if="vm.upcomingPublicTransportTrips.length > 0">
+                            <md-card ng-repeat="trip in vm.upcomingPublicTransportTrips">
+                                <md-card-header>
+                                    <md-card-avatar>
+                                        <md-icon class="md-avatar-icon">train</md-icon>
+                                    </md-card-avatar>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{trip.origin.name}}</span>
+                                        <span class="md-subhead">{{trip.destination.name}}</span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-card-content>
+                                    <p ng-if="!trip.isDelayed" class="md-title">
+                                        Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small>
+                                    </p>
+                                    <p ng-if="trip.isDelayed" class="md-title" md-colors="{color: 'warn'}">
+                                        Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small>
+                                    </p>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Bil" md-on-select="vm.switchToCarTab()">
+                    <md-content class="md-padding">
+                        <div layout="row" layout-align="space-around" ng-if="vm.isWorking">
+                            <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
+                        </div>
+                        <div ng-if="vm.carRouteAlternatives.length > 0">
+                            <md-card ng-repeat="route in vm.carRouteAlternatives">
+                                <md-card-header>
+                                    <md-card-avatar>
+                                        <md-icon class="md-avatar-icon">directions_car</md-icon>
+                                    </md-card-avatar>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{route.startAddress}}</span>
+                                        <span class="md-subhead">{{route.endAddress}}</span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-card-content>
+                                    <p class="md-title">
+                                        <span md-colors="{color: 'primary'}">{{route.name}}</span> : {{route.expectedDurationInMinutes}} min <small class="md-caption">({{route.distanceInKilometers.toFixed(1)}} km)</small>
+                                    </p>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-whiteframe>
+    </div>
+</md-content>

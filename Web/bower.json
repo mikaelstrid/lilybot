@@ -9,7 +9,8 @@
     "angular-material": "^1.1.0",
     "angular-local-storage": "^0.2.7",
     "lodash": "^4.13.1",
-    "inobounce": ""
+    "inobounce": "",
+    "ngGeolocation": ">=0.0.2"
   },
   "devDependencies": {}
 }

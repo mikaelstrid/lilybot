@@ -7,7 +7,8 @@ var app = angular.module('myApp',
     'LocalStorageModule',
     'myApp.home',
     'myApp.createAccount',
-    'myApp.shopping'
+    'myApp.shopping',
+    'myApp.commute'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', function ($locationProvider, $routeProvider, $mdThemingProvider) {
