@@ -11,7 +11,7 @@
         </div>
     </md-toolbar>
 
-    <div layout="row" flex layout-align="center center" ng-show="vm.isLoading" >
+    <div layout="row" flex layout-align="center center" ng-show="vm.isLoading">
         <md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="50px"></md-progress-circular>
     </div>
 
@@ -25,6 +25,10 @@
             </div>
         </md-list-item>
     </md-list>
+
+    <div layout-margin ng-show="vm.lastUpdateTime">
+        <p class="md-caption">Senast uppdaterad kl {{vm.lastUpdateTime | date:'HH:mm'}}</p>
+    </div>
 
     <md-button ng-shoe="!vm.isLoading" ng-click="vm.refresh();" class="md-fab bottom-right">
         <md-icon>refresh</md-icon>

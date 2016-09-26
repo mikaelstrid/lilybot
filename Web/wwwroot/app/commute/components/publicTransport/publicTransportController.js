@@ -11,6 +11,7 @@
         var vm = this;
         vm.isLoading = false;
         vm.upcomingPublicTransportTrips = [];
+        vm.lastUpdateTime = null;
 
         vm.getUpcomingPublicTransportTrips = function() {
             vm.isLoading = true;
@@ -18,10 +19,14 @@
             $geolocation.getCurrentPosition({
                 timeout: 60000
             }).then(function (position) {
+                vm.lastUpdateTime = null;
                 vm.upcomingPublicTransportTrips = [];
                 vasttrafikService.getUpcomingTrips(position.coords, me.homeLocation, me.workLocation, me.homePublicTransportStationId, me.workPublicTransportStationId)
                     .then(
-                        function (trips) { vm.upcomingPublicTransportTrips = trips },
+                        function(trips) {
+                            vm.upcomingPublicTransportTrips = trips;
+                            vm.lastUpdateTime = new Date();
+                        },
                         function (reason) { showError(reason + ' :(', 'vasttrafikService.upcomingPublicTransportTrips', null); }
                     )
                     .finally(function () { vm.isLoading = false; });
