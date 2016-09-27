@@ -1,0 +1,37 @@
+<md-content class="page" layout="column" layout-fill>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Till startsidan" href="/#!/pendla">
+                <md-icon>home</md-icon>
+            </md-button>
+            <h2>
+                <span>Bil</span>
+            </h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+
+    <div layout="row" flex layout-align="center center" ng-show="vm.isLoading">
+        <md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="50px"></md-progress-circular>
+    </div>
+
+    <md-list class="md-dense" flex>
+        <md-list-item class="md-2-line" ng-repeat="route in vm.carRouteAlternatives">
+            <md-icon class="md-avatar-icon">directions_car</md-icon>
+            <div class="md-list-item-text">
+                <h3><span md-colors="{color: 'primary'}">{{route.name}}</span> : {{route.expectedDurationInMinutes}} min <small class="md-caption">({{route.distanceInKilometers.toFixed(1)}} km)</small></h3>
+                <p>{{route.startAddress}} till {{route.endAddress}}</p>
+            </div>
+        </md-list-item>
+    </md-list>
+
+    <div layout-margin ng-show="vm.lastUpdateTime">
+        <p class="md-caption">Senast uppdaterad kl {{vm.lastUpdateTime | date:'HH:mm'}}</p>
+    </div>
+
+    <md-button ng-shoe="!vm.isLoading" ng-click="vm.refresh();" class="md-fab bottom-right">
+        <md-icon>refresh</md-icon>
+    </md-button>
+</md-content>
+
+

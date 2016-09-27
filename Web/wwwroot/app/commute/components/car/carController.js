@@ -2,42 +2,40 @@
     'use strict';
 
     angular
-        .module('myApp.commute.publicTransport')
-        .controller('PublicTransportCtrl', controller);
+        .module('myApp.commute.car')
+        .controller('CarCtrl', controller);
 
-    controller.$inject = ['$log', '$location', '$mdDialog', '$mdToast', '$geolocation', 'vasttrafikService', 'profileService'];
+    controller.$inject = ['$log', '$location', '$mdDialog', '$mdToast', '$geolocation', 'googleTrafficService', 'profileService'];
 
-    function controller($log, $location, $mdDialog, $mdToast, $geolocation, vasttrafikService, profileService) {
+    function controller($log, $location, $mdDialog, $mdToast, $geolocation, googleTrafficService, profileService) {
         var vm = this;
         vm.isLoading = false;
-        vm.upcomingPublicTransportTrips = [];
+        vm.carRouteAlternatives = [];
         vm.lastUpdateTime = null;
 
-        vm.getUpcomingPublicTransportTrips = function() {
+        vm.getCarRouteAlternatives = function () {
             vm.isLoading = true;
             var me = profileService.me;
             $geolocation.getCurrentPosition({
                 timeout: 60000
             }).then(function (position) {
-                vm.lastUpdateTime = null;
-                vm.upcomingPublicTransportTrips = [];
-                vasttrafikService.getUpcomingTrips(position.coords, me.homeLocation, me.workLocation, me.homePublicTransportStationId, me.workPublicTransportStationId)
+                googleTrafficService.getCarRouteAlternatives(position.coords, me.homeLocation, me.workLocation)
                     .then(
-                        function(trips) {
-                            vm.upcomingPublicTransportTrips = trips;
+                        function (routes) {
+                            vm.carRouteAlternatives = routes;
                             vm.lastUpdateTime = new Date();
                         },
-                        function (reason) { showError(reason + ' :(', 'vasttrafikService.upcomingPublicTransportTrips', null); }
+                        function (reason) { showError(reason + ' :(', 'googleTrafficService.getCarRouteAlternatives', null); }
                     )
                     .finally(function () { vm.isLoading = false; });
             }, function () {
                 showError('Kunde inte bestämma din position :(', '$geolocation.getCurrentPosition', null);
-                vm.isWorking = false;
+                vm.isLoading = false;
             });
         }
 
         vm.refresh = function() {
-            vm.getUpcomingPublicTransportTrips();
+            vm.getCarRouteAlternatives();
         }
 
 
@@ -53,15 +51,16 @@
 
         function activate() {
             if (profileService.me) {
-                vm.getUpcomingPublicTransportTrips();
+                vm.getCarRouteAlternatives();
             } else {
                 vm.isLoading = true;
                 profileService.getMyProfile()
                     .then(
-                        function() { vm.getUpcomingPublicTransportTrips(); },
+                        function () { vm.getCarRouteAlternatives(); },
                         function(response) {
                             showError('Kunde inte hämta din profil :(', 'profilesService.getMyProfile', response)
-                        });
+                        }
+                    );
             }
         }
     }
