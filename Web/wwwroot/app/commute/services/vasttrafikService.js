@@ -65,6 +65,7 @@ app.factory('vasttrafikService', ['$http', '$log', '$q', 'localStorageService', 
 
             return {
                 type: 'train',
+                isCancelled: trip.Leg.cancelled ? true : false,
                 plannedDurationInMinutes: utilsService.getMinutesFromMilliseconds(plannedDestinationTime - plannedOriginTime),
                 expectedDurationInMinutes: utilsService.getMinutesFromMilliseconds(expectedDestinationTime - expectedOriginTime),
                 plannedDepartsInMinutes: utilsService.getMinutesFromMilliseconds(plannedOriginTime - now),
