@@ -16,8 +16,7 @@
     <section ng-if="!vm.isLoading">
         <md-content layout-padding layout-xs="column" layout="row">
             <div flex-xs flex-gt-xs="50">
-                <h2 class="md-title">Produkter</h2>
-                <md-autocomplete placeholder="Sök..."
+                <md-autocomplete placeholder="Sök produkter..."
                                  md-selected-item="vm.selectedItem"
                                  md-selected-item-change="vm.autocompleteSelectedItemChanged(item)"
                                  md-search-text="vm.searchText"
@@ -31,7 +30,7 @@
                         Inga träffar hittade.
                     </md-not-found>
                 </md-autocomplete>
-                <h4>De vanligaste</h4>
+                <h4>De vanligaste produkterna</h4>
                 <md-button class="md-raised" ng-repeat="product in vm.products" ng-show="!product.hidden" ng-click="vm.addItemToList(product)">{{product.name}}</md-button>
             </div>
             <div flex-xs flex-gt-xs="50">
