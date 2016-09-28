@@ -8,4 +8,9 @@ angular.module('myApp.commute.car', ['ngRoute'])
         controller: 'CarCtrl',
         controllerAs: 'vm'
     });
+    $routeProvider.when('/pendla/bil/karta/:id', {
+        templateUrl: 'app/commute/components/car/directionsMapView.html',
+        controller: 'DirectionsMapCtrl',
+        controllerAs: 'vm'
+    });
 }])

@@ -16,7 +16,7 @@
     </div>
 
     <md-list class="md-dense" flex>
-        <md-list-item class="md-2-line" ng-repeat="route in vm.carRouteAlternatives">
+        <md-list-item class="md-2-line" ng-repeat="route in vm.carRouteAlternatives" ng-click="vm.goto('pendla/bil/karta/' + $index)">
             <md-icon class="md-avatar-icon">directions_car</md-icon>
             <div class="md-list-item-text">
                 <h3><span md-colors="{color: 'primary'}">{{route.name}}</span> : {{route.expectedDurationInMinutes}} min <small class="md-caption">({{route.distanceInKilometers.toFixed(1)}} km)</small></h3>

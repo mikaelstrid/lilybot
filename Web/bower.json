@@ -10,7 +10,11 @@
     "angular-local-storage": "^0.2.7",
     "lodash": "^4.13.1",
     "inobounce": "",
-    "ngGeolocation": ">=0.0.2"
+    "ngGeolocation": ">=0.0.2",
+    "ngmap": ""
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "angular": "^1.4.8"
+  }
 }

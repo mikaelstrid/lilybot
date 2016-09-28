@@ -19,7 +19,8 @@
             $geolocation.getCurrentPosition({
                 timeout: 60000
             }).then(function (position) {
-                googleTrafficService.getCarRouteAlternatives(position.coords, me.homeLocation, me.workLocation)
+                var destinationLatLng = googleTrafficService.getDestinationLatLng(position.coords, me.homeLocation, me.workLocation);
+                googleTrafficService.getCarRouteAlternatives(position.coords, destinationLatLng)
                     .then(
                         function (routes) {
                             vm.carRouteAlternatives = routes;
@@ -38,6 +39,9 @@
             vm.getCarRouteAlternatives();
         }
 
+        vm.goto = function (page) {
+            $location.path('/' + page);
+        }
 
         // === HELPERS ===
         function showError(messageToUser, failedMethodName, error) {
