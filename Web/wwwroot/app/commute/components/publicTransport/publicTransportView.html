@@ -14,6 +14,9 @@
     <div layout="row" flex layout-align="center center" ng-show="vm.isLoading">
         <md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="50px"></md-progress-circular>
     </div>
+    <div layout="row" flex layout-align="center center" ng-show="!vm.isLoading && vm.errorMessage">
+        <p>{{vm.errorMessage}}</p>
+    </div>
 
     <md-list class="md-dense" flex>
         <md-list-item class="md-2-line" ng-repeat="trip in vm.upcomingPublicTransportTrips">
