@@ -12,7 +12,11 @@
     </div>
 
     <div flex="none" layout="row" layout-align="center center" class="content-area">
-        <md-progress-circular ng-show="vm.isLoadingProfile" class="md-accent" md-mode="indeterminate" md-diameter="50px"></md-progress-circular>
+        <div ng-show="vm.isLoadingProfile" layout="column" layout-align="center center">
+            <md-progress-circular ng-show="vm.isLoadingProfile" class="md-accent" md-mode="indeterminate" md-diameter="50px"></md-progress-circular>
+            <p>Laddar profil</p>
+        </div>
+
         <div flex layout="row" layout-align="center center" class="buttons" ng-show="!vm.isLoadingProfile">
             <div flex layout="column" layout-align="center center">
                 <a ng-click="vm.goto('pendla/kollektivt');">
