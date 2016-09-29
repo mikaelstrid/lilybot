@@ -19,8 +19,12 @@
         <md-list-item class="md-2-line" ng-repeat="trip in vm.upcomingPublicTransportTrips">
             <md-icon class="md-avatar-icon">train</md-icon>
             <div class="md-list-item-text">
-                <h3 ng-if="!trip.isCancelled && !trip.isDelayed">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small></h3>
-                <h3 ng-if="!trip.isCancelled && trip.isDelayed" md-colors="{color: 'warn'}">Om {{trip.expectedDepartsInMinutes}} min <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small></h3>
+                <h3 ng-if="!trip.isCancelled && !trip.isDelayed">
+                    {{trip.expectedDepartsInMinutes | departureTime}} <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small>
+                </h3>
+                <h3 ng-if="!trip.isCancelled && trip.isDelayed" md-colors="{color: 'warn'}">
+                    {{trip.expectedDepartsInMinutes | departureTime}} <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small>
+                </h3>
                 <h3 ng-if="trip.isCancelled" md-colors="{color: 'warn'}">Inställt <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></h3>
                 <p>{{trip.origin.name}}-{{trip.destination.name}}</p>
             </div>

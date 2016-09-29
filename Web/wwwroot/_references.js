@@ -9,6 +9,7 @@
 /// <reference path="app/commute/components/car/directionsmapcontroller.js" />
 /// <reference path="app/commute/components/home/home.js" />
 /// <reference path="app/commute/components/home/homecontroller.js" />
+/// <reference path="app/commute/components/publictransport/departuretimefilter.js" />
 /// <reference path="app/commute/components/publicTransport/publicTransport.js" />
 /// <reference path="app/commute/components/publicTransport/publicTransportController.js" />
 /// <reference path="app/commute/services/googletrafficservice.js" />
