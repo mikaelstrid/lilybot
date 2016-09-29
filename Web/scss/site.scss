@@ -6,7 +6,12 @@
     -webkit-overflow-scrolling: touch;
 }
 
+
 md-toolbar {
+    .md-default-theme:not(.md-menu-toolbar), :not(.md-menu-toolbar) {
+        background-color: rgb(48,48,48);
+    }
+
     &.toolbar-transparent {
         background-color: transparent;
     }

@@ -10,6 +10,9 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch; }
 
+md-toolbar .md-default-theme:not(.md-menu-toolbar), md-toolbar :not(.md-menu-toolbar) {
+  background-color: #303030; }
+
 md-toolbar.toolbar-transparent {
   background-color: transparent; }
 

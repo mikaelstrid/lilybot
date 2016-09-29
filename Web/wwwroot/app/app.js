@@ -16,7 +16,7 @@ app.config(['$locationProvider', '$routeProvider', '$mdThemingProvider', functio
     $routeProvider.otherwise({ redirectTo: '/' });
 
     $mdThemingProvider.theme('default')
-        .primaryPalette('indigo')
+        .primaryPalette('deep-purple')
         .accentPalette('purple');
 
     $mdThemingProvider.theme('introTheme')
