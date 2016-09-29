@@ -10,7 +10,7 @@
     function controller($log, $location, $mdToast, $mdSidenav, $geolocation, profileService) {
         var vm = this;
 
-        vm.isLoadingProfile = true;
+        vm.isLoadingProfile = false;
 
         vm.goto = function (page) {
             $location.path('/' + page);
@@ -34,12 +34,19 @@
         activate();
 
         function activate() {
-            profileService.getMyProfile()
-                .then(
-                    function () { },
-                    function (response) { showError('Kunde inte hämta din profil :(', 'profilesService.getMyProfile', response) }
-                )
-                .finally(function () { vm.isLoadingProfile = false; });
+            if (!profileService.me) {
+                vm.isLoadingProfile = true;
+                profileService.getMyProfile()
+                    .then(
+                        function() {},
+                        function(response) {
+                            showError('Kunde inte hämta din profil :(', 'profilesService.getMyProfile', response)
+                        }
+                    )
+                    .finally(function() { vm.isLoadingProfile = false; });
+            } else {
+                $log.log('Cached profile used.');
+            }
         }
     }
 })();
