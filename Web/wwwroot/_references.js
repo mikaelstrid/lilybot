@@ -12,6 +12,7 @@
 /// <reference path="app/commute/components/publictransport/departuretimefilter.js" />
 /// <reference path="app/commute/components/publicTransport/publicTransport.js" />
 /// <reference path="app/commute/components/publicTransport/publicTransportController.js" />
+/// <reference path="app/commute/components/publictransport/stopname.js" />
 /// <reference path="app/commute/services/googletrafficservice.js" />
 /// <reference path="app/commute/services/profileService.js" />
 /// <reference path="app/commute/services/utilsservice.js" />
