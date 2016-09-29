@@ -16,7 +16,7 @@
                     map.directionsRenderers[0].setRouteIndex(vm.routeIndex);
                     vm.isLoading = false;
                 },
-                100);
+                1000);
         });
 
         activate();
