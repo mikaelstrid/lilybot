@@ -29,7 +29,7 @@
                     {{trip.expectedDepartsInMinutes | departureTime}} <small class="md-caption">({{trip.origin.expected.time}}-{{trip.destination.expected.time}})</small>
                 </h3>
                 <h3 ng-if="trip.isCancelled" md-colors="{color: 'warn'}">Inställt <small class="md-caption">({{trip.origin.planned.time}}-{{trip.destination.planned.time}})</small></h3>
-                <p>{{trip.origin.name | stopName}}-{{trip.destination.name | stopName}}</p>
+                <p>{{trip.origin.name | stopName}} till {{trip.destination.name | stopName}}</p>
             </div>
         </md-list-item>
     </md-list>
