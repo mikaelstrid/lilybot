@@ -164,6 +164,7 @@
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
+    <Compile Include="Controllers\SlackController.cs" />
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Filters\CheckIfFriendActionFilter.cs" />
