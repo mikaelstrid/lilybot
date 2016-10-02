@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 using Lilybot.Core.Application;
 using Lilybot.Shopping.Application;
@@ -27,6 +26,8 @@ namespace Lilybot.Shopping.API.Controllers
         [HttpPost]
         public IHttpActionResult Post([FromBody] SlackCommand cmd)
         {
+            if (cmd.text == "userid") return Ok($"{cmd.user_id}:{cmd.user_name}");
+
             // Check if slack user exists in lilybot (and get username)
             var profile = _profileRepository.GetBySlackUserId(cmd.user_id);
             if (profile == null) return Ok("Du verkar inte ha något lilybot-konto ännu.");
