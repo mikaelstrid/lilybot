@@ -144,10 +144,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\lily-authentication-01.mdf" />
-    <Content Include="App_Data\lily-authentication-01_log.ldf">
-      <DependentUpon>lily-authentication-01.mdf</DependentUpon>
-    </Content>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\lilybotauthapi - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
@@ -182,7 +178,9 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606051939097_Initial-Create.resx">
       <DependentUpon>201606051939097_Initial-Create.cs</DependentUpon>
