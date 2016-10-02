@@ -6,10 +6,12 @@ namespace Lilybot.Shopping.Domain
     [Table("Profiles")]
     public class ShoppingProfile : AggregateRoot
     {
-        internal ShoppingProfile() : base() { }
+        internal ShoppingProfile() { }
 
         public ShoppingProfile(string username) : base(username) { }
 
         public string Friends { get; set; }
+
+        public string SlackUserId { get; set; }
     }
 }

@@ -14,5 +14,10 @@ namespace Lilybot.Shopping.Infrastructure
         {
             return Get(p => p.Friends.Contains(username)).FirstOrDefault();
         }
+
+        public ShoppingProfile GetBySlackUserId(string slackUserId)
+        {
+            return Get(p => p.SlackUserId == slackUserId).SingleOrDefault();
+        }
     }
 }
