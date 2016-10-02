@@ -161,6 +161,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FriendsApiControllerBase.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />

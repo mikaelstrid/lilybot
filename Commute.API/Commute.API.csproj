@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Migrations\201608051313511_InitialCreate.cs" />
     <Compile Include="Migrations\201608051313511_InitialCreate.Designer.cs">

@@ -165,6 +165,7 @@
     <Compile Include="AuthContext.cs" />
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Migrations\201606051939097_Initial-Create.cs" />
