@@ -17,6 +17,7 @@ namespace Lilybot.Shopping.Infrastructure
             builder.RegisterType<EntityFrameworkStoreRepository>().As<IStoreRepository>();
             builder.RegisterType<EntityFrameworkAggregateRepository<Product>>().As<IAggregateRepository<Product>>();
             builder.RegisterType<EntityFrameworkEventRepository>().As<IEventRepository>();
+            builder.RegisterType<ItemsService>().As<IItemsService>();
         }
     }
 }

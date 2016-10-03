@@ -160,11 +160,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\Slack\BuyCommand.cs" />
+    <Compile Include="Business\Slack\ListCommand.cs" />
+    <Compile Include="ApiModels\SlackResponse.cs" />
     <Compile Include="Controllers\FriendsApiControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MigrateController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
+    <Compile Include="ApiModels\SlackCommand.cs" />
     <Compile Include="Controllers\SlackController.cs" />
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />

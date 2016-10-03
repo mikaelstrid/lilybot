@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
@@ -20,14 +22,14 @@ namespace Lilybot.Shopping.Infrastructure
             throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
 
-        private bool AuthorizeRequest(HttpActionContext actionContext)
+        private static bool AuthorizeRequest(HttpActionContext actionContext)
         {
             try
             {
                 var content = actionContext.Request.Content.ReadAsStringAsync().Result;
                 var actualToken = HttpUtility.ParseQueryString(content)["token"];
-                var expectedToken = ConfigurationManager.AppSettings["SlackToken"];
-                return actualToken == expectedToken;
+                var allowedTokens = ConfigurationManager.AppSettings["SlackToken"].Split(new char[','], StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim());
+                return allowedTokens.Contains(actualToken);
             }
             catch
             {
