@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Lilybot.Core.Application;
+using Lilybot.Shopping.Application;
 using Lilybot.Shopping.API.ApiModels;
 using Lilybot.Shopping.Domain;
 using Lilybot.Shopping.Domain.Events;
@@ -10,11 +11,13 @@ namespace Lilybot.Shopping.API.Business.Slack
     {
         private readonly IAggregateRepository<Product> _productRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly IItemsService _itemsService;
 
-        public BuyCommand(IAggregateRepository<Product> productRepository, IEventRepository eventRepository)
+        public BuyCommand(IAggregateRepository<Product> productRepository, IEventRepository eventRepository, IItemsService itemsService)
         {
             _productRepository = productRepository;
             _eventRepository = eventRepository;
+            _itemsService = itemsService;
         }
 
         public string Handle(SlackCommand cmd, ShoppingProfile profile)
@@ -35,8 +38,7 @@ namespace Lilybot.Shopping.API.Business.Slack
             if (productsExactlyMatchingSearchTerm.Any())
             {
                 var product = productsExactlyMatchingSearchTerm.First();
-                AddNewItem(profile, product);
-                return $"{product.Name} tillagd i inköpslistan.";
+                return AddNewItem(profile, product);
             }
 
 
@@ -54,8 +56,7 @@ namespace Lilybot.Shopping.API.Business.Slack
             if (productsStartingWithSearchTerm.Count == 1)
             {
                 var product = productsStartingWithSearchTerm.First();
-                AddNewItem(profile, product);
-                return $"{product.Name} tillagd i inköpslistan.";
+                return  AddNewItem(profile, product);
             }
 
 
@@ -71,22 +72,25 @@ namespace Lilybot.Shopping.API.Business.Slack
             {
                 return $"Jag hittar inga produkter som innehåller '{cmd.text}'.";
             }
-            else if (productsContainingSearchTerm.Count > 1)
+            if (productsContainingSearchTerm.Count > 1)
             {
                 return $"Jag hittar flera produkter som innehåller '{cmd.text}', till exempel {string.Join(", ", productsContainingSearchTerm.Take(5).Select(p => p.Name))}, ge mig några tecken till.";
             }
             else
             {
                 var product = productsContainingSearchTerm.First();
-                AddNewItem(profile, product);
-                return $"{product.Name} tillagd i inköpslistan.";
+                return AddNewItem(profile, product);
             }
         }
 
-        private void AddNewItem(ShoppingProfile profile, Product product)
+        private string AddNewItem(ShoppingProfile profile, Product product)
         {
+            if (_itemsService.GetItems(profile.Username).Where(i => i.Active).Any(i => i.ProductId == product.Id))
+                return $"{product.Name} finns redan i inköpslistan.";
+
             var newEvent = new ItemAddedToListEvent(profile.Username, product.Id);
             _eventRepository.Insert(profile.Username, newEvent);
+            return $"{product.Name} tillagt i inköpslistan.";
         }
 
     }

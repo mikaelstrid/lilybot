@@ -36,7 +36,7 @@ namespace Lilybot.Shopping.API.Controllers
             // Handle the command
             if (cmd.command.ToLower() == "/köp")
             {
-                return Ok(new BuyCommand(_productRepository, _eventRepository).Handle(cmd, profile));
+                return Ok(new BuyCommand(_productRepository, _eventRepository, _itemsService).Handle(cmd, profile));
             }
             else if (cmd.command.ToLower() == "/inköpslista")
             {
