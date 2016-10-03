@@ -28,7 +28,7 @@ namespace Lilybot.Shopping.Infrastructure
             {
                 var content = actionContext.Request.Content.ReadAsStringAsync().Result;
                 var actualToken = HttpUtility.ParseQueryString(content)["token"];
-                var allowedTokens = ConfigurationManager.AppSettings["SlackToken"].Split(new char[','], StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim());
+                var allowedTokens = ConfigurationManager.AppSettings["SlackToken"].Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim());
                 return allowedTokens.Contains(actualToken);
             }
             catch
