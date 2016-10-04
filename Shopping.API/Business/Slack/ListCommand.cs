@@ -18,7 +18,7 @@ namespace Lilybot.Shopping.API.Business.Slack
         {
             var activeItems = _itemsService.GetItems(profile.Username).Where(i => i.Active).ToList();
             return activeItems.Any() 
-                ? new SlackResponse("Här är din inköpslista: " + string.Join("\n", activeItems.Select(i => $"* {i.ProductName}"))) 
+                ? new SlackResponse("Här är din inköpslista: \n" + string.Join("\n", activeItems.Select(i => $"* {i.ProductName}"))) 
                 : new SlackResponse("Det finns inget på inköpslistan just nu.");
         }
     }
