@@ -1,4 +1,7 @@
 ﻿<md-content class="page shopping shopping-home" layout="column" layout-padding layout-fill md-theme="introTheme">
+    <md-button ng-click="vm.goto('');" class="md-icon-button top-left">
+        <md-icon>home</md-icon>
+    </md-button>
     <md-button ng-click="vm.onMenuButtonClicked()" class="md-icon-button top-right">
         <md-icon>menu</md-icon>
     </md-button>
@@ -29,7 +32,6 @@
     </div>
 
     <div class="bottom-menu" layout="row" layout-align="center center">
-        <md-button ng-click="vm.goto('');">Hem</md-button>
     </div>
 </md-content>
 
