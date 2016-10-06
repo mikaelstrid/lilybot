@@ -1,4 +1,4 @@
-<div class="page planning">
+<div class="page planning" ng-cloak>
     <md-toolbar>
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="Till startsidan" href="/#!/handla">
@@ -51,7 +51,23 @@
         </md-content>
     </section>
 
-    <md-button class="md-fab bottom-right" ng-click="vm.showAddNewProductDialog($event)" aria-label="Lägg till produkt">
-        <md-icon>add</md-icon>
-    </md-button>
+    <md-fab-speed-dial md-direction="up" class="md-fling bottom-right">
+        <md-fab-trigger>
+            <md-button class="md-fab">
+                <md-icon>menu</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button class="md-fab md-raised md-mini md-accent" ng-click="vm.showAddNewProductDialog($event)" aria-label="Skapa ny produkt">
+                <md-icon>add</md-icon>
+            </md-button>
+
+            <md-button class="md-fab md-raised md-mini md-accent" ng-click="vm.scanBarcodeClicked($event)" aria-label="Scanna streckkod">
+                <md-icon md-svg-src="/assets/img/barcode.svg"></md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <input id="fileInput" type="file" accept="image/*" capture="camera" hide onchange="angular.element(this).scope().vm.decode(this.files[0]); angular.element(this).scope().$digest();"/>
 </div>
