@@ -17,7 +17,9 @@
             search: search,
             add: add,
             rename: rename,
-            remove: remove
+            remove: remove,
+            addBarcode: addBarcode,
+            removeBarcode: removeBarcode
         };
 
         return service;
@@ -46,6 +48,14 @@
 
         function remove(id) {
             return $http.delete(serviceBase + pathBase + '/' + id);
+        }
+
+        function addBarcode(id, barcode) {
+            return $http.post(serviceBase + pathBase + '/' + id + '/barcodes', { barcode: barcode });
+        }
+
+        function removeBarcode(id, barcode) {
+            return $http.delete(serviceBase + pathBase + '/' + id + '/barcodes/' + barcode);
         }
     }
 })();

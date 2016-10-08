@@ -7,14 +7,14 @@
             <span>Produkter</span>
         </h2>
         <span flex></span>
-        <md-progress-circular ng-show="isLoading || isWorking" md-mode="indeterminate" class="md-accent" md-diameter="25px"></md-progress-circular>
+        <md-progress-circular ng-show="vm.isLoading || vm.isWorking" md-mode="indeterminate" class="md-accent" md-diameter="25px"></md-progress-circular>
     </div>
 </md-toolbar>
 
 <section layout="row" flex>
-    <md-content>
-        <md-list ng-if="!isLoading">
-            <md-list-item ng-repeat="product in products | orderBy:'name'" ng-click="onProductClicked(product)">
+    <md-content flex>
+        <md-list ng-if="!vm.isLoading">
+            <md-list-item ng-repeat="product in vm.products | orderBy:'name'" ng-click="vm.onProductClicked(product)">
                 <p> {{ product.name }} </p>
             </md-list-item>
         </md-list>
@@ -22,9 +22,9 @@
     <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
         <md-toolbar class="md-theme-light">
             <div class="md-toolbar-tools">
-                <h2><span>{{ selectedProduct.name }}</span></h2>
+                <h2><span>{{ vm.selectedProduct.name }}</span></h2>
                 <span flex></span>
-                <md-button class="md-icon-button" aria-label="Ta bort produkt" ng-click="showDeleteDialog($event)">
+                <md-button class="md-icon-button" aria-label="Ta bort produkt" ng-click="vm.showDeleteDialog($event)">
                     <md-icon>delete</md-icon>
                 </md-button>
             </div>
@@ -33,15 +33,22 @@
             <form>
                 <md-input-container>
                     <label for="productName">Namn</label>
-                    <input type="text" id="productName" ng-model="selectedProductEditModel.name" md-autofocus>
+                    <input type="text" id="productName" ng-model="vm.selectedProductEditModel.name" md-autofocus ng-model-options="{ updateOn: 'blur' }">
                 </md-input-container>
+                <h3>Streckkoder</h3>
+                <md-list>
+                    <md-list-item ng-repeat="barcode in vm.selectedProductEditModel.barcodes" class="secondary-button-padding">
+                        <p>{{barcode}}</p>
+                        <md-icon class="md-secondary" ng-click="vm.onRemoveBarcodeClicked(barcode)" aria-label="Ta bort streckkod">delete</md-icon>
+                    </md-list-item>
+                </md-list>
+                <md-button class="md-raised" ng-click="vm.onScanBarcodeClicked();">Lägg till streckkod</md-button>
             </form>
-            <md-button ng-click="onSaveProductClicked()">Spara</md-button>
-            <md-button ng-click="onCancelClicked()">Avbryt</md-button>
+            <input id="fileInput" type="file" accept="image/*" capture="camera" hide onchange="angular.element(this).scope().vm.decode(this.files[0]); angular.element(this).scope().$digest();" />
         </md-content>
     </md-sidenav>
 </section>
 
-<md-button class="md-fab bottom-right" ng-click="showAddNewDialog($event)" aria-label="Lägg till produkt">
+<md-button class="md-fab bottom-right" ng-click="vm.showAddNewDialog($event)" aria-label="Lägg till produkt">
     <md-icon>add</md-icon>
 </md-button>

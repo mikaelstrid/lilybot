@@ -116,14 +116,17 @@
 
         self.decode = function (src) {
             var state = {
-                inputStream: { size: 1280, singleChannel: false },
-                locator: { patchSize: "medium", halfSample: true },
-                decoder: { readers: [{ format: "ean_reader", config: {} }] },
+                inputStream: { singleChannel: false, constraints: { facingMode: "environment" } }, // size=800? 
+                locator: { patchSize: 'x-large', halfSample: true },
+                decoder: { readers: [{ format: 'ean_reader', config: {} }, { format: 'ean_8_reader', config: {} }] },
                 locate: true,
                 src: URL.createObjectURL(src)
             }
-            Quagga.decodeSingle(state, function(result) {
-                $mdToast.show($mdToast.simple().textContent(result.codeResult.code + '!').hideDelay(3000));
+            Quagga.decodeSingle(state, function (result) {
+                if (result.codeResult)
+                    $mdToast.show($mdToast.simple().textContent(result.codeResult.code).hideDelay(3000));
+                else 
+                    $mdToast.show($mdToast.simple().textContent('Kunde inte tolka streckkoden. :(').hideDelay(2000));
             });
         },
 

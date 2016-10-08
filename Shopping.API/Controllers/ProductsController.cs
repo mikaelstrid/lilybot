@@ -95,10 +95,53 @@ namespace Lilybot.Shopping.API.Controllers
             _repository.DeleteById(Username, id);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("{id}/barcodes")]
+        public IHttpActionResult Post(int id, [FromBody] AddBarcodeApiModel model)
+        {
+            if (model?.Barcode == null) return BadRequest("No barcode specified.");
+
+            var product = _repository.GetById(Username, id);
+            if (product == null) return BadRequest("No product found with the specified id.");
+
+            if (product.Barcodes != null && product.Barcodes.Contains(model.Barcode)) return BadRequest($"The barcode '{model.Barcode}' is already registered with the product.");
+
+            var barcodes = (product.Barcodes ?? "").Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            barcodes.Add(model.Barcode);
+            product.Barcodes = string.Join(";", barcodes);
+
+            _repository.InsertOrUpdate(Username, product);
+            var productDto = DefaultMapper.Map<ProductDto>(product);
+            return Ok(productDto);
+        }
+
+        [HttpDelete]
+        [Route("{id}/barcodes/{barcode}")]
+        public IHttpActionResult Delete(int id, string barcode)
+        {
+            if (barcode == null) return BadRequest("No barcode specified.");
+
+            var product = _repository.GetById(Username, id);
+            if (product == null) return BadRequest("No product found with the specified id.");
+
+            var barcodes = (product.Barcodes ?? "").Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            barcodes.RemoveAll(b => b == barcode);
+            product.Barcodes = string.Join(";", barcodes);
+
+            _repository.InsertOrUpdate(Username, product);
+            var productDto = DefaultMapper.Map<ProductDto>(product);
+            return Ok(productDto);
+        }
     }
 
     public class CreateOrUpdateProductApiModel
     {
         public string Name { get; set; }
+    }
+
+    public class AddBarcodeApiModel
+    {
+        public string Barcode { get; set; }
     }
 }

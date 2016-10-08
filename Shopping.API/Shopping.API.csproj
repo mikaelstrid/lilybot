@@ -181,6 +181,10 @@
     <Compile Include="Migrations\201610020951413_Add-SlackUserId.Designer.cs">
       <DependentUpon>201610020951413_Add-SlackUserId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610081526328_Add-Barcodes.cs" />
+    <Compile Include="Migrations\201610081526328_Add-Barcodes.Designer.cs">
+      <DependentUpon>201610081526328_Add-Barcodes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingDropCreateDbInitializer.cs" />
@@ -219,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610020951413_Add-SlackUserId.resx">
       <DependentUpon>201610020951413_Add-SlackUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610081526328_Add-Barcodes.resx">
+      <DependentUpon>201610081526328_Add-Barcodes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

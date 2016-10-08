@@ -23,7 +23,10 @@ namespace Lilybot.Shopping.API.Controllers
             {
                 cfg.CreateMap<Store, StoreDto>();
                 cfg.CreateMap<StoreSection, StoreSectionDto>();
-                cfg.CreateMap<Product, ProductDto>();
+                cfg.CreateMap<Product, ProductDto>()
+                    .ForMember(
+                        dest => dest.Barcodes, 
+                        m => m.MapFrom(src => (src.Barcodes ?? "").Split(new [] {';'}, StringSplitOptions.RemoveEmptyEntries)));
                 extraInitializeAction?.Invoke(cfg);
             });
             return mapperConfiguration.CreateMapper();
@@ -51,6 +54,7 @@ namespace Lilybot.Shopping.API.Controllers
         public int Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
+        public List<string> Barcodes { get; set; }
     }
 
     public class EventDto

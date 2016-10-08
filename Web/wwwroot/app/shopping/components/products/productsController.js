@@ -5,17 +5,18 @@
         .module('myApp.shopping.products')
         .controller('ProductsCtrl', controller);
 
-    controller.$inject = ['$scope', '$location', 'productsService', '$mdDialog', '$mdToast', '$mdSidenav'];
+    controller.$inject = ['$scope', '$log', '$location', 'productsService', '$mdDialog', '$mdToast', '$mdSidenav'];
 
-    function controller($scope, $location, productsService, $mdDialog, $mdToast, $mdSidenav) {
+    function controller($scope, $log, $location, productsService, $mdDialog, $mdToast, $mdSidenav) {
+        var self = this;
 
-        $scope.isLoading = true;
-        $scope.isWorking = false;
-        $scope.products = [];
-        $scope.selectedProduct = null;
-        $scope.selectedProductEditModel = null;
+        self.isLoading = true;
+        self.isWorking = false;
+        self.products = [];
+        self.selectedProduct = null;
+        self.selectedProductEditModel = { name: '', barcodes: [] };
 
-        $scope.showAddNewDialog = function (ev) {
+        self.showAddNewDialog = function (ev) {
             var confirm = $mdDialog.prompt()
                   .title('Vad ska den nya produkten heta?')
                   .placeholder('fyll i ett namn')
@@ -24,21 +25,21 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function (dialogResult) {
-                $scope.isWorking = true;
+                self.isWorking = true;
                 productsService.add(dialogResult)
                     .then(function (result) {
-                        $scope.products.push(result.data);
+                        self.products.push(result.data);
                     },
                         function (error) {
                             showError('Lyckades inte spara den nya produkten. :(', 'add', error);
                         })
                     .finally(function () {
-                        $scope.isWorking = false;
+                        self.isWorking = false;
                     });
             });
         };
 
-        $scope.onRemoveProduct = function (product, index) {
+        self.onRemoveProduct = function (product, index) {
             var confirm = $mdDialog.confirm()
                   .title('Vill du verkligen ta bort ' + product.name + '?')
                   .textContent('Det går inte att ångra sig...')
@@ -46,74 +47,139 @@
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function () {
-                $scope.isWorking = true;
+                self.isWorking = true;
                 productsService.remove(product.id)
                     .then(function () {
                     },
                         function (error) {
                             showError('Lyckades inte ta bort produkten. :(', 'remove', error);
-                            $scope.products.splice(index, 0, product);
+                            self.products.splice(index, 0, product);
                         })
                     .finally(function () {
-                        $scope.isWorking = false;
+                        self.isWorking = false;
                     });
             }, function () {
                 // User cancelled the remove, reinsert the product
-                $scope.products.splice(index, 0, product);
+                self.products.splice(index, 0, product);
             });
         };
 
-        $scope.onProductClicked = function (product) {
-            $scope.selectedProduct = product;
-            $scope.selectedProductEditModel = { name: product.name };
+        self.onProductClicked = function (product) {
+            self.selectedProduct = product;
+            self.selectedProductEditModel = { name: product.name, barcodes: angular.copy(product.barcodes) };
             openSidenav();
         }
 
-        $scope.onSaveProductClicked = function () {
-            closeSidenav();
-            $scope.isWorking = true;
-            productsService.rename($scope.selectedProduct.id, $scope.selectedProductEditModel.name)
-                .then(function (result) {
-                    $scope.selectedProduct.name = $scope.selectedProductEditModel.name;
-                },
-                    function (error) {
+        self.renameProduct = function(id, newName) {
+            self.isWorking = true;
+            productsService.rename(id, newName)
+                .then(
+                    function() {
+                        self.selectedProduct.name = self.selectedProductEditModel.name;
+                    },
+                    function(error) {
                         showError('Lyckades inte spara produkten. :(', 'rename', error);
                     })
-                .finally(function () {
-                    $scope.isWorking = false;
+                .finally(function() {
+                    self.isWorking = false;
                 });
         }
 
-        $scope.showDeleteDialog = function (ev) {
+        self.showDeleteDialog = function (ev) {
             var confirm = $mdDialog.confirm()
-                  .title('Vill du verkligen ta bort ' + $scope.selectedProduct.name + '?')
+                  .title('Vill du verkligen ta bort ' + self.selectedProduct.name + '?')
                   .textContent('Det går inte att ångra sig...')
                   .ariaLabel('Ta bort produkt')
                   .targetEvent(ev)
                   .ok('OK')
                   .cancel('Avbryt');
             $mdDialog.show(confirm).then(function () {
-                $scope.isWorking = true;
+                self.isWorking = true;
                 closeSidenav();
-                productsService.remove($scope.selectedProduct.id)
+                productsService.remove(self.selectedProduct.id)
                     .then(function () {
-                        var index = $scope.products.indexOf($scope.selectedProduct);
-                        $scope.products.splice(index, 1);
-                        $scope.selectedProduct = null;
+                        var index = self.products.indexOf(self.selectedProduct);
+                        self.products.splice(index, 1);
+                        self.selectedProduct = null;
                     },
                         function (error) {
                             showError('Lyckades inte ta bort produkten. :(', 'remove', error);
                         })
                     .finally(function () {
-                        $scope.isWorking = false;
+                        self.isWorking = false;
                     });
             });
         };
 
-        $scope.onCancelClicked = function () {
+        self.onCancelClicked = function () {
             closeSidenav();
         }
 
+        self.onScanBarcodeClicked = function (ev) {
+            document.querySelector('input[type=file]#fileInput').click();
+        }
+
+        self.decode = function (src) {
+            var state = {
+                inputStream: { singleChannel: false, constraints: { facingMode: "environment" } }, // size=800? 
+                locator: { patchSize: 'x-large', halfSample: true },
+                decoder: { readers: [{ format: 'ean_reader', config: {} }, { format: 'ean_8_reader', config: {} }] },
+                locate: true,
+                src: URL.createObjectURL(src)
+            }
+            Quagga.decodeSingle(state, function (result) {
+                if (result.codeResult)
+                    $scope.$apply(function () {
+                        self.addBarcodeToProduct(self.selectedProduct.id, result.codeResult.code);
+                    });
+                else
+                    $mdToast.show($mdToast.simple().textContent('Kunde inte tolka streckkoden. :(').hideDelay(2000));
+            });
+        }
+
+        self.addBarcodeToProduct = function(id, barcode) {
+            self.isWorking = true;
+            productsService.addBarcode(id, barcode)
+                .then(
+                    function () {
+                        self.selectedProduct.barcodes.push(barcode);
+                        self.selectedProductEditModel.barcodes.push(barcode);
+                    },
+                    function (error) {
+                        showError('Lyckades inte lägga till streckkoden. :(', 'addBarcode', error);
+                    })
+                .finally(function () {
+                    self.isWorking = false;
+                });
+        }
+
+        self.onRemoveBarcodeClicked = function (barcode) {
+            self.removeBarcodeFromProduct(self.selectedProduct.id, barcode);
+        }
+
+        self.removeBarcodeFromProduct = function(id, barcode) {
+            self.isWorking = true;
+            productsService.removeBarcode(id, barcode)
+                .then(
+                    function () {
+                        _.remove(self.selectedProduct.barcodes, function (n) { return n === barcode; });
+                        _.remove(self.selectedProductEditModel.barcodes, function (n) { return n === barcode; });
+                    },
+                    function (error) {
+                        showError('Lyckades inte ta bort streckkoden. :(', 'removeBarcode', error);
+                        self.selectedProduct.barcodes.push(barcode);
+                        self.selectedProductEditModel.barcodes.push(barcode);
+                    })
+                .finally(function () {
+                    self.isWorking = false;
+                });
+        }
+
+        $scope.$watch(angular.bind(this, function() { return this.selectedProductEditModel.name; }),
+            function (newVal, oldVal) {
+                if (self.selectedProduct && oldVal === self.selectedProduct.name && oldVal !== newVal)
+                    self.renameProduct(self.selectedProduct.id, newVal);
+            });
 
 
 
@@ -138,13 +204,13 @@
         function activate() {
             productsService.getAll()
                 .then(function (result) {
-                    $scope.products = result.data;
+                    self.products = result.data;
                 },
                     function (error) {
                         showError('Lyckades inte hämta några produkter. :(', 'getAll', error);
                     })
                 .finally(function () {
-                    $scope.isLoading = false;
+                    self.isLoading = false;
                 });
         }
     }

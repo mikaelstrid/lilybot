@@ -13,5 +13,6 @@ namespace Lilybot.Shopping.Domain
         public DateTime CountUpdateTimestampUtc { get; set; }
         public virtual ICollection<StoreSection> StoreSections { get; set; }
         public virtual ICollection<Store> IgnoredInStores { get; set; }
+        public string Barcodes { get; set; }
     }
 }
