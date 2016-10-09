@@ -52,7 +52,7 @@
                 .textContent(item.productName + ' klar.')
                 .action('Ångra')
                 .highlightAction(true)
-                .hideDelay(10000);
+                .hideDelay(3000);
             $mdToast.show(toast)
                 .then(function(response) {
                     if (response === 'ok') {
