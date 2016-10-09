@@ -15,6 +15,7 @@
         var service = {
             getActive: getActive,
             add: add,
+            addByBarcode: addByBarcode,
             reAdd: reAdd,
             remove: remove,
             markItemAsDone: markItemAsDone,
@@ -30,6 +31,10 @@
 
         function add(productId) {
             return $http.post(serviceBase + pathBase, { productId: productId });
+        }
+
+        function addByBarcode(barcode) {
+            return $http.post(serviceBase + pathBase + '/barcode', { barcode: barcode });
         }
 
         function reAdd(itemId) {

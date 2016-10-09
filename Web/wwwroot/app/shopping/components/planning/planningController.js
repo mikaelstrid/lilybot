@@ -44,7 +44,7 @@
                         self.items.push({ id: result.data.id, productId: product.id, productName: product.name });
                     },
                     function(error) {
-                        showError('Lyckades inte lägga till produkten i inköpslistan. :(', 'itemsService.add', error);
+                        self.showError('Lyckades inte lägga till produkten i inköpslistan. :(', 'itemsService.add', error);
                     })
                 .finally(function() {
                     self.isWorking = false;
@@ -61,7 +61,7 @@
                         if (top20Product) top20Product.hidden = false;
                     },
                     function(error) {
-                        showError('Lyckades inte ta bort varan från listan. :(', 'itemsService.remove', error);
+                        self.showError('Lyckades inte ta bort varan från listan. :(', 'itemsService.remove', error);
                     })
                 .finally(function() {
                     self.isWorking = false;
@@ -84,7 +84,7 @@
                             item.comment = dialogResult;
                         },
                         function(error) {
-                            showError('Lyckades inte spara kommentaren. :(', 'itemsService.setComment', error);
+                            self.showError('Lyckades inte spara kommentaren. :(', 'itemsService.setComment', error);
                         })
                     .finally(function() { self.isWorking = false; });
             });
@@ -106,7 +106,7 @@
                         self.addItemToList(result.data);
                     },
                     function (error) {
-                        showError('Lyckades inte skapa den nya produkten. :(', 'productsService.add', error);
+                        self.showError('Lyckades inte skapa den nya produkten. :(', 'productsService.add', error);
                     });
         };
 
@@ -115,27 +115,48 @@
         }
 
         self.decode = function (src) {
-            var state = {
-                inputStream: { singleChannel: false, constraints: { facingMode: "environment" } }, // size=800? 
-                locator: { patchSize: 'x-large', halfSample: true },
-                decoder: { readers: [{ format: 'ean_reader', config: {} }, { format: 'ean_8_reader', config: {} }] },
+            var config = {
+                // It worked better if not including the settings commented out below
+                // inputStream: { singleChannel: false, size: 800, constraints: { facingMode: "environment" } }, 
+                // locator: { patchSize: 'medium', halfSample: true },
+                decoder: { readers: ['ean_reader'] },
                 locate: true,
+                //numOfWorkers: 4,
                 src: URL.createObjectURL(src)
             }
-            Quagga.decodeSingle(state, function (result) {
-                if (result.codeResult)
-                    $mdToast.show($mdToast.simple().textContent(result.codeResult.code).hideDelay(3000));
-                else 
-                    $mdToast.show($mdToast.simple().textContent('Kunde inte tolka streckkoden. :(').hideDelay(2000));
+            Quagga.decodeSingle(config, function (result) {
+                if (result.codeResult) {
+                    self.isWorking = true;
+                    itemsService.addByBarcode(result.codeResult.code)
+                        .then(
+                            function (result) {
+                                var addedProduct = { id: result.data.productId, name: result.data.productName };
+                                var productInTop20 = _.find(self.products, function (p) { return p.id === addedProduct.id; });
+                                if (productInTop20) productInTop20.hidden = true;
+                                self.items
+                                    .push({ id: result.data.id, productId: addedProduct.id, productName: addedProduct.name });
+                            },
+                            function(error) {
+                                self.showError(
+                                    error.data.message ? error.data.message : 'Lyckades inte lägga till produkten i inköpslistan. :(',
+                                    'itemsService.addByBarcode',
+                                    error);
+                            })
+                        .finally(function() {
+                            self.isWorking = false;
+                        });
+                } else {
+                    $mdToast.show($mdToast.simple().textContent('Kunde inte tolka streckkoden. :(').hideDelay(1000));
+                }
             });
         },
 
         // === HELPERS ===
-        function showError(messageToUser, failedMethodName, error) {
+        self.showError = function(messageToUser, failedMethodName, error) {
             if (error.status !== 401) {
                 $mdToast.show($mdToast.simple().textContent(messageToUser).hideDelay(3000));
             }
-            console.log('Call to ' + failedMethodName + ' failed: ' + error.statusText);
+            console.log('Call to ' + failedMethodName + ' failed: ' + error.statusText + ' ' + error.data.message);
         }
 
         function populateProductsAndItems(products, items) {

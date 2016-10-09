@@ -120,14 +120,16 @@
         }
 
         self.decode = function (src) {
-            var state = {
-                inputStream: { singleChannel: false, constraints: { facingMode: "environment" } }, // size=800? 
-                locator: { patchSize: 'x-large', halfSample: true },
-                decoder: { readers: [{ format: 'ean_reader', config: {} }, { format: 'ean_8_reader', config: {} }] },
+            var config = {
+                // It worked better if not including the settings commented out below
+                // inputStream: { singleChannel: false, size: 800, constraints: { facingMode: "environment" } }, 
+                // locator: { patchSize: 'medium', halfSample: true },
+                decoder: { readers: ['ean_reader'] },
                 locate: true,
+                //numOfWorkers: 4,
                 src: URL.createObjectURL(src)
             }
-            Quagga.decodeSingle(state, function (result) {
+            Quagga.decodeSingle(config, function (result) {
                 if (result.codeResult)
                     $scope.$apply(function () {
                         self.addBarcodeToProduct(self.selectedProduct.id, result.codeResult.code);
