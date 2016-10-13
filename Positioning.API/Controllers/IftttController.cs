@@ -15,13 +15,13 @@ namespace Lilybot.Positioning.API.Controllers
         [BodyApiKeyAuthorize]
         public IHttpActionResult PostHotspotEnter(string hotspotName, [FromBody] HotspotEnterApiModel model)
         {
-            var occuredAt = DateTime.ParseExact(model.OccuredAt, "MMMM dd, yyyy 'at' hh:mmtt", new CultureInfo("en-US"));
-            var message = $"Lämnade {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            var occuredAt = DateTime.ParseExact(model.OccuredAt, "MMMM dd, yyyy 'at' h:mmtt", new CultureInfo("en-US"));
+            var message = $"Mikael @ {hotspotName} kl {occuredAt.ToString("HH:mm")}";
             var response = PostToSlack(message);
-            if (response.StatusCode == HttpStatusCode.Accepted)
+            if (response.StatusCode == HttpStatusCode.OK)
                 return Ok(message);
             else
-                return InternalServerError(new Exception($"Error communicating with Slack, code {response.StatusCode}"));
+                throw new Exception($"Error communicating with Slack, code {response.StatusCode}");
         }
 
         private static IRestResponse PostToSlack(string message)
