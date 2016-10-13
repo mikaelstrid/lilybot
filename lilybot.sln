@@ -37,6 +37,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.UpdateItemCountJob
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web", "Web\Web.xproj", "{7C8CCC94-CF7F-47EB-9061-50E47707EBAC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Positioning", "Positioning", "{00DF37B2-41DB-4A6B-B0C6-6DAD8B0DC1C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Positioning.API", "Positioning.API\Positioning.API.csproj", "{27D1E40D-A43D-4213-B349-E0CA22DB39FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F334C68-7682-4959-BF42-4733EADACCCC}"
+	ProjectSection(SolutionItems) = preProject
+		Install packages for new resource project.txt = Install packages for new resource project.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Positioning.Infrastructure", "Positioning.Infrastructure\Positioning.Infrastructure.csproj", "{56783993-1244-4271-A43D-B43ECC5CFC98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +110,14 @@ Global
 		{7C8CCC94-CF7F-47EB-9061-50E47707EBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C8CCC94-CF7F-47EB-9061-50E47707EBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C8CCC94-CF7F-47EB-9061-50E47707EBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D1E40D-A43D-4213-B349-E0CA22DB39FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D1E40D-A43D-4213-B349-E0CA22DB39FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D1E40D-A43D-4213-B349-E0CA22DB39FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D1E40D-A43D-4213-B349-E0CA22DB39FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56783993-1244-4271-A43D-B43ECC5CFC98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56783993-1244-4271-A43D-B43ECC5CFC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56783993-1244-4271-A43D-B43ECC5CFC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56783993-1244-4271-A43D-B43ECC5CFC98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,5 +135,7 @@ Global
 		{F3DBD9BB-42B8-41C2-BC2B-C5973CB76B55} = {8E9F4E3A-A972-443A-9E05-893435F78318}
 		{14FD0E04-441B-4278-8E62-70EEE22EE083} = {8E9F4E3A-A972-443A-9E05-893435F78318}
 		{73422BF3-62CE-461A-857F-3351655A90F5} = {E96383C5-C0B6-4DAC-9C78-481FC9284983}
+		{27D1E40D-A43D-4213-B349-E0CA22DB39FF} = {00DF37B2-41DB-4A6B-B0C6-6DAD8B0DC1C4}
+		{56783993-1244-4271-A43D-B43ECC5CFC98} = {00DF37B2-41DB-4A6B-B0C6-6DAD8B0DC1C4}
 	EndGlobalSection
 EndGlobal

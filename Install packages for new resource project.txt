@@ -1,0 +1,6 @@
+Install-Package Microsoft.AspNet.WebApi -Version 5.2.3
+Install-Package Microsoft.AspNet.WebApi.Owin -Version 5.2.3
+Install-Package Microsoft.Owin.Host.SystemWeb -Version 3.0.1
+Install-Package Microsoft.Owin.Cors -Version 3.0.1
+Install-Package Microsoft.Owin.Security.OAuth -Version 3.0.1
+Install-Package Autofac.WebApi2.Owin -Version 3.3.0

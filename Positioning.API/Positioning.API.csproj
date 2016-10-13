@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.2.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.2.2\build\Microsoft.Net.Compilers.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BE85A387-3A05-42C3-94A5-E3E83C04C241}</ProjectGuid>
+    <ProjectGuid>{27D1E40D-A43D-4213-B349-E0CA22DB39FF}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lilybot.Shopping.API</RootNamespace>
-    <AssemblyName>Lilybot.Shopping.API</AssemblyName>
+    <RootNamespace>Lilybot.Positioning.API</RootNamespace>
+    <AssemblyName>Lilybot.Positioning.API</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -59,20 +59,8 @@
       <HintPath>..\packages\Autofac.WebApi2.Owin.3.3.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -116,6 +104,7 @@
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
@@ -143,11 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="App_Data\Produkter.csv" />
-    <Content Include="App_Data\StoreSectionProducts.csv" />
-    <Content Include="App_Data\StoreSections.csv" />
-    <None Include="Properties\PublishProfiles\lilybotshoppingapi - Web Deploy.pubxml" />
-    <Content Include="Properties\webjobs-list.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -160,73 +144,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Business\Slack\BuyCommand.cs" />
-    <Compile Include="Business\Slack\ListCommand.cs" />
-    <Compile Include="ApiModels\SlackResponse.cs" />
-    <Compile Include="Controllers\FriendsApiControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MigrateController.cs" />
-    <Compile Include="Controllers\ItemsController.cs" />
-    <Compile Include="Controllers\ProfilesController.cs" />
-    <Compile Include="ApiModels\SlackCommand.cs" />
-    <Compile Include="Controllers\SlackController.cs" />
-    <Compile Include="Controllers\StoresController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Filters\CheckIfFriendActionFilter.cs" />
-    <Compile Include="Migrations\201607140804576_Initial-Create.cs" />
-    <Compile Include="Migrations\201607140804576_Initial-Create.Designer.cs">
-      <DependentUpon>201607140804576_Initial-Create.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610020951413_Add-SlackUserId.cs" />
-    <Compile Include="Migrations\201610020951413_Add-SlackUserId.Designer.cs">
-      <DependentUpon>201610020951413_Add-SlackUserId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610081526328_Add-Barcodes.cs" />
-    <Compile Include="Migrations\201610081526328_Add-Barcodes.Designer.cs">
-      <DependentUpon>201610081526328_Add-Barcodes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Controllers\IftttController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShoppingDropCreateDbInitializer.cs" />
-    <Compile Include="ShoppingMigrateDbInitializer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core.Application\Core.Application.csproj">
-      <Project>{1EFD0C2C-A83D-4B5B-A4AC-B22138E6CD88}</Project>
-      <Name>Core.Application</Name>
+    <ProjectReference Include="..\Positioning.Infrastructure\Positioning.Infrastructure.csproj">
+      <Project>{56783993-1244-4271-A43D-B43ECC5CFC98}</Project>
+      <Name>Positioning.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core.Domain\Core.Domain.csproj">
-      <Project>{7B3C3F9A-B02C-4FDC-A73C-4D5D6D239970}</Project>
-      <Name>Core.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj">
-      <Project>{D3AA8FEA-A979-43D0-A237-F1E37B3A7674}</Project>
-      <Name>Core.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Shopping.Application\Shopping.Application.csproj">
-      <Project>{2497DA91-8B18-4FBC-80FC-B016F8F0766F}</Project>
-      <Name>Shopping.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Shopping.Domain\Shopping.Domain.csproj">
-      <Project>{57C55DEE-DFAC-46F9-AB04-D6CC7D957F95}</Project>
-      <Name>Shopping.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Shopping.Infrastructure\Shopping.Infrastructure.csproj">
-      <Project>{F31D30AF-5E4C-43FE-8479-DF931AB5C4AA}</Project>
-      <Name>Shopping.Infrastructure</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607140804576_Initial-Create.resx">
-      <DependentUpon>201607140804576_Initial-Create.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610020951413_Add-SlackUserId.resx">
-      <DependentUpon>201610020951413_Add-SlackUserId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610081526328_Add-Barcodes.resx">
-      <DependentUpon>201610081526328_Add-Barcodes.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -241,9 +168,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>54299</DevelopmentServerPort>
+          <DevelopmentServerPort>55113</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54299/</IISUrl>
+          <IISUrl>http://localhost:55090/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -257,10 +184,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.2.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.2.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.11\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
