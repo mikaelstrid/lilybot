@@ -19,7 +19,7 @@
             vm.errorMessage = '';
             var me = profileService.me;
             $geolocation.getCurrentPosition({
-                    timeout: 5000
+                    timeout: 30000
                 })
                 .then(
                     function(position) {

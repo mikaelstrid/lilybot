@@ -17,7 +17,7 @@
             vm.isLoading = true;
             var me = profileService.me;
             $geolocation.getCurrentPosition({
-                timeout: 5000
+                timeout: 30000
             }).then(function (position) {
                 var destinationLatLng = googleTrafficService.getDestinationLatLng(position.coords, me.homeLocation, me.workLocation);
                 googleTrafficService.getCarRouteAlternatives(position.coords, destinationLatLng)
