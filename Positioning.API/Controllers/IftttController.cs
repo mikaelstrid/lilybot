@@ -10,34 +10,26 @@ namespace Lilybot.Positioning.API.Controllers
     [RoutePrefix("api/ifttt")]
     public class IftttController : ApiController
     {
-        [Route("hotspot/{hotspotName}/enter")]
+        [Route("hotspot/{hotspotName}/{actionType}")]
         [HttpPost]
         [BodyApiKeyAuthorize]
-        public IHttpActionResult PostHotspotEnter(string hotspotName, [FromBody] HotspotApiModel model)
+        public IHttpActionResult PostHotspotEnter(string hotspotName, string actionType, [FromBody] HotspotApiModel model)
         {
             var occuredAt = ParseSlackDateTime(model.OccuredAt);
-            var message = $"Mikael anlände till {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            string message;
+            if (actionType == "entered")
+                message = $"Mikael anlände till {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            else if (actionType == "exited")
+                message = $"Mikael lämnade {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            else
+                throw new ArgumentException($"{actionType} is not a valid action.");
+
             var response = PostToSlack(message);
             if (response.StatusCode == HttpStatusCode.OK)
                 return Ok(message);
             else
                 throw new Exception($"Error communicating with Slack, code {response.StatusCode}");
         }
-
-        [Route("hotspot/{hotspotName}/leave")]
-        [HttpPost]
-        [BodyApiKeyAuthorize]
-        public IHttpActionResult PostHotspotLeave(string hotspotName, [FromBody] HotspotApiModel model)
-        {
-            var occuredAt = ParseSlackDateTime(model.OccuredAt);
-            var message = $"Mikael lämnade {hotspotName} kl {occuredAt.ToString("HH:mm")}";
-            var response = PostToSlack(message);
-            if (response.StatusCode == HttpStatusCode.OK)
-                return Ok(message);
-            else
-                throw new Exception($"Error communicating with Slack, code {response.StatusCode}");
-        }
-
 
         private static DateTime ParseSlackDateTime(string slackDateTime)
         {
@@ -57,5 +49,6 @@ namespace Lilybot.Positioning.API.Controllers
     public class HotspotApiModel
     {
         public string OccuredAt { get; set; }
+        public string FacebookUserId { get; set; }
     }
 }
