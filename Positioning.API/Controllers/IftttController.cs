@@ -13,15 +13,35 @@ namespace Lilybot.Positioning.API.Controllers
         [Route("hotspot/{hotspotName}/enter")]
         [HttpPost]
         [BodyApiKeyAuthorize]
-        public IHttpActionResult PostHotspotEnter(string hotspotName, [FromBody] HotspotEnterApiModel model)
+        public IHttpActionResult PostHotspotEnter(string hotspotName, [FromBody] HotspotApiModel model)
         {
-            var occuredAt = DateTime.ParseExact(model.OccuredAt, "MMMM dd, yyyy 'at' h:mmtt", new CultureInfo("en-US"));
-            var message = $"Mikael @ {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            var occuredAt = ParseSlackDateTime(model.OccuredAt);
+            var message = $"Mikael anlände till {hotspotName} kl {occuredAt.ToString("HH:mm")}";
             var response = PostToSlack(message);
             if (response.StatusCode == HttpStatusCode.OK)
                 return Ok(message);
             else
                 throw new Exception($"Error communicating with Slack, code {response.StatusCode}");
+        }
+
+        [Route("hotspot/{hotspotName}/leave")]
+        [HttpPost]
+        [BodyApiKeyAuthorize]
+        public IHttpActionResult PostHotspotLeave(string hotspotName, [FromBody] HotspotApiModel model)
+        {
+            var occuredAt = ParseSlackDateTime(model.OccuredAt);
+            var message = $"Mikael lämnade {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            var response = PostToSlack(message);
+            if (response.StatusCode == HttpStatusCode.OK)
+                return Ok(message);
+            else
+                throw new Exception($"Error communicating with Slack, code {response.StatusCode}");
+        }
+
+
+        private static DateTime ParseSlackDateTime(string slackDateTime)
+        {
+            return DateTime.ParseExact(slackDateTime, "MMMM dd, yyyy 'at' h:mmtt", new CultureInfo("en-US"));
         }
 
         private static IRestResponse PostToSlack(string message)
@@ -34,7 +54,7 @@ namespace Lilybot.Positioning.API.Controllers
     }
 
 
-    public class HotspotEnterApiModel
+    public class HotspotApiModel
     {
         public string OccuredAt { get; set; }
     }
