@@ -103,7 +103,7 @@
                 })
                 .then(
                     function (result) {
-                        self.addItemToList(result.data);
+                        if (result) self.addItemToList(result.data);
                     },
                     function (error) {
                         self.showError('Lyckades inte skapa den nya produkten. :(', 'productsService.add', error);
