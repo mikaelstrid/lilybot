@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.Net;
 using System.Web.Http;
+using Lilybot.Positioning.API.Extensions;
+using Lilybot.Positioning.CommonTypes;
 using Lilybot.Positioning.Infrastructure;
+using Microsoft.ServiceBus.Messaging;
 using RestSharp;
 
 namespace Lilybot.Positioning.API.Controllers
@@ -15,34 +17,47 @@ namespace Lilybot.Positioning.API.Controllers
         [BodyApiKeyAuthorize]
         public IHttpActionResult PostHotspotEnter(string hotspotName, string actionType, [FromBody] HotspotApiModel model)
         {
-            var occuredAt = ParseSlackDateTime(model.OccuredAt);
-            string message;
-            if (actionType == "entered")
-                message = $"Mikael anlände till {hotspotName} kl {occuredAt.ToString("HH:mm")}";
-            else if (actionType == "exited")
-                message = $"Mikael lämnade {hotspotName} kl {occuredAt.ToString("HH:mm")}";
-            else
-                throw new ArgumentException($"{actionType} is not a valid action.");
-
-            var response = PostToSlack(message);
-            if (response.StatusCode == HttpStatusCode.OK)
-                return Ok(message);
-            else
-                throw new Exception($"Error communicating with Slack, code {response.StatusCode}");
+            SendToServiceBusTopic(new HotspotUpdateMessage(
+                timestamp: ParseIftttDateTime(model.OccuredAt), 
+                facebookUserId: model.FacebookUserId, 
+                hotspotName: hotspotName, 
+                actionType: ParseIftttActionType(actionType)));
+            return Ok();
         }
 
-        private static DateTime ParseSlackDateTime(string slackDateTime)
+        private static DateTimeOffset ParseIftttDateTime(string iftttDateTime)
         {
-            return DateTime.ParseExact(slackDateTime, "MMMM dd, yyyy 'at' h:mmtt", new CultureInfo("en-US"));
+            return DateTime.ParseExact(iftttDateTime, "MMMM dd, yyyy 'at' h:mmtt", new CultureInfo("en-US")).ToDateTimeOffsetWEST();
         }
 
-        private static IRestResponse PostToSlack(string message)
+        private static ActionType ParseIftttActionType(string iftttActionType)
         {
-            var client = new RestClient("https://hooks.slack.com/services/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");
-            var request = new RestRequest(Method.POST);
-            request.AddJsonBody(new { text = message });
-            return client.Execute(request);
+            if (iftttActionType == "entered")
+                return ActionType.Enter;
+                //message = $"Mikael anlände till {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+            if (iftttActionType == "exited")
+                return ActionType.Leave;
+                //message = $"Mikael lämnade {hotspotName} kl {occuredAt.ToString("HH:mm")}";
+
+            throw new ArgumentException($"'{iftttActionType}' is not a valid action.");
         }
+
+        private static void SendToServiceBusTopic(MessageBase message)
+        {
+            var topicClient = TopicClient.CreateFromConnectionString(
+                connectionString: "Endpoint=sb://lilybot.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=AF5s7IAJ+EPyQa8RfhFcTKAfrxCJJcuHcOsWS7hdP+I=", 
+                path: "HotspotEvents");
+
+            topicClient.Send(new BrokeredMessage(message));
+        }
+
+        //private static IRestResponse PostToSlack(string message)
+        //{
+        //    var client = new RestClient("https://hooks.slack.com/services/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");
+        //    var request = new RestRequest(Method.POST);
+        //    request.AddJsonBody(new { text = message });
+        //    return client.Execute(request);
+        //}
     }
 
 
