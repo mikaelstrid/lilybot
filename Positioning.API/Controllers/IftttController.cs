@@ -5,7 +5,7 @@ using Lilybot.Positioning.API.Extensions;
 using Lilybot.Positioning.CommonTypes;
 using Lilybot.Positioning.Infrastructure;
 using Microsoft.ServiceBus.Messaging;
-using RestSharp;
+using Newtonsoft.Json;
 
 namespace Lilybot.Positioning.API.Controllers
 {
@@ -17,7 +17,7 @@ namespace Lilybot.Positioning.API.Controllers
         [BodyApiKeyAuthorize]
         public IHttpActionResult PostHotspotEnter(string hotspotName, string actionType, [FromBody] HotspotApiModel model)
         {
-            SendToServiceBusTopic(new HotspotUpdateMessage(
+            SendToServiceBusTopic(new HotspotEventMessage(
                 timestamp: ParseIftttDateTime(model.OccuredAt), 
                 facebookUserId: model.FacebookUserId, 
                 hotspotName: hotspotName, 
@@ -48,16 +48,8 @@ namespace Lilybot.Positioning.API.Controllers
                 connectionString: "Endpoint=sb://lilybot.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=AF5s7IAJ+EPyQa8RfhFcTKAfrxCJJcuHcOsWS7hdP+I=", 
                 path: "HotspotEvents");
 
-            topicClient.Send(new BrokeredMessage(message));
+            topicClient.Send(new BrokeredMessage(JsonConvert.SerializeObject(message)));
         }
-
-        //private static IRestResponse PostToSlack(string message)
-        //{
-        //    var client = new RestClient("https://hooks.slack.com/services/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");
-        //    var request = new RestRequest(Method.POST);
-        //    request.AddJsonBody(new { text = message });
-        //    return client.Execute(request);
-        //}
     }
 
 

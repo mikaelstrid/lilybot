@@ -2,11 +2,11 @@
 
 namespace Lilybot.Positioning.CommonTypes
 {
-    public class HotspotUpdateMessage : MessageBase
+    public class HotspotEventMessage : MessageBase
     {
-        public HotspotUpdateMessage() { }
+        public HotspotEventMessage() { }
 
-        public HotspotUpdateMessage(DateTimeOffset timestamp, string facebookUserId, string hotspotName, ActionType actionType) : base(timestamp, facebookUserId)
+        public HotspotEventMessage(DateTimeOffset timestamp, string facebookUserId, string hotspotName, ActionType actionType) : base(timestamp, facebookUserId)
         {
             Version = 1;
             HotspotName = hotspotName;

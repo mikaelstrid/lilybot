@@ -50,6 +50,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Positioning.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Positioning.CommonTypes", "Positioning.CommonTypes\Positioning.CommonTypes.csproj", "{A94A8A2F-9FCC-41ED-81ED-9E4EDF947BE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commute.CommuteHomeNotifierJob", "Commute.CommuteHomeNotifierJob\Commute.CommuteHomeNotifierJob.csproj", "{8F17226C-481D-4DA8-A02B-E8AB670CDD24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commute.CommuteHomeNotifierJob.Tests", "Commute.CommuteHomeNotifierJob.Tests\Commute.CommuteHomeNotifierJob.Tests.csproj", "{F50AEE12-A30D-48F6-813F-3EE53BF69210}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +128,14 @@ Global
 		{A94A8A2F-9FCC-41ED-81ED-9E4EDF947BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A94A8A2F-9FCC-41ED-81ED-9E4EDF947BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A94A8A2F-9FCC-41ED-81ED-9E4EDF947BE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F17226C-481D-4DA8-A02B-E8AB670CDD24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F17226C-481D-4DA8-A02B-E8AB670CDD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F17226C-481D-4DA8-A02B-E8AB670CDD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F17226C-481D-4DA8-A02B-E8AB670CDD24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F50AEE12-A30D-48F6-813F-3EE53BF69210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F50AEE12-A30D-48F6-813F-3EE53BF69210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F50AEE12-A30D-48F6-813F-3EE53BF69210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F50AEE12-A30D-48F6-813F-3EE53BF69210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,5 +156,7 @@ Global
 		{27D1E40D-A43D-4213-B349-E0CA22DB39FF} = {00DF37B2-41DB-4A6B-B0C6-6DAD8B0DC1C4}
 		{56783993-1244-4271-A43D-B43ECC5CFC98} = {00DF37B2-41DB-4A6B-B0C6-6DAD8B0DC1C4}
 		{A94A8A2F-9FCC-41ED-81ED-9E4EDF947BE7} = {00DF37B2-41DB-4A6B-B0C6-6DAD8B0DC1C4}
+		{8F17226C-481D-4DA8-A02B-E8AB670CDD24} = {8E9F4E3A-A972-443A-9E05-893435F78318}
+		{F50AEE12-A30D-48F6-813F-3EE53BF69210} = {8E9F4E3A-A972-443A-9E05-893435F78318}
 	EndGlobalSection
 EndGlobal
