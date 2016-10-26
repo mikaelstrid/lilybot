@@ -119,14 +119,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacActivator.cs" />
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="LocalBootstrapper.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Functions.cs" />
-    <Compile Include="FamilyRepository.cs" />
-    <Compile Include="HotspotEventRepository.cs" />
+    <Compile Include="Models\FamilyState.cs" />
+    <Compile Include="StateRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlackMessageSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -134,6 +133,22 @@
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Commute.Application\Commute.Application.csproj">
+      <Project>{3AC3F328-2D53-4EFB-9A33-117720B563DF}</Project>
+      <Name>Commute.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commute.Domain\Commute.Domain.csproj">
+      <Project>{0E7FDB4D-E937-433D-B72F-E7393266EC61}</Project>
+      <Name>Commute.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commute.Infrastructure\Commute.Infrastructure.csproj">
+      <Project>{F3DBD9BB-42B8-41C2-BC2B-C5973CB76B55}</Project>
+      <Name>Commute.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Domain\Core.Domain.csproj">
+      <Project>{7B3C3F9A-B02C-4FDC-A73C-4D5D6D239970}</Project>
+      <Name>Core.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Positioning.CommonTypes\Positioning.CommonTypes.csproj">
       <Project>{a94a8a2f-9fcc-41ed-81ed-9e4edf947be7}</Project>
       <Name>Positioning.CommonTypes</Name>

@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using Autofac;
+using Lilybot.Commute.Infrastructure;
 using Microsoft.Azure.WebJobs;
 using Microsoft.ServiceBus;
 
@@ -18,6 +19,7 @@ namespace Lilybot.Commute.CommuteHomeNotifierJob
 
             var builder = new ContainerBuilder();
             Bootstrapper.Bootstrap(builder);
+            LocalBootstrapper.Bootstrap(builder);
             var container = builder.Build();
 
             var config = new JobHostConfiguration()

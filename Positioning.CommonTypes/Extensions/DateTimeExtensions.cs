@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lilybot.Positioning.API.Extensions
+namespace Lilybot.Positioning.CommonTypes.Extensions
 {
     public static class DateTimeExtensions
     {

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\DateTimeOffsetExtensions.cs" />
     <Compile Include="HotspotEventMessage.cs" />
     <Compile Include="MessageBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

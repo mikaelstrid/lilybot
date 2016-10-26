@@ -56,11 +56,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="BotTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Commute.Application\Commute.Application.csproj">
+      <Project>{3AC3F328-2D53-4EFB-9A33-117720B563DF}</Project>
+      <Name>Commute.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commute.CommuteHomeNotifierJob\Commute.CommuteHomeNotifierJob.csproj">
+      <Project>{8F17226C-481D-4DA8-A02B-E8AB670CDD24}</Project>
+      <Name>Commute.CommuteHomeNotifierJob</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commute.Domain\Commute.Domain.csproj">
+      <Project>{0E7FDB4D-E937-433D-B72F-E7393266EC61}</Project>
+      <Name>Commute.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Domain\Core.Domain.csproj">
+      <Project>{7B3C3F9A-B02C-4FDC-A73C-4D5D6D239970}</Project>
+      <Name>Core.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Positioning.CommonTypes\Positioning.CommonTypes.csproj">
+      <Project>{A94A8A2F-9FCC-41ED-81ED-9E4EDF947BE7}</Project>
+      <Name>Positioning.CommonTypes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

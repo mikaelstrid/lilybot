@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.Http;
-using Lilybot.Positioning.API.Extensions;
 using Lilybot.Positioning.CommonTypes;
+using Lilybot.Positioning.CommonTypes.Extensions;
 using Lilybot.Positioning.Infrastructure;
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
@@ -21,6 +21,7 @@ namespace Lilybot.Positioning.API.Controllers
                 timestamp: ParseIftttDateTime(model.OccuredAt), 
                 facebookUserId: model.FacebookUserId, 
                 hotspotName: hotspotName, 
+                hotspotType: ParseHotspotType(hotspotName),
                 actionType: ParseIftttActionType(actionType)));
             return Ok();
         }
@@ -28,6 +29,15 @@ namespace Lilybot.Positioning.API.Controllers
         private static DateTimeOffset ParseIftttDateTime(string iftttDateTime)
         {
             return DateTime.ParseExact(iftttDateTime, "MMMM dd, yyyy 'at' h:mmtt", new CultureInfo("en-US")).ToDateTimeOffsetWEST();
+        }
+
+        private static HotspotType ParseHotspotType(string input)
+        {
+            if (input == "Hemma")
+                return HotspotType.Home;
+            if (input == "Collector Bank")
+                return HotspotType.Work;
+            return HotspotType.Other;
         }
 
         private static ActionType ParseIftttActionType(string iftttActionType)
