@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lilybot.Commute.Domain;
+using Lilybot.Positioning.CommonTypes;
 
 namespace Lilybot.Commute.CommuteHomeNotifierJob.Models
 {
@@ -15,6 +16,7 @@ namespace Lilybot.Commute.CommuteHomeNotifierJob.Models
         }
 
         public List<Member> Members { get; set; } = new List<Member>();
+        public List<HotspotEventMessage> EventsThatTriggeredSlackMessages { get; set; } = new List<HotspotEventMessage>();
 
         public MemberState GetMemberState(string facebookUserId)
         {

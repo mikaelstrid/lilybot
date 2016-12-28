@@ -48,11 +48,18 @@ namespace Lilybot.Commute.CommuteHomeNotifierJob
             }
             else if (ev.HotspotType == HotspotType.Work && ev.ActionType == ActionType.Leave)
             {
+                if (ev.Timestamp.IsBefore(userProfile.EarliestTimeForSchoolPickup)) return; // Probably left for lunch
+
+
                 familyState.SetMemberState(ev.FacebookUserId, MemberState.OnWayHome, ev.Timestamp);
-                if (ev.Timestamp.IsAfter(userProfile.LatestTimeForSchoolPickup)
-                    || familyState.GetOtherMemberStates(ev.FacebookUserId).Any(s => s == MemberState.AtHome || s == MemberState.Unknown || s == MemberState.OnWayHome))
+                if (!familyState.EventsThatTriggeredSlackMessages.Any())
                 {
-                    _slackMessageSender.SendToSlack(CreateMessage(ev), log);
+                    if (ev.Timestamp.IsAfter(userProfile.LatestTimeForSchoolPickup) ||
+                        familyState.GetOtherMemberStates(ev.FacebookUserId).Any(s => s == MemberState.AtHome || s == MemberState.Unknown || s == MemberState.OnWayHome))
+                    {
+                        _slackMessageSender.SendToSlack(CreateMessage(ev), log);
+                        familyState.EventsThatTriggeredSlackMessages.Add(ev);
+                    }
                 }
             }
             else if (ev.HotspotType == HotspotType.Home && ev.ActionType == ActionType.Enter)

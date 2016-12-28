@@ -270,7 +270,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 16:10:00")),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, hotspotEvent.Timestamp)
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
         [Test]
@@ -355,7 +355,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, hotspotEvent.Timestamp)
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -408,7 +408,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, hotspotEvent.Timestamp)
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -461,7 +461,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, hotspotEvent.Timestamp)
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -550,7 +550,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 13:00:00")),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, hotspotEvent.Timestamp)
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -639,7 +639,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 15:55")),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, DT("2016-10-19 17:35"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -699,7 +699,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.OnWayToWork, DT("2016-10-19 07:45")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
         [Test]
@@ -728,7 +728,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:35")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -753,6 +753,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -761,7 +762,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
         //=== SCENARIO 9: Pim är på gymmet och hämtar, Elina rapporterar inte position
@@ -781,6 +782,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 16:15"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustNotHaveHappened();
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -789,7 +791,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -813,6 +815,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:05"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:35"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -821,7 +824,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 16:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 18:05"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -845,6 +848,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -853,7 +857,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -878,6 +882,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:05"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:35"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -886,7 +891,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 16:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 18:05"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -911,6 +916,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -919,7 +925,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -940,6 +946,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:05"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:35"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -948,7 +955,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 18:05"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -969,6 +976,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 16:15"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("15:35"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -977,7 +985,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -1008,6 +1016,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -1016,7 +1025,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:16"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -1041,6 +1050,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 20:50"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -1049,7 +1059,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 20:50")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -1074,6 +1084,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -1082,7 +1093,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.OnWayHome, DT("2016-10-19 15:35"))
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -1107,6 +1118,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -1115,7 +1127,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.AtWork, DT("2016-10-19 07:50")),
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -1140,6 +1152,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
             _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-19 18:10"), ELINA, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
 
             // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("17:30"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
             _currentState.ShouldBeEquivalentTo(new FamilyState
             {
@@ -1148,7 +1161,7 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                     new FamilyState.Member(ELINA, MemberState.AtHome, DT("2016-10-19 18:10")),
                     new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-19 16:15")),
                 }
-            });
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
         }
 
 
@@ -1185,6 +1198,40 @@ namespace Commute.CommuteHomeNotifierJob.Tests
         }
 
 
+        //=== SCENARIO 22: Real world scenario 161026, Pim lämnar + lunch, Elina rapporterar inte
+        [Test]
+        public void RWS1_ProcessHotspotEvent_Scenario()
+        {
+            // ARRANGE
+            _currentState = new FamilyState { Members = new List<FamilyState.Member> { new FamilyState.Member(ELINA), new FamilyState.Member(PIM) } };
+            A.CallTo(() => _stateRepository.GetState(A<Guid>._)).Returns(_currentState);
+
+            // ACT
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 07:36"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Leave), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 07:37"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Leave), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 08:23"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Enter), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 08:27"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Enter), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 11:31"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Leave), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 11:54"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Enter), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 16:53"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Leave), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 16:53"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Enter), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 17:48"), PIM, A.Dummy<string>(), HotspotType.Work, ActionType.Leave), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 18:27"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
+            _sut.ProcessHotspotEvent(new HotspotEventMessage(DT("2016-10-26 18:28"), PIM, A.Dummy<string>(), HotspotType.Home, ActionType.Enter), A.Fake<TextWriter>());
+
+            // ASSERT
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>._, A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _slackMessageSender.SendToSlack(A<string>.That.Contains("16:53"), A<TextWriter>._)).MustHaveHappened(Repeated.Exactly.Once);
+            _currentState.ShouldBeEquivalentTo(new FamilyState
+            {
+                Members = new List<FamilyState.Member>
+                {
+                    new FamilyState.Member(ELINA),
+                    new FamilyState.Member(PIM, MemberState.AtHome, DT("2016-10-26 18:28")),
+                }
+            }, opt => opt.Excluding(s => s.EventsThatTriggeredSlackMessages));
+        }
+
 
         // ReSharper disable once InconsistentNaming
         private static DateTimeOffset DT(string input)
@@ -1199,8 +1246,8 @@ namespace Commute.CommuteHomeNotifierJob.Tests
                 Id = FAMILY_ID,
                 Adults = new List<UserProfile>
                 {
-                    new UserProfile { Id = PIM, LatestTimeForSchoolDropOff = new TimeSpan(8, 0, 0), LatestTimeForSchoolPickup = new TimeSpan(16, 30, 0)},
-                    new UserProfile { Id = ELINA, LatestTimeForSchoolDropOff = new TimeSpan(8, 15, 0), LatestTimeForSchoolPickup = new TimeSpan(16, 30, 0)}
+                    new UserProfile { Id = PIM, LatestTimeForSchoolDropOff = new TimeSpan(8, 0, 0), LatestTimeForSchoolPickup = new TimeSpan(16, 30, 0), EarliestTimeForSchoolPickup = new TimeSpan(14, 0, 0)},
+                    new UserProfile { Id = ELINA, LatestTimeForSchoolDropOff = new TimeSpan(8, 15, 0), LatestTimeForSchoolPickup = new TimeSpan(16, 30, 0), EarliestTimeForSchoolPickup = new TimeSpan(14, 0, 0)}
                 }
             };
         }

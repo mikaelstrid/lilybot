@@ -7,5 +7,6 @@ namespace Lilybot.Commute.Domain
     {
         public TimeSpan LatestTimeForSchoolDropOff { get; set; }
         public TimeSpan LatestTimeForSchoolPickup { get; set; }
+        public TimeSpan EarliestTimeForSchoolPickup { get; set; }
     }
 }
